@@ -1,0 +1,63 @@
+name: Prism Network CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  rust-tests:
+    name: Rust Workspace Tests & Lints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cargo Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run Cargo Tests
+        run: cargo test --workspace --verbose
+
+      - name: Run Consumer Economy Simulation
+        run: cargo run --example simulated_economy -p prism-node
+
+  sdk-tests:
+    name: TypeScript SDK Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: sdk/typescript/package-lock.json
+
+      - name: Install SDK Dependencies
+        working-directory: ./sdk/typescript
+        run: npm ci
+
+      - name: Compile SDK
+        working-directory: ./sdk/typescript
+        run: npx tsc
+
+      - name: Run SDK Tests
+        working-directory: ./sdk/typescript
+        run: node dist/test.js

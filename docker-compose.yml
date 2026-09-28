@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Node 1: Genesis Bootstrap Node & Dashboard
+  prism-node-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prism-genesis-node
+    environment:
+      - PRISM_PORT=8545
+      - PRISM_P2P_PORT=9000
+    ports:
+      - "8545:8545"
+      - "9000:9000"
+    networks:
+      prism-net:
+        ipv4_address: 172.28.0.10
+
+  # Node 2: Peer Validator Node
+  prism-node-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prism-peer-node-1
+    environment:
+      - PRISM_PORT=8546
+      - PRISM_P2P_PORT=9001
+      - PRISM_BOOTSTRAP_PEERS=172.28.0.10:9000
+    ports:
+      - "8546:8546"
+      - "9001:9001"
+    depends_on:
+      - prism-node-1
+    networks:
+      prism-net:
+        ipv4_address: 172.28.0.11
+
+  # Node 3: Peer Validator Node
+  prism-node-3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prism-peer-node-2
+    environment:
+      - PRISM_PORT=8547
+      - PRISM_P2P_PORT=9002
+      - PRISM_BOOTSTRAP_PEERS=172.28.0.10:9000
+    ports:
+      - "8547:8547"
+      - "9002:9002"
+    depends_on:
+      - prism-node-1
+    networks:
+      prism-net:
+        ipv4_address: 172.28.0.12
+
+networks:
+  prism-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
