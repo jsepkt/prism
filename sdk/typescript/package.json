@@ -1,0 +1,25 @@
+{
+  "name": "@prism-network/sdk",
+  "version": "0.1.0",
+  "description": "Official TypeScript SDK for Prism Network: The Sovereign Context & Edge-AI Ledger",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/test.js"
+  },
+  "keywords": [
+    "blockchain",
+    "zero-knowledge",
+    "ai",
+    "privacy",
+    "edge-computing",
+    "prism"
+  ],
+  "author": "Prism Network Contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^5.4.0"
+  }
+}

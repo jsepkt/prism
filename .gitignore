@@ -1,0 +1,19 @@
+# Rust
+target/
+Cargo.lock
+
+# Node / TypeScript
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Logs
+*.log
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

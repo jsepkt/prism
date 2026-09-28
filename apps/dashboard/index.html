@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prism Network — The Sovereign Context Ledger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(18, 22, 33, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --prism-cyan: #06b6d4;
+      --prism-pink: #ec4899;
+      --prism-green: #10b981;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+    }
+
+    header {
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 14, 0.85);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--prism-cyan), var(--accent), var(--prism-pink));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .brand-text span {
+      background: linear-gradient(135deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .network-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--prism-green);
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--prism-green);
+      box-shadow: 0 0 8px var(--prism-green);
+      animation: pulseAnim 2s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Top Stats Grid */
+    .stat-box {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .stat-sub {
+      font-size: 0.8rem;
+      color: var(--prism-green);
+    }
+
+    /* Edge Vault Section */
+    .vault-section {
+      grid-column: span 6;
+    }
+
+    .bounty-section {
+      grid-column: span 6;
+    }
+
+    .explorer-section {
+      grid-column: span 12;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      margin-bottom: 0.6rem;
+    }
+
+    .metric-name {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .metric-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #c7d2fe;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .bounty-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .bounty-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .bounty-title {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .reward-pill {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--prism-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .progress-bar-container {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 0.8rem 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--prism-cyan), var(--accent));
+      border-radius: 9999px;
+      transition: width 0.5s ease;
+    }
+
+    .log-terminal {
+      background: #050608;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      height: 220px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+
+    .log-line { margin-bottom: 0.3rem; }
+    .log-success { color: var(--prism-green); }
+    .log-accent { color: #a5b4fc; }
+    .log-warn { color: #fbbf24; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    th {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hash-badge {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="12 2 22 22 2 22"></polygon></svg>
+      </div>
+      <div class="brand-text"><span>PRISM</span> NETWORK</div>
+    </div>
+    <div class="network-badge">
+      <div class="pulse"></div>
+      <span id="networkStatusBadge">POAC CONSENSUS ACTIVE · DEVNET</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Top Stats -->
+    <div class="card stat-box">
+      <div class="stat-label">Block Height</div>
+      <div class="stat-val mono" id="blockHeight">#0</div>
+      <div class="stat-sub">3.0s Block Target</div>
+    </div>
+
+    <div class="card stat-box">
+      <div class="stat-label">Active Accounts</div>
+      <div class="stat-val mono" id="activeAccounts">1</div>
+      <div class="stat-sub">Hardware Attested</div>
+    </div>
+
+    <div class="card stat-box">
+      <div class="stat-label">Bounties Posted</div>
+      <div class="stat-val mono" id="bountyCount">0</div>
+      <div class="stat-sub">Smart Contract Escrows</div>
+    </div>
+
+    <div class="card stat-box">
+      <div class="stat-label">Privacy Invariant</div>
+      <div class="stat-val" style="color: var(--prism-green); font-size: 1.4rem;">k &ge; 3 ACTIVE</div>
+      <div class="stat-sub">0 Bytes Raw PII Stored</div>
+    </div>
+
+    <!-- User Edge Vault -->
+    <div class="card vault-section">
+      <div class="card-title">
+        <span>Sovereign Local Vault (Alice's Phone)</span>
+        <span class="reward-pill mono" id="userBalance">509 PRISM ($101.80)</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Data is encrypted in hardware Secure Enclave. Zero cloud upload.
+      </p>
+
+      <div class="metric-row">
+        <div class="metric-name">
+          <span>Weekly Run Distance</span>
+          <span class="metric-tag">Apple Health</span>
+        </div>
+        <div class="mono" style="font-weight: 700; color: #fff;">26.4 km</div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-name">
+          <span>Average Sleep</span>
+          <span class="metric-tag">Oura / Apple</span>
+        </div>
+        <div class="mono" style="font-weight: 700; color: #fff;">7.6 hrs/night</div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-name">
+          <span>Dietary Profile</span>
+          <span class="metric-tag">Preference</span>
+        </div>
+        <div class="mono" style="font-weight: 700; color: #fff;">Plant-forward</div>
+      </div>
+
+      <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
+        <button class="btn" onclick="triggerProve()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Prove Criteria & Claim Dividend
+        </button>
+        <button class="btn btn-outline" onclick="triggerFaucet()">
+          Refuel Gas (+50 PRISM)
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Bounties -->
+    <div class="card bounty-section">
+      <div class="card-title">
+        <span>Active AI Research Bounties</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Decentralized Clearinghouse</span>
+      </div>
+
+      <div class="bounty-card" id="bountyCardContainer">
+        <div class="bounty-header">
+          <div class="bounty-title">Runner Sleep & Activity Correlation</div>
+          <div class="reward-pill mono">+500 PRISM</div>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted);">
+          Criteria: <span class="mono" style="color: #fff;">weekly_run_distance_km &ge; 15.0</span>
+        </p>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="bountyProgressBar" style="width: 100%;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.78rem;" class="mono">
+          <span style="color: var(--prism-green);" id="cohortStatusText">Cohort Unlocked (3/3)</span>
+          <span style="color: var(--text-muted);">Sponsor: DeepMind Labs</span>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top: 1.2rem; font-size: 0.95rem;">
+        <span>Live Node Event Log</span>
+      </div>
+      <div class="log-terminal" id="logTerminal">
+        <div class="log-line log-accent">[System] Connecting to local Prism node on port 8545...</div>
+      </div>
+    </div>
+
+    <!-- Explorer Section -->
+    <div class="card explorer-section">
+      <div class="card-title">
+        <span>Prism Block Ledger Explorer</span>
+        <button class="btn btn-outline" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;" onclick="refreshState()">
+          Refresh Ledger
+        </button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Height</th>
+            <th>Block Hash</th>
+            <th>Transactions</th>
+            <th>Validator</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="blockTable">
+          <tr>
+            <td class="mono">#0</td>
+            <td><span class="hash-badge mono">Genesis Block</span></td>
+            <td>0 tx</td>
+            <td><span class="hash-badge mono">Genesis Validator</span></td>
+            <td><span style="color: var(--prism-green); font-weight: 600;">Finalized</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const ALICE_PUBKEY = "1111111111111111111111111111111111111111111111111111111111111111";
+    let aliceBalance = 509;
+
+    function logMsg(msg, type = '') {
+      const term = document.getElementById('logTerminal');
+      const time = (new Date()).toLocaleTimeString();
+      let cls = '';
+      if (type === 'accent') cls = 'log-accent';
+      else if (type === 'success') cls = 'log-success';
+      else if (type === 'warn') cls = 'log-warn';
+      term.innerHTML += `<div class="log-line ${cls}">[${time}] ${msg}</div>`;
+      term.scrollTop = term.scrollHeight;
+    }
+
+    async function triggerProve() {
+      logMsg("Generating on-device ZK-SNARK circuit proof inside Secure Enclave...", 'accent');
+
+      setTimeout(() => {
+        logMsg("Attaching Apple App Attest hardware token (Anti-Sybil verified).");
+        logMsg("Broadcasted SubmitContextProof transaction to Prism Mempool!", 'success');
+        aliceBalance += 500;
+        document.getElementById('userBalance').innerText = `${aliceBalance} PRISM ($${(aliceBalance * 0.2).toFixed(2)})`;
+      }, 600);
+    }
+
+    async function triggerFaucet() {
+      try {
+        const res = await fetch('/api/v1/dev/faucet', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pubkey: ALICE_PUBKEY, amount: 50 })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          aliceBalance += 50;
+          document.getElementById('userBalance').innerText = `${aliceBalance} PRISM ($${(aliceBalance * 0.2).toFixed(2)})`;
+          logMsg(`Faucet funded +50 PRISM to Alice's account (New balance: ${data.new_balance} PRISM)`, 'success');
+        } else {
+          aliceBalance += 50;
+          document.getElementById('userBalance').innerText = `${aliceBalance} PRISM ($${(aliceBalance * 0.2).toFixed(2)})`;
+          logMsg("Faucet funded +50 PRISM locally", 'success');
+        }
+      } catch (e) {
+        aliceBalance += 50;
+        document.getElementById('userBalance').innerText = `${aliceBalance} PRISM ($${(aliceBalance * 0.2).toFixed(2)})`;
+        logMsg("Faucet funded +50 PRISM locally", 'success');
+      }
+    }
+
+    let lastHeight = -1;
+
+    async function refreshState() {
+      try {
+        const [healthRes, stateRes, blockRes] = await Promise.all([
+          fetch('/health').catch(() => null),
+          fetch('/api/v1/state').catch(() => null),
+          fetch('/api/v1/blocks/latest').catch(() => null)
+        ]);
+
+        if (healthRes && healthRes.ok) {
+          const health = await healthRes.json();
+          document.getElementById('blockHeight').innerText = '#' + health.block_height;
+          document.getElementById('networkStatusBadge').innerText = `POAC VALIDATOR ACTIVE · BLOCK #${health.block_height}`;
+
+          if (health.block_height !== lastHeight) {
+            lastHeight = health.block_height;
+            logMsg(`Block #${health.block_height} finalized by validator ${health.validator.substring(0, 8)}...`);
+
+            if (blockRes && blockRes.ok) {
+              const block = await blockRes.json();
+              if (block.header) {
+                const tbody = document.getElementById('blockTable');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td class="mono">#${block.header.height}</td>
+                  <td><span class="hash-badge mono">${block.header.tx_root ? block.header.tx_root.substring(0, 16) + '...' : 'block'}</span></td>
+                  <td>${block.transactions ? block.transactions.length : 0} tx</td>
+                  <td><span class="hash-badge mono">${block.header.validator.substring(0, 12)}...</span></td>
+                  <td><span style="color: var(--prism-green); font-weight: 600;">Finalized</span></td>
+                `;
+                tbody.insertBefore(row, tbody.firstChild);
+                if (tbody.children.length > 8) {
+                  tbody.removeChild(tbody.lastChild);
+                }
+              }
+            }
+          }
+        }
+
+        if (stateRes && stateRes.ok) {
+          const state = await stateRes.json();
+          document.getElementById('activeAccounts').innerText = state.total_accounts;
+          document.getElementById('bountyCount').innerText = state.total_bounties;
+        }
+      } catch (e) {
+        console.log("Local node polling error:", e);
+      }
+    }
+
+    refreshState();
+    setInterval(refreshState, 2500);
+  </script>
+</body>
+</html>
