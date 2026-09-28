@@ -4,24 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Prism Vault · Sovereign Living Dividend</title>
+  <meta name="description" content="Turn your everyday human context into sovereign, private, income-generating digital assets with Zero-Knowledge Edge AI.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#030712">
+
+  <!-- Favicon / Brand Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='p' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,12 88,82 12,82' fill='url(%23p)'/%3E%3Cpolygon points='50,12 88,82 50,68' fill='%23ffffff' opacity='0.25'/%3E%3C/svg%3E">
+
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #030712;
-      --card-bg: rgba(17, 24, 39, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-primary: #6366f1;
-      --accent-secondary: #06b6d4;
-      --accent-emerald: #10b981;
-      --accent-rose: #f43f5e;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --bg-base: #030712;
+      --surface-glass: rgba(15, 23, 42, 0.72);
+      --surface-glass-active: rgba(30, 41, 59, 0.85);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --card-border-glow: rgba(99, 102, 241, 0.4);
+      --prism-indigo: #6366f1;
+      --prism-cyan: #06b6d4;
+      --prism-emerald: #10b981;
+      --prism-gold: #f59e0b;
+      --prism-rose: #f43f5e;
+      --prism-violet: #8b5cf6;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --safe-top: env(safe-area-inset-top, 20px);
+      --safe-bottom: env(safe-area-inset-bottom, 24px);
     }
 
     * {
@@ -33,619 +47,971 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
-      background-attachment: fixed;
+      align-items: center;
       overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+      background-attachment: fixed;
     }
 
-    .mobile-frame {
+    /* Outer Wrapper for Desktop / Tablet showcase responsiveness */
+    .device-viewport {
       width: 100%;
       max-width: 440px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 1.25rem;
-      padding-bottom: calc(var(--safe-bottom) + 80px);
       position: relative;
+      background: rgba(3, 7, 18, 0.94);
+      backdrop-filter: blur(28px);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      padding: calc(var(--safe-top) + 0.75rem) 1.25rem calc(var(--safe-bottom) + 72px) 1.25rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Header */
+    @media (min-width: 768px) {
+      body {
+        padding: 2rem;
+      }
+      .device-viewport {
+        border-radius: 46px;
+        min-height: 890px;
+        height: 890px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: none;
+      }
+      .device-viewport::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    /* Ambient background grid */
+    .ambient-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* Header Bar */
     .app-header {
+      position: relative;
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0 1.25rem 0;
+      margin-bottom: 1.25rem;
     }
 
-    .brand {
+    .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
+      text-decoration: none;
     }
 
-    .brand-icon {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    /* 3D Crystalline Prism Logo */
+    .prism-logo-3d {
+      width: 44px;
+      height: 44px;
+      position: relative;
+      perspective: 800px;
+      filter: drop-shadow(0 6px 16px rgba(99, 102, 241, 0.45));
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .brand-title {
+    .prism-logo-3d:active {
+      transform: scale(0.92) rotateY(15deg);
+    }
+
+    .brand-text h1 {
       font-size: 1.15rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(to right, #fff, #cbd5e1);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .status-pill {
+    .brand-text span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--prism-cyan);
+    }
+
+    .header-pills {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 0.25rem 0.65rem;
+      gap: 0.45rem;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.28rem 0.65rem;
       border-radius: 9999px;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
       color: #34d399;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
     }
 
     .pulse-dot {
       width: 6px;
       height: 6px;
-      background: #34d399;
       border-radius: 50%;
+      background: #34d399;
       box-shadow: 0 0 8px #34d399;
-      animation: pulse 2s infinite;
+      animation: pulseGlow 1.8s infinite ease-in-out;
     }
 
-    @keyframes pulse {
+    @keyframes pulseGlow {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+      50% { opacity: 0.4; transform: scale(0.8); }
     }
 
-    /* Hero Balance Card */
-    .hero-card {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.85));
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      padding: 1.6rem;
+    /* Hero Balance Card - 3D Depth */
+    .hero-balance-card {
       position: relative;
+      z-index: 10;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 1.6rem 1.4rem;
+      box-shadow: 
+        0 20px 45px -15px rgba(0, 0, 0, 0.75),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(24px);
+      margin-bottom: 1.35rem;
       overflow: hidden;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(20px);
-      margin-bottom: 1.25rem;
     }
 
-    .hero-card::after {
+    .hero-balance-card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent 70%);
+      top: -30px;
+      right: -30px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
+      border-radius: 50%;
       pointer-events: none;
     }
 
-    .hero-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-    }
-
-    .hero-amount {
-      font-size: 2.3rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #ffffff;
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-    }
-
-    .hero-amount span.sub {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--accent-emerald);
-    }
-
-    .hero-stats {
+    .hero-header {
       display: flex;
       justify-content: space-between;
-      margin-top: 1.25rem;
-      padding-top: 1.1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      align-items: center;
+      margin-bottom: 0.5rem;
     }
 
-    .stat-col {
+    .hero-tagline {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .hero-device-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--prism-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .balance-display {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      margin: 0.3rem 0 1.25rem 0;
+    }
+
+    .fiat-amount {
+      font-size: 2.7rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .token-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      padding: 0.25rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      padding: 0.9rem 0 0 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric-cell {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.2rem;
     }
 
-    .stat-col span.val {
-      font-size: 0.95rem;
-      font-weight: 700;
+    .metric-cell .val {
+      font-size: 1.05rem;
+      font-weight: 800;
       color: #f1f5f9;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    .stat-col span.lbl {
-      font-size: 0.7rem;
-      color: var(--text-muted);
+    .metric-cell .lbl {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      font-weight: 600;
     }
 
-    /* Quick Action Button */
-    .claim-btn {
+    /* 3D Claim Button */
+    .btn-claim-3d {
       width: 100%;
-      background: linear-gradient(135deg, var(--accent-primary), #4f46e5);
-      border: none;
-      color: white;
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 0.9rem;
-      border-radius: 16px;
-      cursor: pointer;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 1.05rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
-      transition: all 0.2s ease;
-      margin-top: 1rem;
+      gap: 0.65rem;
+      box-shadow: 
+        0 12px 25px -5px rgba(99, 102, 241, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 1.1rem;
     }
 
-    .claim-btn:active {
+    .btn-claim-3d:active {
       transform: scale(0.97);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-claim-3d svg {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     /* Section Headers */
-    .section-header {
+    .section-bar {
+      position: relative;
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 1.25rem 0 0.85rem 0;
+      margin: 1.4rem 0 0.85rem 0;
     }
 
     .section-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #e2e8f0;
-      text-transform: uppercase;
+      font-size: 0.88rem;
+      font-weight: 800;
       letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
     }
 
-    .section-meta {
+    .section-link {
       font-size: 0.72rem;
-      color: var(--accent-secondary);
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--prism-cyan);
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    /* Context Telemetry Cards */
-    .telemetry-grid {
+    /* 3D Telemetry Cards */
+    .cards-stack {
+      position: relative;
+      z-index: 10;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .telemetry-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 1rem 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      backdrop-filter: blur(12px);
-      transition: border-color 0.2s;
-    }
-
-    .telemetry-card:hover {
-      border-color: rgba(99, 102, 241, 0.35);
-    }
-
-    .telemetry-info {
-      display: flex;
-      align-items: center;
       gap: 0.85rem;
     }
 
-    .telemetry-icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+    .telemetry-3d-card {
+      background: var(--surface-glass);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 1.1rem 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .telemetry-3d-card:hover {
+      border-color: var(--card-border-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -10px rgba(99, 102, 241, 0.25);
+    }
+
+    .telemetry-left {
+      display: flex;
+      align-items: center;
+      gap: 0.95rem;
+    }
+
+    /* Bespoke 3D Icon Containers */
+    .icon-container-3d {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 
+        0 8px 18px -4px rgba(0, 0, 0, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
+      perspective: 600px;
     }
 
-    .icon-health { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
-    .icon-fitness { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
-    .icon-media { background: rgba(6, 182, 212, 0.15); color: var(--accent-secondary); }
-    .icon-commerce { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-
-    .telemetry-titles h4 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #f8fafc;
+    .icon-running {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.4);
     }
 
-    .telemetry-titles p {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
+    .icon-sleep {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+      box-shadow: 0 8px 20px -5px rgba(139, 92, 246, 0.4);
     }
 
-    .telemetry-value {
+    .icon-screen {
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+      box-shadow: 0 8px 20px -5px rgba(6, 182, 212, 0.4);
+    }
+
+    .icon-intents {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 8px 20px -5px rgba(245, 158, 11, 0.4);
+    }
+
+    .telemetry-headings h3 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .telemetry-headings p {
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      margin-top: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .telemetry-right {
       text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.25rem;
     }
 
-    .telemetry-value .num {
-      font-size: 1.05rem;
+    .telemetry-right .value {
+      font-size: 1.15rem;
       font-weight: 800;
       color: #ffffff;
       font-family: 'JetBrains Mono', monospace;
     }
 
-    .telemetry-value .status {
+    .telemetry-right .status-tag {
       font-size: 0.68rem;
-      font-weight: 600;
-      color: var(--accent-emerald);
-      display: flex;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      justify-content: flex-end;
     }
 
-    /* Privacy Cohort Banner */
-    .privacy-banner {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.08));
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: 18px;
-      padding: 1rem 1.1rem;
-      margin-top: 1.1rem;
+    .tag-success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+
+    .tag-bidding {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      color: #38bdf8;
+    }
+
+    /* Privacy Banner with Enclave 3D Shield */
+    .enclave-shield-card {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.28);
+      border-radius: 22px;
+      padding: 1.15rem 1.25rem;
+      margin-top: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
-    .shield-badge {
-      width: 38px;
-      height: 38px;
-      background: rgba(99, 102, 241, 0.2);
-      border-radius: 10px;
+    .shield-badge-3d {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      color: #a5b4fc;
+      box-shadow: 0 8px 18px rgba(99, 102, 241, 0.4);
     }
 
-    .privacy-text h5 {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #e0e7ff;
+    .shield-content h4 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #ffffff;
     }
 
-    .privacy-text p {
+    .shield-content p {
       font-size: 0.72rem;
       color: #94a3b8;
-      margin-top: 0.15rem;
-      line-height: 1.35;
+      margin-top: 0.2rem;
+      line-height: 1.4;
     }
 
-    /* Bottom Navigation Bar */
+    /* Bottom Floating Navigation Dock */
     .mobile-tabbar {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: calc(var(--safe-bottom) + 64px);
-      background: rgba(10, 15, 29, 0.88);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
+      bottom: var(--safe-bottom);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 2.5rem);
+      max-width: 400px;
+      height: 64px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
       display: flex;
+      align-items: center;
       justify-content: space-around;
-      align-items: flex-start;
-      padding-top: 0.6rem;
+      padding: 0 0.5rem;
       z-index: 100;
-      max-width: 440px;
-      margin: 0 auto;
     }
 
-    .tab-item {
+    .nav-tab-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.3rem;
-      color: var(--text-muted);
+      gap: 0.25rem;
+      color: var(--text-tertiary);
       cursor: pointer;
       font-size: 0.68rem;
-      font-weight: 600;
-      transition: color 0.2s;
+      font-weight: 700;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0.4rem 0.8rem;
+      border-radius: 14px;
     }
 
-    .tab-item.active {
-      color: var(--accent-primary);
+    .nav-tab-item.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
     }
 
-    .tab-item svg {
-      width: 22px;
-      height: 22px;
+    .nav-tab-item svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
     }
 
-    /* Modal / Popups */
-    .modal-overlay {
+    .nav-tab-item.active svg {
+      stroke: var(--prism-indigo);
+      transform: translateY(-2px);
+    }
+
+    /* FaceID / Claim Modal Sheet */
+    .modal-backdrop {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
       display: none;
       align-items: flex-end;
       justify-content: center;
       z-index: 200;
     }
 
-    .modal-sheet {
+    .modal-bottom-sheet {
       width: 100%;
       max-width: 440px;
-      background: #0f172a;
+      background: #0b1120;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 28px 28px 0 0;
-      padding: 1.6rem;
-      padding-bottom: calc(var(--safe-bottom) + 20px);
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 36px 36px 0 0;
+      padding: 1.8rem 1.6rem calc(var(--safe-bottom) + 24px) 1.6rem;
+      animation: springSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
-    @keyframes slideUp {
+    @keyframes springSlideUp {
       from { transform: translateY(100%); }
       to { transform: translateY(0); }
     }
 
-    .sheet-handle {
-      width: 40px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
+    .sheet-pill-bar {
+      width: 44px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.25);
       border-radius: 999px;
-      margin: 0 auto 1.25rem auto;
+      margin: 0 auto 1.4rem auto;
+    }
+
+    /* Biometric Scan Animation Box */
+    .biometric-scanner {
+      width: 90px;
+      height: 90px;
+      border: 2px dashed rgba(99, 102, 241, 0.4);
+      border-radius: 26px;
+      margin: 1.25rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .scanner-laser {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+      box-shadow: 0 0 12px #38bdf8;
+      display: none;
+      animation: scanLaser 1.4s infinite ease-in-out;
+    }
+
+    @keyframes scanLaser {
+      0% { top: 0%; }
+      50% { top: 96%; }
+      100% { top: 0%; }
     }
   </style>
 </head>
 <body>
 
-  <div class="mobile-frame">
-    <!-- Header -->
+  <!-- Background Canvas -->
+  <canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+
+  <div class="device-viewport">
+    
+    <!-- Top Header -->
     <header class="app-header">
-      <div class="brand">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
-            <line x1="12" y1="22" x2="12" y2="15.5"></line>
-            <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+      <a href="../dashboard/index.html" class="brand-wrap">
+        <!-- 3D Crystalline Prism Logo -->
+        <div class="prism-logo-3d">
+          <svg viewBox="0 0 100 100" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="facetA" x1="50" y1="10" x2="15" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#818cf8"/>
+                <stop offset="1" stop-color="#4f46e5"/>
+              </linearGradient>
+              <linearGradient id="facetB" x1="50" y1="10" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#06b6d4"/>
+                <stop offset="1" stop-color="#0284c7"/>
+              </linearGradient>
+              <linearGradient id="facetBottom" x1="15" y1="85" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#06b6d4"/>
+              </linearGradient>
+              <filter id="prismGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+            <!-- Left Translucent Facet -->
+            <polygon points="50,14 15,84 50,68" fill="url(#facetA)" opacity="0.95"/>
+            <!-- Right Translucent Facet -->
+            <polygon points="50,14 85,84 50,68" fill="url(#facetB)" opacity="0.9"/>
+            <!-- Base Facet with internal refraction -->
+            <polygon points="15,84 85,84 50,68" fill="url(#facetBottom)" opacity="0.8"/>
+            <!-- Specular Highlight Ridge -->
+            <line x1="50" y1="14" x2="50" y2="68" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.7" filter="url(#prismGlow)"/>
           </svg>
         </div>
-        <div class="brand-title">PRISM VAULT</div>
-      </div>
-      <div class="status-pill">
-        <div class="pulse-dot"></div>
-        <span>ZK-PROTECTED</span>
+        <div class="brand-text">
+          <h1>PRISM</h1>
+          <span>LIVING VAULT</span>
+        </div>
+      </a>
+
+      <div class="header-pills">
+        <div class="badge-pill">
+          <div class="pulse-dot"></div>
+          <span>ATTESTED</span>
+        </div>
       </div>
     </header>
 
-    <!-- Hero Balance -->
-    <div class="hero-card">
-      <div class="hero-label">Unclaimed Living Dividend</div>
-      <div class="hero-amount">
-        <span id="fiatDividend">$142.50</span>
-        <span class="sub" id="tokenDividend">950 PRISM</span>
+    <!-- Hero Balance Card -->
+    <section class="hero-balance-card">
+      <div class="hero-header">
+        <span class="hero-tagline">Unclaimed Living Dividend</span>
+        <span class="hero-device-id" id="enclaveId">SE: 0x8a92f...39b7</span>
       </div>
 
-      <div class="hero-stats">
-        <div class="stat-col">
+      <div class="balance-display">
+        <div class="fiat-amount" id="fiatVal">$142.50</div>
+        <div class="token-pill">
+          <!-- 3D Coin Glyph -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+          </svg>
+          <span id="tokenVal">950 PRISM</span>
+        </div>
+      </div>
+
+      <div class="hero-metrics-grid">
+        <div class="metric-cell">
           <span class="val">14/14</span>
-          <span class="lbl">Days Active</span>
+          <span class="lbl">Days Streak</span>
         </div>
-        <div class="stat-col">
+        <div class="metric-cell">
           <span class="val">37</span>
-          <span class="lbl">ZK Queries Answered</span>
+          <span class="lbl">ZK Queries</span>
         </div>
-        <div class="stat-col">
+        <div class="metric-cell">
           <span class="val" style="color: #34d399;">0 bytes</span>
-          <span class="lbl">Raw Data Leaked</span>
+          <span class="lbl">Data Leaked</span>
         </div>
       </div>
 
-      <button class="claim-btn" onclick="triggerClaimModal()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <button class="btn-claim-3d" onclick="openClaimSheet()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
         </svg>
         Claim Daily Living Dividend
       </button>
+    </section>
+
+    <!-- Context Telemetry Section -->
+    <div class="section-bar">
+      <div class="section-title">
+        <span>Verified Edge Telemetry</span>
+      </div>
+      <a class="section-link" onclick="triggerTelemetrySync()">Sync Sensors ↻</a>
     </div>
 
-    <!-- Active Telemetry Categories -->
-    <div class="section-header">
-      <div class="section-title">Verified Context Vault</div>
-      <div class="section-meta">APPLE HEALTH CONNECTED</div>
+    <!-- 3D Icon Telemetry Stack -->
+    <div class="cards-stack">
+      
+      <!-- Card 1: Running (3D Isometric Runner Orb) -->
+      <div class="telemetry-3d-card">
+        <div class="telemetry-left">
+          <div class="icon-container-3d icon-running">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14l-4-4 2-5-4 2-3-2v5l3 2-2 4 4 2"/>
+              <circle cx="17" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div class="telemetry-headings">
+            <h3>Cardio &amp; Distance</h3>
+            <p>Threshold &gt;= 15.0 km/wk</p>
+          </div>
+        </div>
+        <div class="telemetry-right">
+          <div class="value">26.4 km</div>
+          <div class="status-tag tag-success">✓ Verified</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Sleep (3D Sleep Recovery Orb) -->
+      <div class="telemetry-3d-card">
+        <div class="telemetry-left">
+          <div class="icon-container-3d icon-sleep">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </div>
+          <div class="telemetry-headings">
+            <h3>Sleep &amp; Recovery</h3>
+            <p>Threshold &gt;= 6.5 hrs/night</p>
+          </div>
+        </div>
+        <div class="telemetry-right">
+          <div class="value">7.3 hrs</div>
+          <div class="status-tag tag-success">✓ Verified</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Screen Focus (3D Focus Orb) -->
+      <div class="telemetry-3d-card">
+        <div class="telemetry-left">
+          <div class="icon-container-3d icon-screen">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="3" ry="3"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <div class="telemetry-headings">
+            <h3>Focus &amp; Wellbeing</h3>
+            <p>Threshold &lt; 4.0 hrs/day</p>
+          </div>
+        </div>
+        <div class="telemetry-right">
+          <div class="value">2.8 hrs</div>
+          <div class="status-tag tag-success">✓ Verified</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Intent Solvers (3D Spark Orb) -->
+      <div class="telemetry-3d-card">
+        <div class="telemetry-left">
+          <div class="icon-container-3d icon-intents">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="telemetry-headings">
+            <h3>Intent Solvers</h3>
+            <p>Direct Zero-Middleman Commerce</p>
+          </div>
+        </div>
+        <div class="telemetry-right">
+          <div class="value" style="color: #fbbf24;">3 Bids</div>
+          <div class="status-tag tag-bidding">Competing...</div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="telemetry-grid">
-      <!-- Item 1: Running & Cardio -->
-      <div class="telemetry-card">
-        <div class="telemetry-info">
-          <div class="telemetry-icon-box icon-fitness">🏃</div>
-          <div class="telemetry-titles">
-            <h4>Weekly Running Distance</h4>
-            <p>ZK Threshold &gt;= 15.0 km/wk</p>
-          </div>
-        </div>
-        <div class="telemetry-value">
-          <div class="num">26.4 km</div>
-          <div class="status">✓ Qualified</div>
-        </div>
-      </div>
-
-      <!-- Item 2: Sleep & Recovery -->
-      <div class="telemetry-card">
-        <div class="telemetry-info">
-          <div class="telemetry-icon-box icon-health">💤</div>
-          <div class="telemetry-titles">
-            <h4>Deep Sleep Average</h4>
-            <p>ZK Threshold &gt;= 6.5 hrs/day</p>
-          </div>
-        </div>
-        <div class="telemetry-value">
-          <div class="num">7.3 hrs</div>
-          <div class="status">✓ Qualified</div>
-        </div>
-      </div>
-
-      <!-- Item 3: Digital Wellbeing -->
-      <div class="telemetry-card">
-        <div class="telemetry-info">
-          <div class="telemetry-icon-box icon-media">📱</div>
-          <div class="telemetry-titles">
-            <h4>Screen Time Focus</h4>
-            <p>ZK Threshold &lt; 4.0 hrs/day</p>
-          </div>
-        </div>
-        <div class="telemetry-value">
-          <div class="num">2.8 hrs</div>
-          <div class="status">✓ Qualified</div>
-        </div>
-      </div>
-
-      <!-- Item 4: Intent Commerce -->
-      <div class="telemetry-card">
-        <div class="telemetry-info">
-          <div class="telemetry-icon-box icon-commerce">⚡</div>
-          <div class="telemetry-titles">
-            <h4>Autonomous Intent Solvers</h4>
-            <p>Zero-middleman travel & goods</p>
-          </div>
-        </div>
-        <div class="telemetry-value">
-          <div class="num">3 Active</div>
-          <div class="status" style="color: #60a5fa;">Bidding...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Smart Contract k-Anonymity Notice -->
-    <div class="privacy-banner">
-      <div class="shield-badge">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    <!-- Silicon Attestation Enclave Shield -->
+    <div class="enclave-shield-card">
+      <div class="shield-badge-3d">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
         </svg>
       </div>
-      <div class="privacy-text">
-        <h5>Hardware-Attested k-Anonymity</h5>
-        <p>Your raw records stay locked in your phone's Secure Enclave. Escrow payouts only release once at least 500 cohort peers qualify.</p>
+      <div class="shield-content">
+        <h4>Hardware Silicon Enclave</h4>
+        <p>Protected by Apple App Attest &amp; Google Play Integrity. Escrow dividends only unlock when 500 cohort peers qualify.</p>
       </div>
     </div>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation Dock -->
     <nav class="mobile-tabbar">
-      <div class="tab-item active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="7"></rect>
-          <rect x="14" y="3" width="7" height="7"></rect>
-          <rect x="14" y="14" width="7" height="7"></rect>
-          <rect x="3" y="14" width="7" height="7"></rect>
+      <div class="nav-tab-item active" onclick="switchNav('vault')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
         </svg>
         <span>Vault</span>
       </div>
-      <div class="tab-item" onclick="window.location.href='../dashboard/index.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      <div class="nav-tab-item" onclick="window.location.href='../dashboard/index.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
         <span>Explorer</span>
       </div>
-      <div class="tab-item" onclick="alert('Autonomous Agent Solvers active in background.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <div class="nav-tab-item" onclick="openIntentModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
         </svg>
-        <span>Solvers</span>
+        <span>Intents</span>
       </div>
-      <div class="tab-item" onclick="alert('Hardware Secure Enclave Key: 0x8a92f...39b7')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      <div class="nav-tab-item" onclick="openRoyaltyModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
         <span>Security</span>
       </div>
     </nav>
+
   </div>
 
-  <!-- Claim Modal -->
-  <div class="modal-overlay" id="claimModal" onclick="closeClaimModal(event)">
-    <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div class="sheet-handle"></div>
-      <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">Claim Living Dividend</h3>
-      <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1.25rem;">
-        Generate zero-knowledge proof of your weekly criteria and settle 950 PRISM ($142.50) to your sovereign wallet.
+  <!-- Claim Modal Sheet with Biometric FaceID Scanner -->
+  <div class="modal-backdrop" id="claimModal" onclick="closeClaimSheet(event)">
+    <div class="modal-bottom-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-pill-bar"></div>
+      
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; text-align: center;">Claim Living Dividend</h3>
+      <p style="font-size: 0.8rem; color: #94a3b8; text-align: center; margin: 0.35rem 0 1rem 0;">
+        Zero-Knowledge verification via local Secure Enclave.
       </p>
 
-      <div style="background: rgba(255,255,255,0.04); border-radius: 14px; padding: 1rem; margin-bottom: 1.25rem; font-size: 0.8rem; font-family: monospace; color: #a5b4fc;">
-        <div>&gt; Attestation: Apple App Attest (DCAppAttest)</div>
-        <div>&gt; Circuit: Circom / Groth16 Snark</div>
-        <div>&gt; Public Inputs: [BountyId: 0x8a92, Cohort: 3]</div>
-        <div style="color: #34d399; margin-top: 0.5rem;">&gt; Zero Raw Health Data Transferred.</div>
+      <div class="biometric-scanner" id="bioScanner">
+        <div class="scanner-laser" id="scannerLaser"></div>
+        <svg id="faceIdIcon" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M7 21H5a2 2 0 0 1-2-2v-2M17 21h2a2 2 0 0 0 2-2v-2M9 9h.01M15 9h.01M9 15c.5 1 2 1.5 3 1.5s2.5-.5 3-1.5"/>
+        </svg>
       </div>
 
-      <button class="claim-btn" id="modalConfirmBtn" onclick="executeClaim()">
-        Confirm with FaceID & Settle
+      <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1rem; margin-bottom: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: #94a3b8;">
+        <div style="color: #a5b4fc;">&gt; Hardware: Apple App Attest (DCAppAttest)</div>
+        <div style="color: #38bdf8;">&gt; ZK Circuit: Groth16 / Circom 2.1</div>
+        <div style="color: #34d399; margin-top: 0.25rem;">&gt; Raw Health Data: 0 Bytes Transferred</div>
+      </div>
+
+      <button class="btn-claim-3d" id="biometricActionBtn" onclick="runBiometricSettlement()">
+        Confirm FaceID &amp; Settle 950 PRISM
       </button>
     </div>
   </div>
 
   <script>
-    function triggerClaimModal() {
+    // Particle Canvas for ambient backdrop
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = Array.from({ length: 28 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 1,
+        color: Math.random() > 0.5 ? 'rgba(99, 102, 241, 0.4)' : 'rgba(6, 182, 212, 0.35)'
+      }));
+    }
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach((p, i) => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.08)';
+            ctx.stroke();
+          }
+        }
+      });
+      requestAnimationFrame(renderCanvas);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    renderCanvas();
+
+    // Haptic Feedback helper
+    function triggerHaptic() {
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate([15, 30, 15]);
+      }
+    }
+
+    // Modal Control
+    function openClaimSheet() {
+      triggerHaptic();
       document.getElementById('claimModal').style.display = 'flex';
     }
 
-    function closeClaimModal(e) {
+    function closeClaimSheet(e) {
       document.getElementById('claimModal').style.display = 'none';
     }
 
-    function executeClaim() {
-      const btn = document.getElementById('modalConfirmBtn');
-      btn.innerText = 'Verifying Biometrics & Synthesizing Proof...';
-      btn.style.opacity = '0.7';
+    function runBiometricSettlement() {
+      triggerHaptic();
+      const laser = document.getElementById('scannerLaser');
+      const icon = document.getElementById('faceIdIcon');
+      const btn = document.getElementById('biometricActionBtn');
+
+      laser.style.display = 'block';
+      icon.style.stroke = '#38bdf8';
+      btn.innerText = 'Scanning Biometrics & Generating Proof...';
+      btn.style.opacity = '0.75';
 
       setTimeout(() => {
-        btn.innerText = '✓ Succeeded! 950 PRISM Settled';
-        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-        document.getElementById('fiatDividend').innerText = '$0.00';
-        document.getElementById('tokenDividend').innerText = '0 PRISM';
-        
+        laser.style.display = 'none';
+        icon.style.stroke = '#34d399';
+        btn.innerText = '✓ Success! 950 PRISM Settled to Vault';
+        btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        btn.style.opacity = '1';
+
+        document.getElementById('fiatVal').innerText = '$0.00';
+        document.getElementById('tokenVal').innerText = '0 PRISM';
+
         setTimeout(() => {
-          closeClaimModal();
-          btn.innerText = 'Confirm with FaceID & Settle';
-          btn.style.background = 'linear-gradient(135deg, var(--accent-primary), #4f46e5)';
-          btn.style.opacity = '1';
+          closeClaimSheet();
+          btn.innerText = 'Confirm FaceID & Settle 950 PRISM';
+          btn.style.background = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%)';
+          icon.style.stroke = '#6366f1';
         }, 1500);
-      }, 1600);
+      }, 1500);
+    }
+
+    function triggerTelemetrySync() {
+      triggerHaptic();
+      alert('Synced with Apple Health & Google Health Connect. All cryptographic commitments up to date.');
+    }
+
+    function openIntentModal() {
+      triggerHaptic();
+      alert('Autonomous Intent Engine Active: 3 solvers bidding down quotes for flights and supplements with 0 middleman markup.');
+    }
+
+    function openRoyaltyModal() {
+      triggerHaptic();
+      alert('Hardware Security Enclave Status: Keypair verified. Protocol Builder Royalty active at 1.25% (12,500/M) + 0.25% Burn.');
     }
   </script>
 </body>
