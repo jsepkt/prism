@@ -185,9 +185,10 @@ impl BlockchainState {
                 if self.bounties.contains_key(bounty_id) {
                     return Err(StateError::BountyAlreadyExists(bounty_id.to_hex()));
                 }
-                let protocol_fee = (*escrow_amount * 1) / 100; // 1% Protocol Fee
-                let builder_royalty = protocol_fee / 2;        // 0.5% Builder Royalty
-                let burn_amount = protocol_fee - builder_royalty; // 0.5% Burned
+                // 125 BPS = 1.25% (exactly 12,500 per 1,000,000) to Builder Treasury
+                let builder_royalty = (*escrow_amount * 125) / 10_000;
+                let burn_amount = (*escrow_amount * 25) / 10_000; // 25 BPS = 0.25% deflationary burn
+                let protocol_fee = builder_royalty + burn_amount;
 
                 let total_required = *escrow_amount + protocol_fee;
                 let sender_balance = self.get_account(&tx.sender).balance;
@@ -201,7 +202,7 @@ impl BlockchainState {
                 // Lock escrow from buyer + deduct protocol fee
                 self.get_account_mut(&tx.sender).balance -= total_required;
 
-                // Credit builder royalty to anonymous treasury and record deflationary burn
+                // Credit builder royalty (12,500 per million) and record deflationary burn
                 let treasury = self.builder_treasury;
                 self.get_account_mut(&treasury).balance += builder_royalty;
                 self.total_burned += burn_amount;
@@ -305,9 +306,10 @@ impl BlockchainState {
                 amount,
                 fulfillment_hash: _,
             } => {
-                let protocol_fee = (*amount * 1) / 100; // 1% Protocol Fee
-                let builder_royalty = protocol_fee / 2;        // 0.5% Builder Royalty
-                let burn_amount = protocol_fee - builder_royalty; // 0.5% Burned
+                // 125 BPS = 1.25% (exactly 12,500 per 1,000,000) to Builder Treasury
+                let builder_royalty = (*amount * 125) / 10_000;
+                let burn_amount = (*amount * 25) / 10_000; // 25 BPS = 0.25% deflationary burn
+                let protocol_fee = builder_royalty + burn_amount;
 
                 let total_required = *amount + protocol_fee;
                 let sender_balance = self.get_account(&tx.sender).balance;

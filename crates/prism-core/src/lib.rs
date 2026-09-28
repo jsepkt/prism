@@ -212,9 +212,9 @@ mod tests {
         assert!(user3_acc.is_hardware_attested);
         assert_eq!(user3_acc.verified_proofs_count, 1);
 
-        // Verify protocol fee was split: 50% to builder treasury, 50% burned
+        // Verify protocol fee: exactly 125 BPS (1.25% / 12,500 per million) to builder treasury, 25 BPS burned
         let treasury_balance = state.get_account(&state.builder_treasury).balance;
-        assert_eq!(treasury_balance, 7); // 0.5% of 1500
-        assert_eq!(state.total_burned, 8); // 0.5% burned
+        assert_eq!(treasury_balance, 18); // 1.25% of 1500 (12,500 per million)
+        assert_eq!(state.total_burned, 3); // 0.25% burned
     }
 }

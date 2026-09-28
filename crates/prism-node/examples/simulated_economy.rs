@@ -194,14 +194,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n==================================================================");
         println!("                   FINAL BALANCES & DIVIDENDS                     ");
         println!("==================================================================");
-        println!("  Enterprise Account:      {} PRISM (50,000 - 1,500 escrow - 15 protocol fee - 10 tx fees)", state.get_account(&enterprise_kp.public_key()).balance);
+        println!("  Enterprise Account:      {} PRISM (50,000 - 1,500 escrow - 21 protocol fee - 10 tx fees)", state.get_account(&enterprise_kp.public_key()).balance);
         println!("  Alice (Participant #1):  {} PRISM (10 initial - 1 fee + 500 dividend)", state.get_account(&alice.public_key()).balance);
         println!("  Bob   (Participant #2):  {} PRISM (10 initial - 1 fee + 500 dividend)", state.get_account(&bob.public_key()).balance);
         println!("  Charlie (Non-qualifier): {} PRISM (unchanged, 0 data leaked)", state.get_account(&charlie.public_key()).balance);
         println!("  Dave  (Participant #3):  {} PRISM (10 initial - 1 fee + 500 dividend)", state.get_account(&dave.public_key()).balance);
         println!("  Genesis Validator:       {} PRISM (collected transaction fees)", state.get_account(&validator_pubkey).balance);
         println!("  ------------------------------------------------------------------");
-        println!("  Builder Treasury (You):  {} PRISM (automated 0.5% protocol royalty)", state.get_account(&state.builder_treasury).balance);
+        println!("  Builder Treasury (You):  {} PRISM (automated 1.25% royalty = 12,500 per million)", state.get_account(&state.builder_treasury).balance);
         println!("  Total Deflationary Burn: {} PRISM (permanently destroyed supply)", state.total_burned);
         println!("==================================================================");
         println!("  STATUS: SUCCESS - All cryptographic, privacy, and economic");
