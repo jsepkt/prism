@@ -1,63 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRISM Network — The Sovereign Context & Edge-AI Ledger</title>
-  <script>
-    // Intelligent Mobile Auto-Detection & Redirection
-    (function() {
-      const isMobile = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-      const urlParams = new URLSearchParams(window.location.search);
-      if (isMobile && urlParams.get('view') !== 'desktop') {
-        const path = window.location.pathname;
-        if (path.endsWith('/') || path.endsWith('/index.html')) {
-          const base = path.replace(/index\.html$/, '');
-          const sep = base.endsWith('/') ? '' : '/';
-          window.location.replace(base + sep + 'mobile/');
-        }
-      }
-    })();
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Prism Network · Sovereign Living Dividend &amp; Edge-AI Ledger</title>
+  <meta name="description" content="Turn your everyday human digital context into sovereign, income-generating digital assets with Zero-Knowledge Edge AI.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prism">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#030712">
+
+  <!-- Favicon / Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,10 90,85 10,85' fill='url(%23g)'/%3E%3Cpolygon points='50,10 90,85 50,70' fill='%23fff' opacity='0.3'/%3E%3C/svg%3E">
+
+  <!-- Bootstrap 5.3 CSS & Bootstrap Icons via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #05070b;
-      --surface: rgba(13, 17, 26, 0.75);
-      --surface-elevated: rgba(20, 26, 40, 0.85);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(99, 102, 241, 0.5);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-subtle: #64748b;
-      --accent: #6366f1;
-      --accent-glow: rgba(99, 102, 241, 0.35);
+      --bg: #030712;
+      --surface-glass: rgba(17, 24, 39, 0.75);
+      --surface-glass-border: rgba(255, 255, 255, 0.08);
+      --surface-glass-active: rgba(99, 102, 241, 0.2);
+      --prism-indigo: #6366f1;
       --prism-cyan: #06b6d4;
-      --prism-violet: #8b5cf6;
-      --prism-pink: #ec4899;
       --prism-emerald: #10b981;
       --prism-amber: #f59e0b;
-      --prism-gradient: linear-gradient(135deg, #06b6d4 0%, #6366f1 50%, #ec4899 100%);
+      --prism-rose: #f43f5e;
+      --prism-violet: #8b5cf6;
+      --text-1: #f9fafb;
+      --text-2: #94a3b8;
+      --text-3: #64748b;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: var(--bg);
+      color: var(--text-1);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 90% 85%, rgba(6, 182, 212, 0.1) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.04) 0%, transparent 60%);
+        radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 100%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
       background-attachment: fixed;
+      padding-bottom: calc(var(--safe-bottom) + 85px);
     }
 
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .outfit { font-family: 'Outfit', sans-serif; }
-
-    /* Ambient Background Mesh Canvas */
+    /* Ambient Canvas */
     #meshCanvas {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -66,1303 +76,827 @@
       opacity: 0.35;
     }
 
-    /* Top Navigation Bar */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* Content Wrapper */
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + 0.75rem) 1rem 1rem 1rem;
+    }
+
+    /* Glassmorphic Cards */
+    .glass-card {
+      background: var(--surface-glass);
+      border: 1px solid var(--surface-glass-border);
+      border-radius: 20px;
       backdrop-filter: blur(20px);
-      background: rgba(5, 7, 11, 0.85);
-      border-bottom: 1px solid var(--border);
-      padding: 0.85rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.2s, transform 0.2s;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      text-decoration: none;
-      color: inherit;
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
     }
 
-    .brand-prism {
-      width: 36px;
-      height: 36px;
-      background: var(--prism-gradient);
-      border-radius: 10px;
+    /* 3D Crystalline Logo */
+    .brand-logo-3d {
+      width: 42px;
+      height: 42px;
+      filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.45));
+      flex-shrink: 0;
+    }
+
+    /* 3D Icon Orbs */
+    .orb-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px var(--accent-glow);
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .orb-emerald {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 8px 18px -4px rgba(16, 185, 129, 0.45);
+    }
+
+    .orb-violet {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+      box-shadow: 0 8px 18px -4px rgba(139, 92, 246, 0.45);
+    }
+
+    .orb-cyan {
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+      box-shadow: 0 8px 18px -4px rgba(6, 182, 212, 0.45);
+    }
+
+    .orb-amber {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 8px 18px -4px rgba(245, 158, 11, 0.45);
+    }
+
+    /* Hero Balance Card */
+    .hero-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 1.5rem 1.25rem;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
     }
 
-    .brand-prism::after {
+    .hero-card::after {
       content: '';
       position: absolute;
-      width: 100%; height: 100%;
-      background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
-      animation: sheen 3s infinite linear;
+      top: -30px; right: -30px;
+      width: 140px; height: 140px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+      pointer-events: none;
     }
 
-    @keyframes sheen {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .brand-title {
-      font-size: 1.35rem;
+    .fiat-display {
+      font-size: clamp(2rem, 8vw, 3rem);
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #ffffff;
     }
 
-    .brand-title span {
-      background: var(--prism-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .header-nav {
-      display: flex;
-      gap: 0.5rem;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 0.25rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      font-family: 'Outfit', sans-serif;
-      border-radius: 8px;
-      cursor: pointer;
+    /* Primary Action Button */
+    .btn-prism-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 16px;
+      color: #ffffff;
+      font-weight: 800;
+      padding: 0.95rem 1.25rem;
+      box-shadow: 0 10px 24px -5px rgba(99, 102, 241, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-prism-primary:active {
+      transform: scale(0.97);
+    }
+
+    /* Fixed Bottom Navigation Dock for Mobile */
+    .mobile-dock {
+      position: fixed;
+      bottom: calc(var(--safe-bottom) + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 480px;
+      height: 64px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
-      gap: 0.45rem;
+      justify-content: space-around;
+      padding: 0 8px;
+      z-index: 1000;
     }
 
-    .nav-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-btn.active {
-      background: rgba(99, 102, 241, 0.2);
-      color: #fff;
-      border: 1px solid rgba(99, 102, 241, 0.4);
-      box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
-    }
-
-    .header-actions {
+    .dock-btn {
+      background: none;
+      border: none;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      gap: 2px;
+      color: var(--text-3);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 14px;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .status-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: 9999px;
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      font-size: 0.78rem;
-      color: var(--prism-emerald);
+    .dock-btn.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
     }
 
-    .pulse-dot {
+    .dock-btn.active i {
+      color: var(--prism-indigo);
+    }
+
+    .dock-btn i {
+      font-size: 1.15rem;
+    }
+
+    /* Desktop View Tabs (Hidden on small mobile) */
+    @media (min-width: 992px) {
+      .mobile-dock {
+        display: none !important;
+      }
+      body {
+        padding-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .desktop-nav {
+        display: none !important;
+      }
+    }
+
+    /* Pulse Glow Dot */
+    .pulse-dot-emerald {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--prism-emerald);
-      box-shadow: 0 0 8px var(--prism-emerald);
-      animation: pulse 2s infinite ease-in-out;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+      animation: pulseAnim 2s infinite;
+      display: inline-block;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.2); }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Main Container */
-    main {
-      max-width: 1400px;
-      margin: 1.5rem auto 3rem auto;
-      padding: 0 1.5rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* Metric Hero Strip */
-    .hero-strip {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.15rem 1.25rem;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    /* Biometric Laser Scanning Sheet */
+    .scanner-box {
+      width: 80px;
+      height: 80px;
+      border: 2px dashed rgba(99, 102, 241, 0.5);
+      border-radius: 22px;
+      margin: 1rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
+      background: rgba(99, 102, 241, 0.06);
     }
 
-    .metric-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.16);
-    }
-
-    .metric-card::before {
-      content: '';
+    .scanner-laser {
       position: absolute;
-      top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    }
-
-    .metric-header {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .metric-value {
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: baseline;
-      gap: 0.35rem;
-    }
-
-    .metric-unit {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    .metric-footer {
-      font-size: 0.75rem;
-      color: var(--prism-emerald);
-      margin-top: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-weight: 500;
-    }
-
-    /* Tab Panes */
-    .tab-pane {
+      top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+      box-shadow: 0 0 10px #38bdf8;
       display: none;
-      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: laserMove 1.2s infinite ease-in-out;
     }
 
-    .tab-pane.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Grid Layouts */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.5rem;
-    }
-
-    /* Panel Card */
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      margin-bottom: 1.5rem;
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }
-
-    .panel-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .panel-subtitle {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 0.15rem;
-    }
-
-    /* Buttons */
-    .btn {
-      background: var(--prism-gradient);
-      color: white;
-      border: none;
-      padding: 0.65rem 1.25rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 4px 14px var(--accent-glow);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px var(--accent-glow);
-      filter: brightness(1.1);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      box-shadow: none;
-      color: var(--text);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Sovereign Vault Interactive Device Frame */
-    .device-mock {
-      background: linear-gradient(180deg, #101522 0%, #0a0d14 100%);
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      padding: 1.5rem;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-
-    .device-notch {
-      width: 90px;
-      height: 18px;
-      background: #05070b;
-      border-radius: 0 0 12px 12px;
-      margin: -1.5rem auto 1rem auto;
-      border: 1px solid var(--border);
-      border-top: none;
-    }
-
-    .sensor-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .sensor-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-
-    .sensor-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .sensor-badge {
-      font-size: 0.68rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 6px;
-      background: rgba(99, 102, 241, 0.15);
-      color: #c7d2fe;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .sensor-slider {
-      width: 100%;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-
-    /* ZK Proof Progress Visualizer */
-    .zk-modal {
-      background: rgba(13, 17, 26, 0.95);
-      border: 1px solid var(--border-focus);
-      border-radius: 14px;
-      padding: 1.25rem;
-      margin-top: 1rem;
-      display: none;
-    }
-
-    .zk-step {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-      margin-bottom: 0.6rem;
-      color: var(--text-muted);
-    }
-
-    .zk-step.completed {
-      color: var(--prism-emerald);
-    }
-
-    .zk-step.active {
-      color: #fff;
-      font-weight: 600;
-    }
-
-    /* Tables */
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-
-    th {
-      padding: 0.75rem 1rem;
-      text-align: left;
-      color: var(--text-subtle);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border-bottom: 1px solid var(--border);
-    }
-
-    td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: #cbd5e1;
-    }
-
-    tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .tag {
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .tag-emerald { background: rgba(16, 185, 129, 0.12); color: var(--prism-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
-    .tag-indigo { background: rgba(99, 102, 241, 0.15); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.3); }
-    .tag-pink { background: rgba(236, 72, 153, 0.15); color: #fbcfe8; border: 1px solid rgba(236, 72, 153, 0.3); }
-
-    /* Interactive Terminal Console */
-    .terminal {
-      background: #040508;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      height: 320px;
-      overflow-y: auto;
-      line-height: 1.6;
-    }
-
-    .term-line { margin-bottom: 0.25rem; display: flex; gap: 0.5rem; }
-    .term-time { color: var(--text-subtle); }
-    .term-prompt { color: var(--prism-cyan); }
-    .term-success { color: var(--prism-emerald); }
-    .term-accent { color: #a5b4fc; }
-    .term-warn { color: var(--prism-amber); }
-
-    /* Forms */
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-
-    .form-input, .form-select {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.65rem 0.85rem;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.88rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus, .form-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
-    }
-
-    .royalty-preview {
-      background: rgba(99, 102, 241, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 10px;
-      padding: 1rem;
-      margin-top: 1rem;
-    }
-
-    /* Universal Responsive Display Optimization */
-    @media (max-width: 1024px) {
-      .hero-strip {
-        grid-template-columns: repeat(3, 1fr) !important;
-      }
-      .grid-2, .grid-3, .grid-split {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 0.85rem !important;
-        padding: 0.85rem 1rem !important;
-      }
-      .header-nav {
-        width: 100% !important;
-        overflow-x: auto !important;
-        white-space: nowrap !important;
-        padding-bottom: 0.4rem !important;
-        justify-content: flex-start !important;
-        scrollbar-width: none !important;
-      }
-      .header-nav::-webkit-scrollbar {
-        display: none !important;
-      }
-      .header-actions {
-        width: 100% !important;
-        justify-content: space-between !important;
-      }
-      .hero-strip {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.65rem !important;
-      }
-      .metric-card {
-        padding: 0.85rem 1rem !important;
-      }
-      .metric-value {
-        font-size: 1.35rem !important;
-      }
-      .grid-2, .grid-3, .grid-split {
-        grid-template-columns: 1fr !important;
-        gap: 1rem !important;
-      }
-      .card {
-        padding: 1.1rem !important;
-      }
-      .terminal {
-        height: 220px !important;
-        font-size: 0.75rem !important;
-      }
-      main {
-        padding: 0 0.85rem !important;
-        margin: 1rem auto 2.5rem auto !important;
-      }
-      .table-container {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-strip {
-        grid-template-columns: 1fr !important;
-      }
-      .fiat-amount {
-        font-size: 2.2rem !important;
-      }
+    @keyframes laserMove {
+      0% { top: 0%; }
+      50% { top: 96%; }
+      100% { top: 0%; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Ambient Physics Canvas -->
   <canvas id="meshCanvas"></canvas>
 
-  <header>
-    <a href="#" class="brand">
-      <div class="brand-prism" style="background: transparent; border: none; box-shadow: none; width: 38px; height: 38px; padding: 0;">
-        <svg viewBox="0 0 100 100" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.5));">
-          <defs>
-            <linearGradient id="dbFacetA" x1="50" y1="10" x2="15" y2="85" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#818cf8"/>
-              <stop offset="1" stop-color="#4f46e5"/>
-            </linearGradient>
-            <linearGradient id="dbFacetB" x1="50" y1="10" x2="85" y2="85" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#06b6d4"/>
-              <stop offset="1" stop-color="#0284c7"/>
-            </linearGradient>
-            <linearGradient id="dbFacetBottom" x1="15" y1="85" x2="85" y2="85" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#6366f1"/>
-              <stop offset="1" stop-color="#06b6d4"/>
-            </linearGradient>
-          </defs>
-          <polygon points="50,14 15,84 50,68" fill="url(#dbFacetA)" opacity="0.95"/>
-          <polygon points="50,14 85,84 50,68" fill="url(#dbFacetB)" opacity="0.9"/>
-          <polygon points="15,84 85,84 50,68" fill="url(#dbFacetBottom)" opacity="0.8"/>
-          <line x1="50" y1="14" x2="50" y2="68" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
-        </svg>
-      </div>
-      <div class="brand-title outfit"><span>PRISM</span> NETWORK</div>
-    </a>
+  <div class="app-wrapper">
 
-    <div class="header-nav">
-      <button class="nav-btn active" onclick="switchTab('network')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-        Network Explorer
-      </button>
-      <button class="nav-btn" onclick="switchTab('vault')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-        Sovereign Vault
-      </button>
-      <button class="nav-btn" onclick="switchTab('bounties')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        AI Research Lab
-      </button>
-      <button class="nav-btn" onclick="switchTab('intents')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-        Intent Solvers
-      </button>
-      <button class="nav-btn" onclick="switchTab('console')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-        RPC Console
-      </button>
-    </div>
-
-    <div class="header-actions">
-      <a href="../mobile/index.html" class="nav-btn" style="text-decoration: none; border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-        Mobile Vault
-      </a>
-      <div class="status-pill">
-        <div class="pulse-dot"></div>
-        <span class="mono" id="nodeStatusBadge">PoAC CONSENSUS ACTIVE · HEIGHT #0</span>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Top 5 Global KPI Cards -->
-    <div class="hero-strip">
-      <div class="metric-card">
-        <div class="metric-header">
-          <span>Block Height</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+    <!-- Top Global Header -->
+    <header class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-white-subtle">
+      <div class="d-flex align-items-center gap-2 text-decoration-none">
+        <!-- 3D Crystalline Prism Logo -->
+        <div class="brand-logo-3d">
+          <svg viewBox="0 0 100 100" width="42" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pA" x1="50" y1="10" x2="15" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#818cf8"/>
+                <stop offset="1" stop-color="#4f46e5"/>
+              </linearGradient>
+              <linearGradient id="pB" x1="50" y1="10" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#06b6d4"/>
+                <stop offset="1" stop-color="#0284c7"/>
+              </linearGradient>
+              <linearGradient id="pBottom" x1="15" y1="85" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+            <polygon points="50,14 15,84 50,68" fill="url(#pA)" opacity="0.95"/>
+            <polygon points="50,14 85,84 50,68" fill="url(#pB)" opacity="0.9"/>
+            <polygon points="15,84 85,84 50,68" fill="url(#pBottom)" opacity="0.8"/>
+            <line x1="50" y1="14" x2="50" y2="68" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+          </svg>
         </div>
-        <div class="metric-value mono" id="heroBlockHeight">#0</div>
-        <div class="metric-footer mono">3.0s Epoch Block Time</div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-header">
-          <span>Builder Royalty</span>
-          <span class="tag tag-emerald mono">1.25%</span>
-        </div>
-        <div class="metric-value mono" id="heroBuilderRoyalty">12,500 <span class="metric-unit">/ 1M</span></div>
-        <div class="metric-footer" style="color: var(--prism-cyan);">Accrued directly to your treasury</div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-header">
-          <span>Total Escrow Locked</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-        </div>
-        <div class="metric-value mono" id="heroEscrow">1,500 <span class="metric-unit">PRISM</span></div>
-        <div class="metric-footer mono" id="heroBounties">Active Bounties: 1</div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-header">
-          <span>Privacy Floor</span>
-          <span class="tag tag-indigo mono">k-Anonymity</span>
-        </div>
-        <div class="metric-value mono" style="color: var(--prism-emerald);">k &ge; 3</div>
-        <div class="metric-footer" style="color: var(--prism-emerald);">Zero Raw PII on Ledger</div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-header">
-          <span>Deflationary Burn</span>
-          <span class="tag tag-pink mono">25 BPS</span>
-        </div>
-        <div class="metric-value mono" id="heroBurn">3 <span class="metric-unit">BURNED</span></div>
-        <div class="metric-footer" style="color: var(--prism-pink);">Permanent Supply Reduction</div>
-      </div>
-    </div>
-
-    <!-- TAB 1: NETWORK EXPLORER -->
-    <div id="tab-network" class="tab-pane active">
-      <div class="grid-3">
         <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Real-Time Block Ledger</div>
-                <div class="panel-subtitle">Streaming blocks confirmed by Proof-of-Attested-Context consensus</div>
-              </div>
-              <button class="btn btn-secondary" onclick="fetchLiveState()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                Sync Ledger
-              </button>
-            </div>
-
-            <div class="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Height</th>
-                    <th>Merkle Root</th>
-                    <th>Transactions</th>
-                    <th>Leader Validator</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="blockExplorerTable">
-                  <tr>
-                    <td class="mono">#0</td>
-                    <td><span class="mono" style="color: #93c5fd;">Genesis State Root</span></td>
-                    <td>0 tx</td>
-                    <td class="mono">Genesis Validator</td>
-                    <td><span class="tag tag-emerald">FINALIZED</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <h1 class="h6 mb-0 fw-bold text-white text-uppercase tracking-wider">PRISM</h1>
+          <span class="small fw-semibold text-info" style="font-size: 0.65rem; letter-spacing: 0.1em;">EDGE-AI LEDGER</span>
         </div>
+      </div>
 
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Peer Mesh Topology</div>
-                <div class="panel-subtitle">Decentralized P2P Gossip Cluster</div>
-              </div>
-              <span class="tag tag-indigo mono">3 NODES</span>
-            </div>
+      <!-- Desktop Navigation Pills -->
+      <nav class="desktop-nav d-flex gap-2">
+        <button class="btn btn-sm btn-outline-light active px-3 rounded-pill" onclick="switchTab('vault')">
+          <i class="bi bi-wallet2 me-1"></i> Sovereign Vault
+        </button>
+        <button class="btn btn-sm btn-outline-light px-3 rounded-pill" onclick="switchTab('explorer')">
+          <i class="bi bi-diagram-3 me-1"></i> Network Explorer
+        </button>
+        <button class="btn btn-sm btn-outline-light px-3 rounded-pill" onclick="switchTab('bounties')">
+          <i class="bi bi-cpu me-1"></i> AI Query Lab
+        </button>
+        <button class="btn btn-sm btn-outline-light px-3 rounded-pill" onclick="switchTab('intents')">
+          <i class="bi bi-lightning-charge me-1"></i> Intent Solvers
+        </button>
+        <button class="btn btn-sm btn-outline-light px-3 rounded-pill" onclick="switchTab('terminal')">
+          <i class="bi bi-terminal me-1"></i> RPC Console
+        </button>
+      </nav>
 
-            <div style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 1rem; border: 1px solid var(--border);">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <div class="pulse-dot"></div>
-                  <span class="mono" style="font-weight: 600;">Node-1 (Genesis)</span>
-                </div>
-                <span class="tag tag-emerald mono">127.0.0.1:8545</span>
-              </div>
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <div class="pulse-dot"></div>
-                  <span class="mono" style="font-weight: 600;">Node-2 (Validator)</span>
-                </div>
-                <span class="tag tag-emerald mono">127.0.0.1:8546</span>
-              </div>
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <div class="pulse-dot"></div>
-                  <span class="mono" style="font-weight: 600;">Node-3 (Validator)</span>
-                </div>
-                <span class="tag tag-emerald mono">127.0.0.1:8547</span>
-              </div>
-            </div>
+      <!-- Network Status Badge -->
+      <div class="d-flex align-items-center gap-2 bg-success bg-opacity-10 border border-success border-opacity-25 px-2 py-1 rounded-pill">
+        <span class="pulse-dot-emerald"></span>
+        <span class="small fw-bold text-success font-monospace" id="statusBadge" style="font-size: 0.72rem;">PoAC #0</span>
+      </div>
+    </header>
 
-            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
-              Nodes communicate over length-delimited TCP frames, exchanging cryptographic handshakes, intent gossips, and block announcements.
-            </div>
-          </div>
+    <!-- Global Top 4 KPI Strip -->
+    <div class="row g-2 mb-3">
+      <div class="col-6 col-md-3">
+        <div class="glass-card p-3">
+          <div class="text-secondary small fw-semibold text-uppercase" style="font-size: 0.68rem;">Epoch Block Height</div>
+          <div class="h5 fw-bold text-white font-monospace mb-0" id="kpiBlockHeight">#0</div>
+          <div class="text-success small" style="font-size: 0.68rem;">3.0s Block Time</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="glass-card p-3">
+          <div class="text-secondary small fw-semibold text-uppercase" style="font-size: 0.68rem;">Living Dividend Volume</div>
+          <div class="h5 fw-bold text-white font-monospace mb-0">$142,500</div>
+          <div class="text-info small" style="font-size: 0.68rem;">100% Net to Users</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="glass-card p-3">
+          <div class="text-secondary small fw-semibold text-uppercase" style="font-size: 0.68rem;">Builder Royalty</div>
+          <div class="h5 fw-bold text-warning font-monospace mb-0" id="kpiRoyalty">12,500 / M</div>
+          <div class="text-secondary small" style="font-size: 0.68rem;">1.25% Enshrined Protocol Fee</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="glass-card p-3">
+          <div class="text-secondary small fw-semibold text-uppercase" style="font-size: 0.68rem;">Deflationary Burn</div>
+          <div class="h5 fw-bold text-danger font-monospace mb-0" id="kpiBurn">2,500 / M</div>
+          <div class="text-secondary small" style="font-size: 0.68rem;">0.25% Permanent Burn</div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: SOVEREIGN VAULT (CLIENT APP) -->
-    <div id="tab-vault" class="tab-pane">
-      <div class="grid-2">
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Sovereign Local Vault (Client Device)</div>
-                <div class="panel-subtitle">Hardware Secure Enclave Partition · Zero Cloud Sync</div>
-              </div>
-              <span class="tag tag-emerald mono" id="aliceBalancePill">509.00 PRISM</span>
+    <!-- TAB 1: SOVEREIGN LIVING VAULT (DEFAULT MOBILE VIEW) -->
+    <section id="tab-vault" class="tab-content-pane">
+      <div class="row g-3">
+        <!-- Hero Earnings Card -->
+        <div class="col-12 col-lg-5">
+          <div class="hero-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-secondary small fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.05em;">Unclaimed Living Dividend</span>
+              <span class="badge bg-info bg-opacity-10 border border-info border-opacity-25 text-info font-monospace py-1 px-2" style="font-size: 0.68rem;">ENCLAVE: 0x8a92...39b7</span>
             </div>
 
-            <div class="device-mock">
-              <div class="device-notch"></div>
-
-              <div class="sensor-item">
-                <div class="sensor-header">
-                  <div class="sensor-title">Weekly Running Distance</div>
-                  <span class="sensor-badge">Apple HealthKit</span>
-                </div>
-                <input type="range" class="sensor-slider" id="sliderRun" min="0" max="50" value="26" step="0.5" oninput="updateSensorDisplay()">
-                <div style="display: flex; justify-content: space-between; margin-top: 0.35rem;" class="mono">
-                  <span style="font-size: 0.75rem; color: var(--text-muted);">Current Value</span>
-                  <span style="font-weight: 700; color: #fff;" id="valRun">26.4 km/wk</span>
-                </div>
-              </div>
-
-              <div class="sensor-item">
-                <div class="sensor-header">
-                  <div class="sensor-title">Sleep Duration & REM Quality</div>
-                  <span class="sensor-badge">Oura Ring / Health</span>
-                </div>
-                <input type="range" class="sensor-slider" id="sliderSleep" min="4" max="10" value="7.6" step="0.1" oninput="updateSensorDisplay()">
-                <div style="display: flex; justify-content: space-between; margin-top: 0.35rem;" class="mono">
-                  <span style="font-size: 0.75rem; color: var(--text-muted);">Current Value</span>
-                  <span style="font-weight: 700; color: #fff;" id="valSleep">7.6 hrs/night</span>
-                </div>
-              </div>
-
-              <div class="sensor-item">
-                <div class="sensor-header">
-                  <div class="sensor-title">Monthly Energy Expenditure</div>
-                  <span class="sensor-badge">Smart Utility Sync</span>
-                </div>
-                <input type="range" class="sensor-slider" id="sliderEnergy" min="50" max="500" value="210" step="5" oninput="updateSensorDisplay()">
-                <div style="display: flex; justify-content: space-between; margin-top: 0.35rem;" class="mono">
-                  <span style="font-size: 0.75rem; color: var(--text-muted);">Current Value</span>
-                  <span style="font-weight: 700; color: #fff;" id="valEnergy">$210 / month</span>
-                </div>
-              </div>
-
-              <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
-                <button class="btn" style="flex: 1;" onclick="synthesizeZkProof()">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                  Generate zk-SNARK & Claim Dividend
-                </button>
-                <button class="btn btn-secondary" onclick="refuelFaucet()">
-                  Refuel Gas
-                </button>
-              </div>
-
-              <!-- ZK Modal Status -->
-              <div class="zk-modal" id="zkModal">
-                <div class="zk-step" id="zkStep1">○ 1. Evaluating local predicate against hardware enclave...</div>
-                <div class="zk-step" id="zkStep2">○ 2. Generating recursive Plonky3 validity proof...</div>
-                <div class="zk-step" id="zkStep3">○ 3. Attaching Apple App Attest hardware token...</div>
-                <div class="zk-step" id="zkStep4">○ 4. Broadcasting to Prism Mempool (0 bytes PII exposed)...</div>
-              </div>
+            <div class="d-flex align-items-baseline gap-2 mb-3">
+              <div class="fiat-display" id="heroFiat">$142.50</div>
+              <span class="badge bg-primary bg-opacity-20 border border-primary border-opacity-25 text-primary-emphasis px-2 py-1" style="font-size: 0.85rem;">
+                950 PRISM
+              </span>
             </div>
-          </div>
-        </div>
 
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Active Context Bounties</div>
-                <div class="panel-subtitle">Available AI Research Query Demands</div>
+            <div class="row g-2 pt-2 border-top border-white border-opacity-10 mb-3 text-center">
+              <div class="col-4">
+                <div class="fw-bold font-monospace text-white">14/14</div>
+                <div class="text-secondary" style="font-size: 0.68rem;">Days Active</div>
+              </div>
+              <div class="col-4">
+                <div class="fw-bold font-monospace text-white">37</div>
+                <div class="text-secondary" style="font-size: 0.68rem;">ZK Queries</div>
+              </div>
+              <div class="col-4">
+                <div class="fw-bold font-monospace text-success">0 bytes</div>
+                <div class="text-secondary" style="font-size: 0.68rem;">Data Leaked</div>
               </div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <div>
-                  <div style="font-weight: 700; color: #fff; font-size: 1rem;">Runner Health & Sleep Correlation</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Sponsor: DeepMind BioLabs</div>
-                </div>
-                <span class="tag tag-emerald mono">+500 PRISM</span>
-              </div>
-              <p style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-                Target Criteria: <span class="mono" style="color: var(--prism-cyan);">weekly_run_distance_km &ge; 15.0</span>
-              </p>
-              <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden; margin-bottom: 0.5rem;">
-                <div style="height: 100%; width: 100%; background: var(--prism-gradient);"></div>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.78rem;" class="mono">
-                <span style="color: var(--prism-emerald);">Cohort Unlocked (3/3)</span>
-                <span style="color: var(--text-muted);">Payout: INSTANT</span>
-              </div>
-            </div>
-
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <div>
-                  <div style="font-weight: 700; color: #fff; font-size: 1rem;">Clean Energy Utility Optimization</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Sponsor: GridZero Protocol</div>
-                </div>
-                <span class="tag tag-emerald mono">+350 PRISM</span>
-              </div>
-              <p style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-                Target Criteria: <span class="mono" style="color: var(--prism-cyan);">monthly_energy_cost &ge; $150</span>
-              </p>
-              <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 9999px; overflow: hidden; margin-bottom: 0.5rem;">
-                <div style="height: 100%; width: 66%; background: var(--prism-gradient);"></div>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.78rem;" class="mono">
-                <span style="color: var(--prism-amber);">Cohort Forming (2/3)</span>
-                <span style="color: var(--text-muted);">Payout: HELD</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: ENTERPRISE AI QUERY LAB -->
-    <div id="tab-bounties" class="tab-pane">
-      <div class="grid-2">
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Deploy Enterprise Query Bounty</div>
-                <div class="panel-subtitle">Lock smart escrow for verified, privacy-preserving human telemetry</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Context Schema</label>
-              <select class="form-select" id="bountySchemaSelect">
-                <option value="FITNESS_SLEEP_V1">Health & Sleep Correlation (Wearables)</option>
-                <option value="ENERGY_UTILITY_V1">Clean Energy & Tariff Optimization</option>
-                <option value="ECOMMERCE_INTENT_V1">Direct E-Commerce Consumer Intent</option>
-              </select>
-            </div>
-
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Target Metric</label>
-                <input type="text" class="form-input mono" id="bountyMetric" value="weekly_run_distance_km">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Minimum Threshold</label>
-                <input type="number" class="form-input mono" id="bountyThreshold" value="20.0" step="0.5">
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div class="form-group">
-                <label class="form-label">Reward Per Proof ($PRISM)</label>
-                <input type="number" class="form-input mono" id="bountyReward" value="250" oninput="calculateBountyFees()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Max Participants</label>
-                <input type="number" class="form-input mono" id="bountyMaxUsers" value="10" oninput="calculateBountyFees()">
-              </div>
-            </div>
-
-            <div class="royalty-preview">
-              <div style="font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">Protocol Settlement Breakdown</div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
-                <span style="color: var(--text-muted);">Base Escrow Pool:</span>
-                <span class="mono" id="previewEscrow">2,500 PRISM</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
-                <span style="color: var(--prism-emerald);">Builder Royalty (1.25%):</span>
-                <span class="mono" style="color: var(--prism-emerald);" id="previewRoyalty">31.25 PRISM (12,500 / M)</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
-                <span style="color: var(--prism-pink);">Permanent Deflationary Burn (0.25%):</span>
-                <span class="mono" style="color: var(--prism-pink);" id="previewBurn">6.25 PRISM</span>
-              </div>
-              <div style="border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.5rem; display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700;">
-                <span>Total Required Escrow:</span>
-                <span class="mono" id="previewTotal" style="color: var(--prism-cyan);">2,537.50 PRISM</span>
-              </div>
-            </div>
-
-            <button class="btn" style="width: 100%; margin-top: 1rem; justify-content: center;" onclick="deployBounty()">
-              Lock Escrow & Deploy Bounty
+            <button class="btn btn-prism-primary w-100 py-3" onclick="openClaimModal()">
+              <i class="bi bi-shield-check me-2"></i> Claim Daily Living Dividend
             </button>
           </div>
+
+          <!-- Silicon Hardware Banner -->
+          <div class="glass-card p-3 mt-3 d-flex align-items-center gap-3">
+            <div class="orb-icon orb-violet">
+              <i class="bi bi-shield-lock-fill text-white fs-5"></i>
+            </div>
+            <div>
+              <div class="fw-bold text-white small">Hardware Silicon Enclave Active</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">Protected by Apple App Attest &amp; Google Play Integrity. Smart contract locks escrow until 500 cohort peers qualify.</div>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Enterprise Query Verification Flow</div>
-                <div class="panel-subtitle">Why AI Labs Choose Prism Over Scraped Data</div>
+        <!-- Telemetry Items Grid -->
+        <div class="col-12 col-lg-7">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="small fw-bold text-secondary text-uppercase" style="font-size: 0.72rem;">Verified On-Device Telemetry</span>
+            <button class="btn btn-sm btn-link text-info text-decoration-none p-0 fw-semibold" onclick="syncSensors()" style="font-size: 0.72rem;">
+              Sync HealthKit ↻
+            </button>
+          </div>
+
+          <div class="row g-2">
+            <!-- Item 1: Cardio -->
+            <div class="col-12 col-sm-6">
+              <div class="glass-card p-3 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="orb-icon orb-emerald">
+                    <i class="bi bi-heart-pulse-fill text-white fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white small">Cardio &amp; Distance</div>
+                    <div class="text-secondary" style="font-size: 0.7rem;">Criteria &gt;= 15.0 km/wk</div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold font-monospace text-white">26.4 km</div>
+                  <span class="badge bg-success bg-opacity-10 border border-success border-opacity-25 text-success" style="font-size: 0.65rem;">✓ Verified</span>
+                </div>
               </div>
             </div>
 
-            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-              <p style="margin-bottom: 0.8rem;">
-                <strong>1. Verifiable Authenticity:</strong> Unlike web-scraped synthetic junk, Prism queries are backed by on-device hardware attestation certificates (Apple App Attest / Play Integrity).
-              </p>
-              <p style="margin-bottom: 0.8rem;">
-                <strong>2. Complete Regulatory Immunity:</strong> Under GDPR Recital 26, zero-knowledge mathematical proofs are irreversible and do not constitute Personal Identifiable Information (PII). Enterprises cannot be fined for data breaches.
-              </p>
-              <p>
-                <strong>3. Real-Time Telemetry:</strong> Continuous streaming of fresh human context without friction or intermediary broker markups.
-              </p>
+            <!-- Item 2: Sleep -->
+            <div class="col-12 col-sm-6">
+              <div class="glass-card p-3 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="orb-icon orb-violet">
+                    <i class="bi bi-moon-stars-fill text-white fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white small">Sleep &amp; Recovery</div>
+                    <div class="text-secondary" style="font-size: 0.7rem;">Criteria &gt;= 6.5 hrs/day</div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold font-monospace text-white">7.3 hrs</div>
+                  <span class="badge bg-success bg-opacity-10 border border-success border-opacity-25 text-success" style="font-size: 0.65rem;">✓ Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 3: Screen Focus -->
+            <div class="col-12 col-sm-6">
+              <div class="glass-card p-3 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="orb-icon orb-cyan">
+                    <i class="bi bi-phone-fill text-white fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white small">Focus &amp; Wellbeing</div>
+                    <div class="text-secondary" style="font-size: 0.7rem;">Screen &lt; 4.0 hrs/day</div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold font-monospace text-white">2.8 hrs</div>
+                  <span class="badge bg-success bg-opacity-10 border border-success border-opacity-25 text-success" style="font-size: 0.65rem;">✓ Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 4: Intent Commerce -->
+            <div class="col-12 col-sm-6">
+              <div class="glass-card p-3 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="orb-icon orb-amber">
+                    <i class="bi bi-lightning-charge-fill text-white fs-5"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-white small">Intent Solvers</div>
+                    <div class="text-secondary" style="font-size: 0.7rem;">Zero-Middleman Deals</div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold font-monospace text-warning">3 Bids</div>
+                  <span class="badge bg-warning bg-opacity-10 border border-warning border-opacity-25 text-warning" style="font-size: 0.65rem;">Competing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive ZK Sliders to test on mobile -->
+          <div class="glass-card p-3 mt-3">
+            <div class="fw-bold text-white small mb-2"><i class="bi bi-sliders me-1 text-info"></i> Test Zero-Knowledge Criteria Evaluation</div>
+            <div class="mb-2">
+              <div class="d-flex justify-content-between small text-secondary">
+                <span>Simulate Run Distance (Target: 15.0 km)</span>
+                <span class="fw-bold text-white font-monospace" id="sliderVal">26.4 km</span>
+              </div>
+              <input type="range" class="form-range" id="runSlider" min="5" max="40" step="0.5" value="26.4" oninput="updateSlider(this.value)">
+            </div>
+            <div class="d-flex justify-content-between align-items-center small">
+              <span class="text-secondary" style="font-size: 0.72rem;">ZK Constraint: <code class="text-info font-monospace">run_dist &gt;= 15.0</code></span>
+              <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25" id="zkStatus">SATISFIED (VALID PROOF)</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- TAB 4: INTENT SOLVERS -->
-    <div id="tab-intents" class="tab-pane">
-      <div class="panel">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title outfit">Autonomous Intent Clearinghouse</div>
-            <div class="panel-subtitle">Zero-Middleman Automated Human Commerce</div>
-          </div>
-          <button class="btn" onclick="simulateNewIntent()">
-            + Broadcast Test Intent
-          </button>
+    <!-- TAB 2: NETWORK EXPLORER -->
+    <section id="tab-explorer" class="tab-content-pane d-none">
+      <div class="glass-card p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="small fw-bold text-white text-uppercase"><i class="bi bi-diagram-3 me-1 text-info"></i> Real-Time PoAC Block Ledger</span>
+          <span class="badge bg-info bg-opacity-10 text-info">Live Consensus Feed</span>
         </div>
-
-        <div class="table-container">
-          <table>
+        <div class="table-responsive">
+          <table class="table table-dark table-hover align-middle mb-0" style="font-size: 0.78rem;">
             <thead>
-              <tr>
-                <th>Intent ID</th>
-                <th>Domain</th>
-                <th>Human Request Specification</th>
-                <th>Budget Limit</th>
-                <th>Optimal Solver Bid</th>
-                <th>Escrow Status</th>
+              <tr class="text-secondary border-bottom border-white-subtle">
+                <th>Height</th>
+                <th>Tx Merkle Root</th>
+                <th>Transactions</th>
+                <th>Validator Leader</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody id="intentTable">
+            <tbody id="blockExplorerTbody">
               <tr>
-                <td class="mono"><span class="tag tag-indigo">0x84a1..ef</span></td>
-                <td><span class="tag tag-emerald">Flight Travel</span></td>
-                <td>Direct flight SFO &rarr; DEN next Thursday, extra legroom</td>
-                <td class="mono">$400.00</td>
-                <td class="mono" style="color: var(--prism-emerald);">$340.00 (15% savings)</td>
-                <td><span class="tag tag-emerald">SETTLED</span></td>
-              </tr>
-              <tr>
-                <td class="mono"><span class="tag tag-indigo">0x19f2..3a</span></td>
-                <td><span class="tag tag-pink">Utility Tariff</span></td>
-                <td>Switch home electricity to green solar provider if bill &le; $180</td>
-                <td class="mono">$210.00</td>
-                <td class="mono" style="color: var(--prism-emerald);">$178.50 (15% savings)</td>
-                <td><span class="tag tag-emerald">SETTLED</span></td>
+                <td class="font-monospace fw-bold text-info">#48</td>
+                <td class="font-monospace text-truncate" style="max-width: 140px;">245268d9b02d...</td>
+                <td>2 txs</td>
+                <td class="font-monospace text-truncate" style="max-width: 120px;">03dc8c521894...</td>
+                <td><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">FINALIZED</span></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- TAB 5: RPC CONSOLE -->
-    <div id="tab-console" class="tab-pane">
-      <div class="grid-2">
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Live Node RPC Terminal</div>
-                <div class="panel-subtitle">JSON-RPC & REST Endpoints (Port 8545)</div>
+    <!-- TAB 3: AI QUERY LAB -->
+    <section id="tab-bounties" class="tab-content-pane d-none">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="glass-card p-3">
+            <h6 class="fw-bold text-white mb-2"><i class="bi bi-cpu me-1 text-info"></i> Post Verified AI Query Bounty</h6>
+            <p class="text-secondary small mb-3" style="font-size: 0.75rem;">AI Labs deposit escrows to query human telemetry cohorts without violating privacy.</p>
+            
+            <div class="mb-2">
+              <label class="form-label text-secondary small mb-1">Escrow Bounty (PRISM)</label>
+              <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" id="escrowInput" value="10000" oninput="calcFee(this.value)">
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label text-secondary small mb-1">Privacy Threshold (k-Anonymity)</label>
+              <select class="form-select form-select-sm bg-dark text-white border-secondary">
+                <option value="500">k &gt;= 500 Participants (Mainnet Default)</option>
+                <option value="3">k &gt;= 3 Participants (Devnet Test)</option>
+              </select>
+            </div>
+
+            <!-- Fee Calculation Display -->
+            <div class="p-2 rounded bg-black bg-opacity-25 border border-white-subtle small font-monospace">
+              <div class="d-flex justify-content-between text-secondary">
+                <span>Builder Royalty (1.25%):</span>
+                <span class="text-warning fw-bold" id="calcRoyalty">125 PRISM</span>
+              </div>
+              <div class="d-flex justify-content-between text-secondary mt-1">
+                <span>Deflationary Burn (0.25%):</span>
+                <span class="text-danger fw-bold" id="calcBurn">25 PRISM</span>
+              </div>
+              <div class="d-flex justify-content-between text-white border-top border-white-subtle pt-1 mt-1">
+                <span>Net to Users (100%):</span>
+                <span class="text-success fw-bold" id="calcNet">10,000 PRISM</span>
               </div>
             </div>
 
-            <div class="terminal" id="terminalLog">
-              <div class="term-line"><span class="term-time">[00:00:00]</span> <span class="term-prompt">&gt;</span> Connected to Prism Node v0.1.0 (PoAC Active)</div>
-            </div>
+            <button class="btn btn-sm btn-prism-primary w-100 mt-3" onclick="alert('Bounty Escrow broadcasted to PoAC consensus mempool!')">
+              Lock Escrow &amp; Broadcast Bounty
+            </button>
           </div>
         </div>
 
-        <div>
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-title outfit">Quick RPC Testing Suite</div>
-                <div class="panel-subtitle">Execute direct REST queries against running node</div>
+        <div class="col-12 col-md-6">
+          <div class="glass-card p-3">
+            <h6 class="fw-bold text-white mb-2"><i class="bi bi-shield-check me-1 text-success"></i> Active Cohort Escrows</h6>
+            <div class="p-3 rounded bg-black bg-opacity-30 border border-white-subtle mb-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-white small">Marathon Runners Cohort</span>
+                <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">2/3 Attested</span>
               </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <button class="btn btn-secondary" onclick="executeRpc('GET', '/health')">
-                <span class="mono">GET /health</span> &mdash; Query Validator & Height
-              </button>
-              <button class="btn btn-secondary" onclick="executeRpc('GET', '/api/v1/state')">
-                <span class="mono">GET /api/v1/state</span> &mdash; Full Ledger State
-              </button>
-              <button class="btn btn-secondary" onclick="executeRpc('GET', '/api/v1/blocks/latest')">
-                <span class="mono">GET /api/v1/blocks/latest</span> &mdash; Inspect Latest Block
-              </button>
-              <button class="btn btn-secondary" onclick="executeRpc('GET', '/api/v1/bounties')">
-                <span class="mono">GET /api/v1/bounties</span> &mdash; List Active Bounties
-              </button>
+              <div class="progress mb-2" style="height: 6px;">
+                <div class="progress-bar bg-warning" style="width: 66%;"></div>
+              </div>
+              <div class="d-flex justify-content-between text-secondary" style="font-size: 0.7rem;">
+                <span>Total Pool: 1,500 PRISM</span>
+                <span>k-Threshold: Locked until 3</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- TAB 4: INTENT SOLVERS -->
+    <section id="tab-intents" class="tab-content-pane d-none">
+      <div class="glass-card p-3">
+        <h6 class="fw-bold text-white mb-2"><i class="bi bi-lightning-charge me-1 text-warning"></i> Autonomous Intent Clearinghouse</h6>
+        <p class="text-secondary small mb-3" style="font-size: 0.75rem;">AI Agents publish purchase intents; competing solvers bid to execute at lowest cost with 0 middleman.</p>
+
+        <div class="row g-2 mb-3">
+          <div class="col-12 col-md-8">
+            <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="e.g. Find roundtrip flight SFO-NRT under $780" value="Roundtrip Flight SFO -> Tokyo (NRT) under $750">
+          </div>
+          <div class="col-12 col-md-4">
+            <button class="btn btn-sm btn-prism-primary w-100" onclick="alert('Intent published to solver gossip mesh!')">
+              Broadcast Intent
+            </button>
+          </div>
+        </div>
+
+        <div class="p-3 rounded bg-black bg-opacity-30 border border-white-subtle">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-bold text-white small">Live Bidding Auction · Intent #892</span>
+            <span class="badge bg-info bg-opacity-10 text-info">3 Solvers Competing</span>
+          </div>
+          <div class="font-monospace small text-secondary">
+            <div class="d-flex justify-content-between py-1 border-bottom border-white-subtle">
+              <span>Solver Alpha (Direct Airline API):</span>
+              <span class="text-success fw-bold">$718.00 (Winning)</span>
+            </div>
+            <div class="d-flex justify-content-between py-1 border-bottom border-white-subtle">
+              <span>Solver Beta (OTA Liquidity Pool):</span>
+              <span class="text-secondary">$735.50</span>
+            </div>
+            <div class="d-flex justify-content-between py-1">
+              <span>Solver Gamma (Wholesale Seat):</span>
+              <span class="text-secondary">$742.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: RPC CONSOLE -->
+    <section id="tab-terminal" class="tab-content-pane d-none">
+      <div class="glass-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="small fw-bold text-white text-uppercase"><i class="bi bi-terminal me-1 text-info"></i> Node JSON-RPC Terminal</span>
+          <button class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.7rem;" onclick="clearTerm()">Clear</button>
+        </div>
+        <div class="p-2 rounded bg-black text-light font-monospace overflow-auto" id="termLogs" style="height: 220px; font-size: 0.72rem; line-height: 1.5;">
+          <div class="text-secondary">[00:00:01] Node RPC initialized on port 8545</div>
+          <div class="text-info">[00:00:02] Connected to PoAC consensus mesh</div>
+          <div class="text-success">[00:00:03] Zero-Knowledge circuit Groth16 ready</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FIXED BOTTOM DOCK FOR MOBILE PHONES -->
+  <nav class="mobile-dock">
+    <button class="dock-btn active" id="mTab-vault" onclick="switchTab('vault')">
+      <i class="bi bi-wallet2"></i>
+      <span>Vault</span>
+    </button>
+    <button class="dock-btn" id="mTab-explorer" onclick="switchTab('explorer')">
+      <i class="bi bi-diagram-3"></i>
+      <span>Ledger</span>
+    </button>
+    <button class="dock-btn" id="mTab-bounties" onclick="switchTab('bounties')">
+      <i class="bi bi-cpu"></i>
+      <span>AI Bounties</span>
+    </button>
+    <button class="dock-btn" id="mTab-intents" onclick="switchTab('intents')">
+      <i class="bi bi-lightning-charge"></i>
+      <span>Intents</span>
+    </button>
+    <button class="dock-btn" id="mTab-terminal" onclick="switchTab('terminal')">
+      <i class="bi bi-terminal"></i>
+      <span>Console</span>
+    </button>
+  </nav>
+
+  <!-- BIOMETRIC FACEID MODAL SHEET -->
+  <div class="modal fade" id="claimModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content glass-card border border-white-subtle">
+        <div class="modal-body p-4 text-center">
+          <h5 class="fw-bold text-white mb-1">Claim Living Dividend</h5>
+          <p class="text-secondary small mb-2" style="font-size: 0.76rem;">Hardware Attestation &amp; ZK Proof via Secure Enclave</p>
+
+          <div class="scanner-box" id="modalScanner">
+            <div class="scanner-laser" id="modalLaser"></div>
+            <i class="bi bi-person-bounding-box fs-1 text-primary" id="faceIdGlyph"></i>
+          </div>
+
+          <div class="p-2 rounded bg-black bg-opacity-30 border border-white-subtle font-monospace text-start small mb-3" style="font-size: 0.7rem;">
+            <div class="text-info">&gt; Hardware: Apple App Attest / Play Integrity</div>
+            <div class="text-warning">&gt; Circuit: Groth16 Circom 2.1</div>
+            <div class="text-success">&gt; Raw Health Data: 0 Bytes Leaked</div>
+          </div>
+
+          <button class="btn btn-prism-primary w-100" id="btnRunBiometrics" onclick="executeClaim()">
+            Confirm FaceID &amp; Settle 950 PRISM
+          </button>
+        </div>
+      </div>
     </div>
-  </main>
+  </div>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const ALICE_PUBKEY = "1111111111111111111111111111111111111111111111111111111111111111";
-    let aliceBalance = 509;
-
+    // Tab Switching Function (Unified Mobile Dock + Desktop Nav)
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-content-pane').forEach(el => el.classList.add('d-none'));
+      const activePane = document.getElementById('tab-' + tabId);
+      if (activePane) activePane.classList.remove('d-none');
+
+      // Update mobile dock buttons
+      document.querySelectorAll('.dock-btn').forEach(btn => btn.classList.remove('active'));
+      const mBtn = document.getElementById('mTab-' + tabId);
+      if (mBtn) mBtn.classList.add('active');
+
+      // Update desktop buttons
+      document.querySelectorAll('.desktop-nav button').forEach(btn => btn.classList.remove('active'));
       
-      const pane = document.getElementById(`tab-${tabId}`);
-      if (pane) pane.classList.add('active');
-
-      const btns = document.querySelectorAll('.nav-btn');
-      btns.forEach(btn => {
-        if (btn.getAttribute('onclick').includes(tabId)) {
-          btn.classList.add('active');
-        }
-      });
+      triggerHaptic();
     }
 
-    function termLog(msg, type = '') {
-      const term = document.getElementById('terminalLog');
-      const time = (new Date()).toLocaleTimeString();
-      let cls = '';
-      if (type === 'success') cls = 'term-success';
-      else if (type === 'accent') cls = 'term-accent';
-      else if (type === 'warn') cls = 'term-warn';
-
-      const line = document.createElement('div');
-      line.className = 'term-line';
-      line.innerHTML = `<span class="term-time">[${time}]</span> <span class="term-prompt">&gt;</span> <span class="${cls}">${msg}</span>`;
-      term.appendChild(line);
-      term.scrollTop = term.scrollHeight;
-    }
-
-    function updateSensorDisplay() {
-      const r = document.getElementById('sliderRun').value;
-      const s = document.getElementById('sliderSleep').value;
-      const e = document.getElementById('sliderEnergy').value;
-      document.getElementById('valRun').innerText = `${r} km/wk`;
-      document.getElementById('valSleep').innerText = `${s} hrs/night`;
-      document.getElementById('valEnergy').innerText = `$${e} / month`;
-    }
-
-    async function synthesizeZkProof() {
-      const modal = document.getElementById('zkModal');
-      modal.style.display = 'block';
-      const s1 = document.getElementById('zkStep1');
-      const s2 = document.getElementById('zkStep2');
-      const s3 = document.getElementById('zkStep3');
-      const s4 = document.getElementById('zkStep4');
-
-      s1.className = 'zk-step active'; s1.innerText = '⏳ 1. Evaluating local predicate against hardware enclave...';
-      s2.className = 'zk-step'; s2.innerText = '○ 2. Generating recursive Plonky3 validity proof...';
-      s3.className = 'zk-step'; s3.innerText = '○ 3. Attaching Apple App Attest hardware token...';
-      s4.className = 'zk-step'; s4.innerText = '○ 4. Broadcasting to Prism Mempool (0 bytes PII exposed)...';
-
-      setTimeout(() => {
-        s1.className = 'zk-step completed'; s1.innerText = '✔ 1. Local predicate verified (weekly_run = 26.4 >= 15.0)';
-        s2.className = 'zk-step active'; s2.innerText = '⏳ 2. Synthesizing Plonky3 recursive zk-SNARK...';
-      }, 500);
-
-      setTimeout(() => {
-        s2.className = 'zk-step completed'; s2.innerText = '✔ 2. zk-SNARK synthesized (168 constraints satisfied)';
-        s3.className = 'zk-step active'; s3.innerText = '⏳ 3. Querying Apple Secure Enclave App Attest...';
-      }, 1000);
-
-      setTimeout(() => {
-        s3.className = 'zk-step completed'; s3.innerText = '✔ 3. Silicon attestation verified (Anti-Sybil valid)';
-        s4.className = 'zk-step active'; s4.innerText = '⏳ 4. Transmitting SubmitContextProof transaction to node...';
-      }, 1400);
-
-      setTimeout(() => {
-        s4.className = 'zk-step completed'; s4.innerText = '✔ 4. Transaction confirmed in Block! 500 PRISM Dividend credited.';
-        aliceBalance += 500;
-        document.getElementById('aliceBalancePill').innerText = `${aliceBalance}.00 PRISM`;
-        termLog("SubmitContextProof confirmed on-chain! +500 PRISM Dividend paid to Alice.", "success");
-      }, 1900);
-    }
-
-    async function refuelFaucet() {
-      try {
-        const res = await fetch('/api/v1/dev/faucet', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pubkey: ALICE_PUBKEY, amount: 50 })
-        });
-        if (res.ok) {
-          aliceBalance += 50;
-          document.getElementById('aliceBalancePill').innerText = `${aliceBalance}.00 PRISM`;
-          termLog("Refuel faucet: +50 PRISM granted to Alice's account.", "success");
-        } else {
-          aliceBalance += 50;
-          document.getElementById('aliceBalancePill').innerText = `${aliceBalance}.00 PRISM`;
-          termLog("Refuel faucet: +50 PRISM granted.", "success");
-        }
-      } catch (e) {
-        aliceBalance += 50;
-        document.getElementById('aliceBalancePill').innerText = `${aliceBalance}.00 PRISM`;
-        termLog("Refuel faucet: +50 PRISM granted.", "success");
+    function triggerHaptic() {
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate([15, 25, 15]);
       }
     }
 
-    function calculateBountyFees() {
-      const reward = parseFloat(document.getElementById('bountyReward').value) || 0;
-      const count = parseFloat(document.getElementById('bountyMaxUsers').value) || 0;
-      const base = reward * count;
-      const royalty = (base * 125) / 10000;
-      const burn = (base * 25) / 10000;
-      const total = base + royalty + burn;
-
-      document.getElementById('previewEscrow').innerText = `${base.toLocaleString()} PRISM`;
-      document.getElementById('previewRoyalty').innerText = `${royalty.toFixed(2)} PRISM (12,500 / M)`;
-      document.getElementById('previewBurn').innerText = `${burn.toFixed(2)} PRISM`;
-      document.getElementById('previewTotal').innerText = `${total.toFixed(2)} PRISM`;
+    // Modal Sheet
+    let claimModalInstance = null;
+    function openClaimModal() {
+      triggerHaptic();
+      if (!claimModalInstance) {
+        claimModalInstance = new bootstrap.Modal(document.getElementById('claimModal'));
+      }
+      claimModalInstance.show();
     }
 
-    function deployBounty() {
-      const reward = parseFloat(document.getElementById('bountyReward').value) || 0;
-      const count = parseFloat(document.getElementById('bountyMaxUsers').value) || 0;
-      const base = reward * count;
-      const royalty = (base * 125) / 10000;
-      termLog(`Deploying Query Bounty: ${base} PRISM escrow locked. Builder royalty of ${royalty.toFixed(2)} PRISM credited to your treasury.`, "accent");
-      alert(`Bounty Escrow of ${base} PRISM deployed! Your Builder Treasury receives ${royalty.toFixed(2)} PRISM automatically.`);
+    function executeClaim() {
+      triggerHaptic();
+      const laser = document.getElementById('modalLaser');
+      const glyph = document.getElementById('faceIdGlyph');
+      const btn = document.getElementById('btnRunBiometrics');
+
+      laser.style.display = 'block';
+      glyph.className = 'bi bi-person-bounding-box fs-1 text-info';
+      btn.innerText = 'Verifying FaceID & Generating Proof...';
+      btn.style.opacity = '0.75';
+
+      setTimeout(() => {
+        laser.style.display = 'none';
+        glyph.className = 'bi bi-check-circle-fill fs-1 text-success';
+        btn.innerText = '✓ Success! 950 PRISM Settled to Vault';
+        btn.className = 'btn btn-success w-100';
+
+        document.getElementById('heroFiat').innerText = '$0.00';
+
+        setTimeout(() => {
+          if (claimModalInstance) claimModalInstance.hide();
+          btn.innerText = 'Confirm FaceID & Settle 950 PRISM';
+          btn.className = 'btn btn-prism-primary w-100';
+          btn.style.opacity = '1';
+          glyph.className = 'bi bi-person-bounding-box fs-1 text-primary';
+        }, 1500);
+      }, 1500);
     }
 
-    function simulateNewIntent() {
-      const id = "0x" + Math.floor(Math.random() * 16777215).toString(16) + "..9c";
-      const tbody = document.getElementById('intentTable');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="mono"><span class="tag tag-indigo">${id}</span></td>
-        <td><span class="tag tag-pink">Grocery Delivery</span></td>
-        <td>Autonomous order of weekly organic groceries under $90</td>
-        <td class="mono">$90.00</td>
-        <td class="mono" style="color: var(--prism-emerald);">$76.50 (15% savings)</td>
-        <td><span class="tag tag-emerald">SETTLED</span></td>
-      `;
-      tbody.insertBefore(tr, tbody.firstChild);
-      termLog(`New Autonomous Intent ${id} fulfilled by Solver Agent! Escrow released atomically.`, "success");
+    function syncSensors() {
+      triggerHaptic();
+      alert('Synced with Apple Health & Google Health Connect. Cryptographic commitments updated.');
     }
 
-    async function executeRpc(method, endpoint) {
-      termLog(`Executing ${method} ${endpoint}...`, "accent");
-      try {
-        const res = await fetch(endpoint);
-        if (res.ok) {
-          const json = await res.json();
-          termLog(JSON.stringify(json, null, 2), "success");
-        } else {
-          termLog(`HTTP Error: ${res.statusText}`, "warn");
-        }
-      } catch (e) {
-        termLog(`RPC Error: ${e.message}`, "warn");
+    function updateSlider(val) {
+      document.getElementById('sliderVal').innerText = val + ' km';
+      const status = document.getElementById('zkStatus');
+      if (parseFloat(val) >= 15.0) {
+        status.className = 'badge bg-success bg-opacity-10 text-success border border-success border-opacity-25';
+        status.innerText = 'SATISFIED (VALID PROOF)';
+      } else {
+        status.className = 'badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25';
+        status.innerText = 'UNMET (PROOF REJECTED - 0 DATA LEAKED)';
       }
     }
 
-    let lastBlock = -1;
-    let simHeight = 128;
+    function calcFee(val) {
+      const v = parseFloat(val) || 0;
+      const royalty = (v * 12500) / 1000000;
+      const burn = (v * 2500) / 1000000;
+      document.getElementById('calcRoyalty').innerText = royalty.toFixed(2) + ' PRISM';
+      document.getElementById('calcBurn').innerText = burn.toFixed(2) + ' PRISM';
+      document.getElementById('calcNet').innerText = v.toFixed(2) + ' PRISM';
+    }
 
-    async function fetchLiveState() {
+    function termLog(msg, type='info') {
+      const box = document.getElementById('termLogs');
+      if (!box) return;
+      const d = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = type === 'success' ? 'text-success' : (type === 'warn' ? 'text-warning' : 'text-info');
+      div.innerText = `[${d}] ${msg}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearTerm() {
+      const box = document.getElementById('termLogs');
+      if (box) box.innerHTML = '<div class="text-secondary">[Console Cleared]</div>';
+    }
+
+    // Live Node Polling / Standalone Fallback Simulation
+    let blockHeight = 48;
+    async function pollState() {
       try {
-        const [healthRes, stateRes, blockRes] = await Promise.all([
-          fetch('/health').catch(() => null),
-          fetch('/api/v1/state').catch(() => null),
-          fetch('/api/v1/blocks/latest').catch(() => null)
-        ]);
-
-        if (healthRes && healthRes.ok) {
-          const h = await healthRes.json();
-          document.getElementById('heroBlockHeight').innerText = '#' + h.block_height;
-          document.getElementById('nodeStatusBadge').innerText = `PoAC CONSENSUS ACTIVE · HEIGHT #${h.block_height}`;
-
-          if (h.block_height !== lastBlock) {
-            lastBlock = h.block_height;
-            termLog(`Block #${h.block_height} finalized by leader ${h.validator.substring(0, 8)}...`);
-
-            if (blockRes && blockRes.ok) {
-              const b = await blockRes.json();
-              if (b.header) {
-                const tbody = document.getElementById('blockExplorerTable');
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                  <td class="mono">#${b.header.height}</td>
-                  <td><span class="mono" style="color: #93c5fd;">${b.header.tx_root ? b.header.tx_root.substring(0, 16) + '...' : 'root'}</span></td>
-                  <td>${b.transactions ? b.transactions.length : 0} tx</td>
-                  <td class="mono">${b.header.validator.substring(0, 12)}...</td>
-                  <td><span class="tag tag-emerald">FINALIZED</span></td>
-                `;
-                tbody.insertBefore(row, tbody.firstChild);
-                if (tbody.children.length > 8) {
-                  tbody.removeChild(tbody.lastChild);
-                }
-              }
-            }
-          }
+        const res = await fetch('/health').catch(() => null);
+        if (res && res.ok) {
+          const h = await res.json();
+          blockHeight = h.block_height;
+          document.getElementById('statusBadge').innerText = `PoAC #${blockHeight}`;
+          document.getElementById('kpiBlockHeight').innerText = `#${blockHeight}`;
         } else {
-          // Standalone / GitHub Pages demo mode fallback
-          simHeight++;
-          document.getElementById('heroBlockHeight').innerText = '#' + simHeight;
-          document.getElementById('nodeStatusBadge').innerText = `DEMO SIMULATOR · HEIGHT #${simHeight}`;
-          termLog(`[Simulated PoAC] Block #${simHeight} finalized (Epoch 3.0s)`);
-          const tbody = document.getElementById('blockExplorerTable');
+          // Fallback simulation for GitHub Pages online showcase
+          blockHeight++;
+          document.getElementById('statusBadge').innerText = `DEMO #${blockHeight}`;
+          document.getElementById('kpiBlockHeight').innerText = `#${blockHeight}`;
+          termLog(`Block #${blockHeight} finalized via PoAC consensus`);
+
+          const tbody = document.getElementById('blockExplorerTbody');
           if (tbody) {
-            const row = document.createElement('tr');
-            const fakeRoot = Math.random().toString(36).substring(2, 14) + Math.random().toString(36).substring(2, 6);
-            row.innerHTML = `
-              <td class="mono">#${simHeight}</td>
-              <td><span class="mono" style="color: #93c5fd;">${fakeRoot}...</span></td>
-              <td>${Math.floor(Math.random() * 3) + 1} tx</td>
-              <td class="mono">2798483c21c8...</td>
-              <td><span class="tag tag-emerald">FINALIZED</span></td>
+            const tr = document.createElement('tr');
+            const fakeRoot = Math.random().toString(36).substring(2, 10) + '...';
+            tr.innerHTML = `
+              <td class="font-monospace fw-bold text-info">#${blockHeight}</td>
+              <td class="font-monospace text-truncate" style="max-width: 140px;">${fakeRoot}</td>
+              <td>${Math.floor(Math.random() * 3) + 1} txs</td>
+              <td class="font-monospace text-truncate" style="max-width: 120px;">03dc8c5218...</td>
+              <td><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">FINALIZED</span></td>
             `;
-            tbody.insertBefore(row, tbody.firstChild);
-            if (tbody.children.length > 8) {
-              tbody.removeChild(tbody.lastChild);
-            }
+            tbody.insertBefore(tr, tbody.firstChild);
+            if (tbody.children.length > 8) tbody.removeChild(tbody.lastChild);
           }
         }
-      } catch (e) {
-        console.log("Local node polling:", e);
-      }
+      } catch(e) {}
     }
 
     // Particle Canvas Animation
@@ -1373,11 +907,11 @@
     function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      particles = Array.from({ length: 45 }, () => ({
+      particles = Array.from({ length: 30 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
         r: Math.random() * 2 + 1
       }));
     }
@@ -1399,7 +933,7 @@
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 130) {
+          if (dist < 110) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -1407,7 +941,6 @@
           }
         }
       });
-
       requestAnimationFrame(draw);
     }
 
@@ -1415,8 +948,8 @@
     resize();
     draw();
 
-    fetchLiveState();
-    setInterval(fetchLiveState, 2500);
+    setInterval(pollState, 3000);
+    pollState();
   </script>
 </body>
 </html>
