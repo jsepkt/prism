@@ -581,6 +581,10 @@
     </div>
 
     <div class="header-actions">
+      <a href="../mobile/index.html" class="nav-btn" style="text-decoration: none; border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+        Mobile Vault
+      </a>
       <div class="status-pill">
         <div class="pulse-dot"></div>
         <span class="mono" id="nodeStatusBadge">PoAC CONSENSUS ACTIVE · HEIGHT #0</span>
@@ -1192,6 +1196,7 @@
     }
 
     let lastBlock = -1;
+    let simHeight = 128;
 
     async function fetchLiveState() {
       try {
@@ -1227,6 +1232,28 @@
                   tbody.removeChild(tbody.lastChild);
                 }
               }
+            }
+          }
+        } else {
+          // Standalone / GitHub Pages demo mode fallback
+          simHeight++;
+          document.getElementById('heroBlockHeight').innerText = '#' + simHeight;
+          document.getElementById('nodeStatusBadge').innerText = `DEMO SIMULATOR · HEIGHT #${simHeight}`;
+          termLog(`[Simulated PoAC] Block #${simHeight} finalized (Epoch 3.0s)`);
+          const tbody = document.getElementById('blockExplorerTable');
+          if (tbody) {
+            const row = document.createElement('tr');
+            const fakeRoot = Math.random().toString(36).substring(2, 14) + Math.random().toString(36).substring(2, 6);
+            row.innerHTML = `
+              <td class="mono">#${simHeight}</td>
+              <td><span class="mono" style="color: #93c5fd;">${fakeRoot}...</span></td>
+              <td>${Math.floor(Math.random() * 3) + 1} tx</td>
+              <td class="mono">2798483c21c8...</td>
+              <td><span class="tag tag-emerald">FINALIZED</span></td>
+            `;
+            tbody.insertBefore(row, tbody.firstChild);
+            if (tbody.children.length > 8) {
+              tbody.removeChild(tbody.lastChild);
             }
           }
         }

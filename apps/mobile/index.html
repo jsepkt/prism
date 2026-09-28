@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Prism Vault · Sovereign Living Dividend</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#030712">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-primary: #6366f1;
+      --accent-secondary: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .mobile-frame {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      padding-bottom: calc(var(--safe-bottom) + 80px);
+      position: relative;
+    }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0 1.25rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: #34d399;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Hero Balance Card */
+    .hero-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-amount {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .hero-amount span.sub {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent-emerald);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .stat-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .stat-col span.val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .stat-col span.lbl {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Quick Action Button */
+    .claim-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-primary), #4f46e5);
+      border: none;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.9rem;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .claim-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1.25rem 0 0.85rem 0;
+    }
+
+    .section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-meta {
+      font-size: 0.72rem;
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    /* Context Telemetry Cards */
+    .telemetry-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .telemetry-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.2s;
+    }
+
+    .telemetry-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+    }
+
+    .telemetry-info {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .telemetry-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .icon-health { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+    .icon-fitness { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+    .icon-media { background: rgba(6, 182, 212, 0.15); color: var(--accent-secondary); }
+    .icon-commerce { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+    .telemetry-titles h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .telemetry-titles p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .telemetry-value {
+      text-align: right;
+    }
+
+    .telemetry-value .num {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .telemetry-value .status {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--accent-emerald);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      justify-content: flex-end;
+    }
+
+    /* Privacy Cohort Banner */
+    .privacy-banner {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 18px;
+      padding: 1rem 1.1rem;
+      margin-top: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .shield-badge {
+      width: 38px;
+      height: 38px;
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #a5b4fc;
+    }
+
+    .privacy-text h5 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #e0e7ff;
+    }
+
+    .privacy-text p {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-top: 0.15rem;
+      line-height: 1.35;
+    }
+
+    /* Bottom Navigation Bar */
+    .mobile-tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(var(--safe-bottom) + 64px);
+      background: rgba(10, 15, 29, 0.88);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 0.6rem;
+      z-index: 100;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.68rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .tab-item.active {
+      color: var(--accent-primary);
+    }
+
+    .tab-item svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Modal / Popups */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 440px;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px 28px 0 0;
+      padding: 1.6rem;
+      padding-bottom: calc(var(--safe-bottom) + 20px);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      margin: 0 auto 1.25rem auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-frame">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+            <line x1="12" y1="22" x2="12" y2="15.5"></line>
+            <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+          </svg>
+        </div>
+        <div class="brand-title">PRISM VAULT</div>
+      </div>
+      <div class="status-pill">
+        <div class="pulse-dot"></div>
+        <span>ZK-PROTECTED</span>
+      </div>
+    </header>
+
+    <!-- Hero Balance -->
+    <div class="hero-card">
+      <div class="hero-label">Unclaimed Living Dividend</div>
+      <div class="hero-amount">
+        <span id="fiatDividend">$142.50</span>
+        <span class="sub" id="tokenDividend">950 PRISM</span>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-col">
+          <span class="val">14/14</span>
+          <span class="lbl">Days Active</span>
+        </div>
+        <div class="stat-col">
+          <span class="val">37</span>
+          <span class="lbl">ZK Queries Answered</span>
+        </div>
+        <div class="stat-col">
+          <span class="val" style="color: #34d399;">0 bytes</span>
+          <span class="lbl">Raw Data Leaked</span>
+        </div>
+      </div>
+
+      <button class="claim-btn" onclick="triggerClaimModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        Claim Daily Living Dividend
+      </button>
+    </div>
+
+    <!-- Active Telemetry Categories -->
+    <div class="section-header">
+      <div class="section-title">Verified Context Vault</div>
+      <div class="section-meta">APPLE HEALTH CONNECTED</div>
+    </div>
+
+    <div class="telemetry-grid">
+      <!-- Item 1: Running & Cardio -->
+      <div class="telemetry-card">
+        <div class="telemetry-info">
+          <div class="telemetry-icon-box icon-fitness">🏃</div>
+          <div class="telemetry-titles">
+            <h4>Weekly Running Distance</h4>
+            <p>ZK Threshold &gt;= 15.0 km/wk</p>
+          </div>
+        </div>
+        <div class="telemetry-value">
+          <div class="num">26.4 km</div>
+          <div class="status">✓ Qualified</div>
+        </div>
+      </div>
+
+      <!-- Item 2: Sleep & Recovery -->
+      <div class="telemetry-card">
+        <div class="telemetry-info">
+          <div class="telemetry-icon-box icon-health">💤</div>
+          <div class="telemetry-titles">
+            <h4>Deep Sleep Average</h4>
+            <p>ZK Threshold &gt;= 6.5 hrs/day</p>
+          </div>
+        </div>
+        <div class="telemetry-value">
+          <div class="num">7.3 hrs</div>
+          <div class="status">✓ Qualified</div>
+        </div>
+      </div>
+
+      <!-- Item 3: Digital Wellbeing -->
+      <div class="telemetry-card">
+        <div class="telemetry-info">
+          <div class="telemetry-icon-box icon-media">📱</div>
+          <div class="telemetry-titles">
+            <h4>Screen Time Focus</h4>
+            <p>ZK Threshold &lt; 4.0 hrs/day</p>
+          </div>
+        </div>
+        <div class="telemetry-value">
+          <div class="num">2.8 hrs</div>
+          <div class="status">✓ Qualified</div>
+        </div>
+      </div>
+
+      <!-- Item 4: Intent Commerce -->
+      <div class="telemetry-card">
+        <div class="telemetry-info">
+          <div class="telemetry-icon-box icon-commerce">⚡</div>
+          <div class="telemetry-titles">
+            <h4>Autonomous Intent Solvers</h4>
+            <p>Zero-middleman travel & goods</p>
+          </div>
+        </div>
+        <div class="telemetry-value">
+          <div class="num">3 Active</div>
+          <div class="status" style="color: #60a5fa;">Bidding...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Contract k-Anonymity Notice -->
+    <div class="privacy-banner">
+      <div class="shield-badge">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+      </div>
+      <div class="privacy-text">
+        <h5>Hardware-Attested k-Anonymity</h5>
+        <p>Your raw records stay locked in your phone's Secure Enclave. Escrow payouts only release once at least 500 cohort peers qualify.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="mobile-tabbar">
+      <div class="tab-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Vault</span>
+      </div>
+      <div class="tab-item" onclick="window.location.href='../dashboard/index.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Explorer</span>
+      </div>
+      <div class="tab-item" onclick="alert('Autonomous Agent Solvers active in background.')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        </svg>
+        <span>Solvers</span>
+      </div>
+      <div class="tab-item" onclick="alert('Hardware Secure Enclave Key: 0x8a92f...39b7')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Security</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Claim Modal -->
+  <div class="modal-overlay" id="claimModal" onclick="closeClaimModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">Claim Living Dividend</h3>
+      <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1.25rem;">
+        Generate zero-knowledge proof of your weekly criteria and settle 950 PRISM ($142.50) to your sovereign wallet.
+      </p>
+
+      <div style="background: rgba(255,255,255,0.04); border-radius: 14px; padding: 1rem; margin-bottom: 1.25rem; font-size: 0.8rem; font-family: monospace; color: #a5b4fc;">
+        <div>&gt; Attestation: Apple App Attest (DCAppAttest)</div>
+        <div>&gt; Circuit: Circom / Groth16 Snark</div>
+        <div>&gt; Public Inputs: [BountyId: 0x8a92, Cohort: 3]</div>
+        <div style="color: #34d399; margin-top: 0.5rem;">&gt; Zero Raw Health Data Transferred.</div>
+      </div>
+
+      <button class="claim-btn" id="modalConfirmBtn" onclick="executeClaim()">
+        Confirm with FaceID & Settle
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function triggerClaimModal() {
+      document.getElementById('claimModal').style.display = 'flex';
+    }
+
+    function closeClaimModal(e) {
+      document.getElementById('claimModal').style.display = 'none';
+    }
+
+    function executeClaim() {
+      const btn = document.getElementById('modalConfirmBtn');
+      btn.innerText = 'Verifying Biometrics & Synthesizing Proof...';
+      btn.style.opacity = '0.7';
+
+      setTimeout(() => {
+        btn.innerText = '✓ Succeeded! 950 PRISM Settled';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        document.getElementById('fiatDividend').innerText = '$0.00';
+        document.getElementById('tokenDividend').innerText = '0 PRISM';
+        
+        setTimeout(() => {
+          closeClaimModal();
+          btn.innerText = 'Confirm with FaceID & Settle';
+          btn.style.background = 'linear-gradient(135deg, var(--accent-primary), #4f46e5)';
+          btn.style.opacity = '1';
+        }, 1500);
+      }, 1600);
+    }
+  </script>
+</body>
+</html>
