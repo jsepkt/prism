@@ -4,8 +4,10 @@
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 [![Consensus](https://img.shields.io/badge/consensus-PoAC-indigo.svg)](crates/prism-consensus)
 [![TypeScript SDK](https://img.shields.io/badge/sdk-typescript-3178C6.svg)](sdk/typescript)
+[![Whitepaper](https://img.shields.io/badge/docs-Whitepaper%20v1.0-emerald.svg)](WHITEPAPER.md)
+[![Docker](https://img.shields.io/badge/docker-ready-2496ED.svg)](docker-compose.yml)
 
-**Prism Network** is a next-generation Layer-1 blockchain engineered specifically for the post-cloud AI era. Unlike legacy blockchains designed purely for financial speculation (Bitcoin, Solana), Prism turns everyday human digital activity into **sovereign, encrypted, income-generating digital assets**.
+**Prism Network** is a next-generation Layer-1 blockchain engineered specifically for the post-cloud AI era. Unlike legacy blockchains designed purely for financial speculation, Prism turns everyday human digital activity into **sovereign, encrypted, income-generating digital assets**.
 
 ---
 
@@ -15,8 +17,13 @@
 2. **Zero-Knowledge Context Proofs (zk-CP)**: Raw telemetry (health, fitness, habits, e-commerce) never leaves the user's phone. Only mathematical validity proofs hit the blockchain.
 3. **Smart-Contract Enforced $k$-Anonymity**: Anti-de-anonymization protection ($k \ge 3$ on devnet, $k \ge 500$ on mainnet). Escrow payouts are cryptographically locked until at least $k$ unique attested nodes submit valid proofs.
 4. **Hardware Anti-Sybil Defense**: Proof-of-Silicon attestation (Apple App Attest / Google Play Integrity) prevents bot farms and cloud emulators from draining enterprise bounties.
-5. **P2P Gossip Network**: Peer-to-peer length-delimited wire protocol for distributed block and transaction propagation.
-6. **Built-in Web Explorer & Dashboard**: Embedded dashboard running directly out of the node binary.
+5. **Autonomous Intent Clearinghouse**: Zero-middleman commerce where AI agents publish consumer purchasing intents and competing solvers bid in real-time (`crates/prism-agent`).
+6. **Sustainable Tokenomics & Builder Royalty**:
+   - **12,500 per million (1.25% / 125 BPS)** builder protocol royalty on AI query bounties and intent settlements.
+   - **2,500 per million (0.25% / 25 BPS)** permanent deflationary burn.
+   - Zero tax on everyday consumers—data dividends are delivered 100% net to participating edge users.
+7. **P2P Gossip Network**: Peer-to-peer length-delimited wire protocol for distributed block and transaction propagation.
+8. **World-Class Web3 Dashboard**: Embedded dark-glassmorphism dashboard with real-time interactive particle physics, ZK-SNARK synthesizer, Live RPC terminal, and network explorer.
 
 ---
 
@@ -25,12 +32,16 @@
 ```
 Prism/
 ├── Cargo.toml                  # Cargo Workspace configuration
+├── WHITEPAPER.md               # Official Academic Whitepaper v1.0
+├── Dockerfile                  # Multi-stage container build
+├── docker-compose.yml          # 3-Node local P2P cluster
 ├── crates/
 │   ├── prism-crypto/           # BLAKE3 hashing, Ed25519 keys, ZkProof & HardwareAttestation
 │   ├── prism-core/             # Blockchain ledger, Block Merkle trees, State transitions, Escrow
 │   ├── prism-consensus/        # Proof-of-Attested-Context (PoAC) consensus engine
 │   ├── prism-client/           # On-device Sovereign Context Vault & Edge ZK-Prover
 │   ├── prism-p2p/              # Async TCP peer-to-peer gossip networking
+│   ├── prism-agent/            # Autonomous Intent Solvers & Algorithmic Bidding
 │   └── prism-node/             # Full Node binary, Mempool, REST & JSON-RPC API, Web Dashboard
 ├── apps/
 │   └── dashboard/index.html    # Interactive Web Dashboard & Block Explorer
@@ -46,7 +57,7 @@ Prism/
 ```bash
 cargo test
 ```
-All unit and integration tests across crypto, core state transitions, privacy cohorts, and P2P peer networking will execute and pass.
+All 10 unit and integration tests across crypto, core state transitions, privacy cohorts, and P2P peer networking will execute and pass.
 
 ### 2. Run the End-to-End Consumer Economy Simulation
 ```bash
@@ -63,7 +74,13 @@ The node will boot, commit the genesis block, start producing blocks every 3 sec
 * **Node Health Endpoint**: [http://127.0.0.1:8545/health](http://127.0.0.1:8545/health)
 * **Ledger State Endpoint**: [http://127.0.0.1:8545/api/v1/state](http://127.0.0.1:8545/api/v1/state)
 
-### 4. Build the TypeScript SDK
+### 4. Launch Multi-Node Cluster with Docker
+```bash
+docker-compose up --build
+```
+Spins up a 3-node P2P cluster interconnected over the gossip network.
+
+### 5. Build the TypeScript SDK
 ```bash
 cd sdk/typescript
 npm install
@@ -104,3 +121,4 @@ sequenceDiagram
 * **Zero On-Chain Personal Data**: Under GDPR Recital 26, irreversible cryptographic proofs do not constitute personal identifiable data.
 * **Exempt from HIPAA**: Self-sovereign edge storage where users hold their own data is legally exempt from covered-entity restrictions.
 * **Earned Utility Revenue**: Dividends are compensation for active computational verification and informational work, not passive investment contracts.
+* **Builder Protocol Royalty**: The protocol enshrines a fixed 1.25% (12,500 per million) builder fee on enterprise query escrows and agent intent settlements, funding continuous open-source protocol research and development.
