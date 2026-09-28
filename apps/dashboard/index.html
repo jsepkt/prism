@@ -4,9 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PRISM Network — The Sovereign Context & Edge-AI Ledger</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    // Intelligent Mobile Auto-Detection & Redirection
+    (function() {
+      const isMobile = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      const urlParams = new URLSearchParams(window.location.search);
+      if (isMobile && urlParams.get('view') !== 'desktop') {
+        const path = window.location.pathname;
+        if (path.endsWith('/') || path.endsWith('/index.html')) {
+          const base = path.replace(/index\.html$/, '');
+          const sep = base.endsWith('/') ? '' : '/';
+          window.location.replace(base + sep + 'mobile/');
+        }
+      }
+    })();
+  </script>
   <style>
     :root {
       --bg: #05070b;
@@ -549,7 +561,7 @@
       .hero-strip {
         grid-template-columns: repeat(3, 1fr) !important;
       }
-      .grid-split {
+      .grid-2, .grid-3, .grid-split {
         grid-template-columns: 1fr !important;
       }
     }
@@ -585,6 +597,17 @@
       }
       .metric-value {
         font-size: 1.35rem !important;
+      }
+      .grid-2, .grid-3, .grid-split {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+      .card {
+        padding: 1.1rem !important;
+      }
+      .terminal {
+        height: 220px !important;
+        font-size: 0.75rem !important;
       }
       main {
         padding: 0 0.85rem !important;

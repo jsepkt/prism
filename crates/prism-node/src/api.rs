@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 use tower_http::cors::{Any, CorsLayer};
 
 const DASHBOARD_HTML: &str = include_str!("../../../apps/dashboard/index.html");
+const MOBILE_HTML: &str = include_str!("../../../apps/mobile/index.html");
 
 #[derive(Serialize)]
 struct HealthResponse {
@@ -36,6 +37,8 @@ pub fn create_router(service: NodeService) -> Router {
 
     Router::new()
         .route("/", get(dashboard_handler))
+        .route("/mobile", get(mobile_handler))
+        .route("/mobile/", get(mobile_handler))
         .route("/health", get(health_handler))
         .route("/api/v1/state", get(state_handler))
         .route("/api/v1/blocks/latest", get(latest_block_handler))
@@ -50,6 +53,10 @@ pub fn create_router(service: NodeService) -> Router {
 
 async fn dashboard_handler() -> impl IntoResponse {
     Html(DASHBOARD_HTML)
+}
+
+async fn mobile_handler() -> impl IntoResponse {
+    Html(MOBILE_HTML)
 }
 
 async fn health_handler(State(svc): State<NodeService>) -> impl IntoResponse {
