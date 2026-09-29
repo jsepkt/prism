@@ -8,6 +8,7 @@ members = [
     "crates/prism-p2p",
     "crates/prism-agent",
     "crates/prism-node",
+    "crates/prism-cli",
 ]
 
 [workspace.package]

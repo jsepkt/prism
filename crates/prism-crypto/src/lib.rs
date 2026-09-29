@@ -188,6 +188,14 @@ impl Keypair {
         let dalek_sig = self.signing_key.sign(message);
         Signature(dalek_sig.to_bytes())
     }
+
+    pub fn secret_bytes(&self) -> [u8; 32] {
+        self.signing_key.to_bytes()
+    }
+
+    pub fn private_key_hex(&self) -> String {
+        hex::encode(self.secret_bytes())
+    }
 }
 
 /// Supported hardware attestation providers for Anti-Sybil protection
