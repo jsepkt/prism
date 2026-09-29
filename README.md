@@ -3,11 +3,18 @@
 [![Rust](https://img.shields.io/badge/rust-1.90+-orange.svg)](https://www.rust-lang.org)
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 [![Consensus](https://img.shields.io/badge/consensus-PoAC-indigo.svg)](crates/prism-consensus)
+[![Live Demo](https://img.shields.io/badge/demo-Live%20Showcase-indigo.svg)](https://jsepkt.github.io/prism/)
+[![Docs](https://img.shields.io/badge/docs-Developer%20Portal-cyan.svg)](https://jsepkt.github.io/prism/docs/)
 [![TypeScript SDK](https://img.shields.io/badge/sdk-typescript-3178C6.svg)](sdk/typescript)
+[![Python SDK](https://img.shields.io/badge/sdk-python-3776AB.svg)](sdk/python)
+[![Mobile App](https://img.shields.io/badge/mobile-Expo%20%7C%20iOS%20%7C%20Android-black.svg)](apps/mobile-native)
 [![Whitepaper](https://img.shields.io/badge/docs-Whitepaper%20v1.0-emerald.svg)](WHITEPAPER.md)
-[![Docker](https://img.shields.io/badge/docker-ready-2496ED.svg)](docker-compose.yml)
 
 **Prism Network** is a next-generation Layer-1 blockchain engineered specifically for the post-cloud AI era. Unlike legacy blockchains designed purely for financial speculation, Prism turns everyday human digital activity into **sovereign, encrypted, income-generating digital assets**.
+
+* **Live Web App & Wallet**: [https://jsepkt.github.io/prism/](https://jsepkt.github.io/prism/)
+* **Mobile Web View**: [https://jsepkt.github.io/prism/mobile/](https://jsepkt.github.io/prism/mobile/)
+* **Interactive Developer Documentation**: [https://jsepkt.github.io/prism/docs/](https://jsepkt.github.io/prism/docs/)
 
 ---
 
@@ -23,7 +30,7 @@
    - **2,500 per million (0.25% / 25 BPS)** permanent deflationary burn.
    - Zero tax on everyday consumers—data dividends are delivered 100% net to participating edge users.
 7. **P2P Gossip Network**: Peer-to-peer length-delimited wire protocol for distributed block and transaction propagation.
-8. **World-Class Web3 Dashboard**: Embedded dark-glassmorphism dashboard with real-time interactive particle physics, ZK-SNARK synthesizer, Live RPC terminal, and network explorer.
+8. **World-Class Web3 Dashboard & Mobile App**: Embedded dark-glassmorphism dashboard with real-time interactive particle physics, Sovereign Web Wallet, 3D icons, Autonomous Intent Clearinghouse, and JSON-RPC terminal.
 
 ---
 
@@ -33,6 +40,7 @@
 Prism/
 ├── Cargo.toml                  # Cargo Workspace configuration
 ├── WHITEPAPER.md               # Official Academic Whitepaper v1.0
+├── GRANTS.md                   # Grants application guide (Gitcoin, Arbitrum, Solana)
 ├── Dockerfile                  # Multi-stage container build
 ├── docker-compose.yml          # 3-Node local P2P cluster
 ├── crates/
@@ -44,9 +52,17 @@ Prism/
 │   ├── prism-agent/            # Autonomous Intent Solvers & Algorithmic Bidding
 │   └── prism-node/             # Full Node binary, Mempool, REST & JSON-RPC API, Web Dashboard
 ├── apps/
-│   └── dashboard/index.html    # Interactive Web Dashboard & Block Explorer
-└── sdk/
-    └── typescript/             # Official TypeScript SDK (@prism-network/sdk)
+│   ├── dashboard/index.html    # Interactive Web Dashboard, Sovereign Wallet & Block Explorer
+│   ├── mobile/index.html       # Responsive Mobile Web App with 3D Icons & Bottom Dock
+│   └── mobile-native/          # React Native Expo Starter (HealthKit & Biometrics)
+├── docs/
+│   └── index.html              # Interactive Developer Documentation Portal
+├── sdk/
+│   ├── typescript/             # Official TypeScript SDK (@prism-network/sdk)
+│   └── python/                 # Official Python SDK & Developer CLI (`prism-sdk`)
+└── scripts/
+    ├── install.sh              # 1-Line Bash installer for Linux/macOS
+    └── install.ps1             # 1-Line PowerShell installer for Windows
 ```
 
 ---
@@ -101,6 +117,28 @@ cd sdk/typescript
 npm install
 npm run build
 npm test
+```
+
+### 6. Install & Run the Official Python SDK & CLI (`prism`)
+```bash
+cd sdk/python
+pip install -e .
+
+# Check local validator health
+prism status
+
+# Generate autonomous agent Ed25519 keypair
+prism keygen
+
+# Run autonomous AI training pipeline
+python examples/ai_training_pipeline.py
+```
+
+### 7. Run the React Native Mobile Template (iOS / Android)
+```bash
+cd apps/mobile-native
+npm install
+npx expo start
 ```
 
 ---
