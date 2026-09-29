@@ -53,6 +53,21 @@ Prism/
 
 ## 🚀 Quickstart Guide
 
+### ⚡ 1-Line Universal Node Installer
+Run this in your terminal to instantly download, compile, and install the Prism Node client:
+
+**Linux & macOS:**
+```bash
+curl -sSL https://raw.githubusercontent.com/jsepkt/prism/main/scripts/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/jsepkt/prism/main/scripts/install.ps1 | iex
+```
+
+---
+
 ### 1. Run the Workspace Tests
 ```bash
 cargo test
