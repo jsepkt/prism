@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "prism-network"
+version = "0.1.0"
+description = "Official Python SDK for Prism Network: Sovereign Context & Edge-AI Ledger"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT OR Apache-2.0"
+authors = [
+    { name = "jsepkt", email = "120427427+jsepkt@users.noreply.github.com" }
+]
+keywords = ["blockchain", "zero-knowledge", "edge-ai", "privacy", "web3"]
+dependencies = [
+    "httpx>=0.24.0",
+    "pydantic>=2.0.0",
+    "cryptography>=41.0.0",
+]
+
+[project.scripts]
+prism = "prism.cli:main"
+
+[project.urls]
+Homepage = "https://jsepkt.github.io/prism/"
+Repository = "https://github.com/jsepkt/prism"
