@@ -355,12 +355,20 @@
         <button class="btn btn-sm btn-outline-light px-3 rounded-pill" onclick="switchTab('terminal')">
           <i class="bi bi-terminal me-1"></i> RPC Console
         </button>
+        <button class="btn btn-sm btn-outline-info px-3 rounded-pill" onclick="goToDocs()">
+          <i class="bi bi-book me-1"></i> Docs
+        </button>
       </nav>
 
-      <!-- Network Status Badge -->
-      <div class="d-flex align-items-center gap-2 bg-success bg-opacity-10 border border-success border-opacity-25 px-2 py-1 rounded-pill">
-        <span class="pulse-dot-emerald"></span>
-        <span class="small fw-bold text-success font-monospace" id="statusBadge" style="font-size: 0.72rem;">PoAC #0</span>
+      <!-- Network Status Badge & Docs Quicklink -->
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-info rounded-pill px-2 py-1 d-md-none" style="font-size: 0.72rem;" onclick="goToDocs()">
+          <i class="bi bi-book me-1"></i> Docs
+        </button>
+        <div class="d-flex align-items-center gap-1 bg-success bg-opacity-10 border border-success border-opacity-25 px-2 py-1 rounded-pill">
+          <span class="pulse-dot-emerald"></span>
+          <span class="small fw-bold text-success font-monospace" id="statusBadge" style="font-size: 0.72rem;">PoAC #0</span>
+        </div>
       </div>
     </header>
 
@@ -681,39 +689,98 @@
 
     <!-- TAB 4: INTENT SOLVERS -->
     <section id="tab-intents" class="tab-content-pane d-none">
-      <div class="glass-card p-3">
-        <h6 class="fw-bold text-white mb-2"><i class="bi bi-lightning-charge me-1 text-warning"></i> Autonomous Intent Clearinghouse</h6>
-        <p class="text-secondary small mb-3" style="font-size: 0.75rem;">AI Agents publish purchase intents; competing solvers bid to execute at lowest cost with 0 middleman.</p>
-
-        <div class="row g-2 mb-3">
-          <div class="col-12 col-md-8">
-            <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="e.g. Find roundtrip flight SFO-NRT under $780" value="Roundtrip Flight SFO -> Tokyo (NRT) under $750">
+      <div class="glass-card p-3 p-md-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div>
+            <h6 class="fw-bold text-white mb-1"><i class="bi bi-lightning-charge-fill me-1 text-warning"></i> Autonomous Intent Clearinghouse</h6>
+            <p class="text-secondary small mb-0" style="font-size: 0.76rem;">Declare economic intents; competing autonomous AI solvers bid to execute at lowest cost with 0 middleman.</p>
           </div>
-          <div class="col-12 col-md-4">
-            <button class="btn btn-sm btn-prism-primary w-100" onclick="alert('Intent published to solver gossip mesh!')">
-              Broadcast Intent
+          <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">P2P GOSSIP MESH</span>
+        </div>
+
+        <!-- Quick Presets -->
+        <div class="d-flex gap-2 overflow-x-auto pb-2 mb-3" style="white-space: nowrap;">
+          <button class="btn btn-sm btn-outline-secondary rounded-pill text-nowrap" style="font-size: 0.72rem;" onclick="setIntentPreset('flight')">
+            ✈️ Flight SFO-DEN ($400)
+          </button>
+          <button class="btn btn-sm btn-outline-secondary rounded-pill text-nowrap" style="font-size: 0.72rem;" onclick="setIntentPreset('gpu')">
+            ⚡ 8x H100 GPU Cluster ($180)
+          </button>
+          <button class="btn btn-sm btn-outline-secondary rounded-pill text-nowrap" style="font-size: 0.72rem;" onclick="setIntentPreset('ride')">
+            🚗 ZK Rideshare ($28)
+          </button>
+          <button class="btn btn-sm btn-outline-secondary rounded-pill text-nowrap" style="font-size: 0.72rem;" onclick="setIntentPreset('llm')">
+            🧠 Confidential LLM Eval ($65)
+          </button>
+        </div>
+
+        <!-- Intent Input Form -->
+        <div class="row g-2 mb-3">
+          <div class="col-12 col-md-7">
+            <label class="form-label text-secondary small mb-1" style="font-size: 0.72rem;">Intent Description</label>
+            <input type="text" id="intentDesc" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Describe the outcome you want achieved..." value="Direct flight SFO -> DEN under 400 PRISM with extra legroom">
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label text-secondary small mb-1" style="font-size: 0.72rem;">Max Budget (PRISM)</label>
+            <input type="number" id="intentBudget" class="form-control form-control-sm bg-dark text-white border-secondary" value="400" min="10" step="5">
+          </div>
+          <div class="col-6 col-md-2 d-flex align-items-end">
+            <button id="btnBroadcastIntent" class="btn btn-sm btn-prism-primary w-100 py-1" onclick="broadcastIntentAuction()">
+              <i class="bi bi-broadcast me-1"></i> Broadcast
             </button>
           </div>
         </div>
 
-        <div class="p-3 rounded bg-black bg-opacity-30 border border-white-subtle">
+        <!-- Live Auction Simulation Area -->
+        <div id="auctionBox" class="p-3 rounded bg-black bg-opacity-40 border border-white-subtle">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="fw-bold text-white small">Live Bidding Auction · Intent #892</span>
-            <span class="badge bg-info bg-opacity-10 text-info">3 Solvers Competing</span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="pulse-dot-emerald" id="auctionDot" style="display: none;"></span>
+              <span class="fw-bold text-white small" id="auctionTitle">Live Bidding Mesh · Ready</span>
+            </div>
+            <span class="badge bg-info bg-opacity-10 text-info font-monospace" id="auctionBadge">3 Solvers Online</span>
           </div>
-          <div class="font-monospace small text-secondary">
+
+          <!-- Progress / Status bar -->
+          <div id="auctionProgressContainer" class="progress mb-3 bg-dark" style="height: 4px; display: none;">
+            <div id="auctionProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 0%"></div>
+          </div>
+
+          <!-- Solver Bids Table -->
+          <div class="font-monospace small text-secondary" id="solverBidsList">
             <div class="d-flex justify-content-between py-1 border-bottom border-white-subtle">
-              <span>Solver Alpha (Direct Airline API):</span>
-              <span class="text-success fw-bold">$718.00 (Winning)</span>
+              <span>Solver Alpha (Direct Carrier API):</span>
+              <span class="text-success fw-bold" id="bidAlpha">$340.00 (15.0% Saved)</span>
             </div>
             <div class="d-flex justify-content-between py-1 border-bottom border-white-subtle">
-              <span>Solver Beta (OTA Liquidity Pool):</span>
-              <span class="text-secondary">$735.50</span>
+              <span>Solver Beta (P2P Liquidity Routing):</span>
+              <span class="text-secondary" id="bidBeta">$365.00 (8.7% Saved)</span>
             </div>
             <div class="d-flex justify-content-between py-1">
-              <span>Solver Gamma (Wholesale Seat):</span>
-              <span class="text-secondary">$742.00</span>
+              <span>Solver Gamma (Wholesale Inventory):</span>
+              <span class="text-secondary" id="bidGamma">$382.50 (4.3% Saved)</span>
             </div>
+          </div>
+
+          <!-- Winning Settlement Card -->
+          <div id="winningSettlementBox" class="mt-3 pt-3 border-top border-white-subtle" style="display: block;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white small fw-bold"><i class="bi bi-award-fill text-warning me-1"></i> Winning Solver: Solver Alpha</span>
+              <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 font-monospace" id="settlementSavingsBadge">SAVED 60.00 PRISM (15.0%)</span>
+            </div>
+            <div class="row g-2 p-2 rounded bg-white bg-opacity-5 mb-2 font-monospace" style="font-size: 0.73rem;">
+              <div class="col-6 text-secondary">Solver Bid:</div>
+              <div class="col-6 text-end text-white fw-bold" id="settlementBase">340.00 PRISM</div>
+              <div class="col-6 text-secondary">Builder Royalty (1.25%):</div>
+              <div class="col-6 text-end text-warning" id="settlementRoyalty">4.25 PRISM</div>
+              <div class="col-6 text-secondary">Deflationary Burn (0.25%):</div>
+              <div class="col-6 text-end text-danger" id="settlementBurn">0.85 PRISM</div>
+              <div class="col-6 text-secondary border-top border-white-subtle pt-1 fw-bold">Total Settled:</div>
+              <div class="col-6 text-end text-info border-top border-white-subtle pt-1 fw-bold" id="settlementTotal">345.10 PRISM</div>
+            </div>
+            <button id="btnExecuteIntentTx" class="btn btn-sm btn-success w-100 font-monospace fw-bold" onclick="executeWinningIntent()">
+              <i class="bi bi-check2-circle me-1"></i> Sign with Ed25519 &amp; Settle Intent On-Chain
+            </button>
           </div>
         </div>
       </div>
@@ -975,6 +1042,140 @@
         alert(`✓ Transfer Finalized!\nTx Hash: ${fakeHash}\n12,500/M (1.25%) Builder Royalty paid to builder treasury.`);
       }, 1200);
     }
+
+    // Intent Presets & Live Bidding Auction Engine
+    let currentWinningBid = 340.0;
+    let currentRoyalty = 4.25;
+    let currentBurn = 0.85;
+    let currentTotal = 345.10;
+
+    function setIntentPreset(type) {
+      triggerHaptic();
+      const desc = document.getElementById('intentDesc');
+      const budget = document.getElementById('intentBudget');
+      if (type === 'flight') {
+        desc.value = "Direct flight SFO -> DEN under 400 PRISM with extra legroom";
+        budget.value = "400";
+      } else if (type === 'gpu') {
+        desc.value = "Reserve 8x NVIDIA H100 SXM5 GPU cluster for 4 hours";
+        budget.value = "180";
+      } else if (type === 'ride') {
+        desc.value = "Confidential Zero-Knowledge Ride: Downtown to SFO Airport";
+        budget.value = "28";
+      } else if (type === 'llm') {
+        desc.value = "Blind Zero-Knowledge benchmark evaluation for medical LLM";
+        budget.value = "65";
+      }
+      broadcastIntentAuction();
+    }
+
+    function broadcastIntentAuction() {
+      triggerHaptic();
+      const budget = parseFloat(document.getElementById('intentBudget').value) || 100;
+      const desc = document.getElementById('intentDesc').value;
+      const btn = document.getElementById('btnBroadcastIntent');
+      const progCont = document.getElementById('auctionProgressContainer');
+      const progBar = document.getElementById('auctionProgressBar');
+      const dot = document.getElementById('auctionDot');
+      const title = document.getElementById('auctionTitle');
+      const badge = document.getElementById('auctionBadge');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Bidding...';
+      progCont.style.display = 'block';
+      progBar.style.width = '10%';
+      dot.style.display = 'inline-block';
+      title.innerText = 'P2P Gossip Auction Active...';
+      badge.innerText = 'Evaluating Solvers...';
+      badge.className = 'badge bg-warning bg-opacity-10 text-warning font-monospace';
+
+      termLog(`[Intent Gossip] Broadcasted: "${desc.substring(0, 32)}..." (Max: ${budget} PRISM)`, "info");
+
+      setTimeout(() => {
+        progBar.style.width = '50%';
+        termLog(`[Solver Mesh] 3 autonomous solvers detected candidate matching execution paths`, "info");
+      }, 500);
+
+      setTimeout(() => {
+        progBar.style.width = '100%';
+
+        // Solvers calculate discounts
+        const discountAlpha = 0.15 + (Math.random() * 0.05); // 15-20% discount
+        const discountBeta = 0.08 + (Math.random() * 0.04);  // 8-12% discount
+        const discountGamma = 0.03 + (Math.random() * 0.03); // 3-6% discount
+
+        const bidA = Math.round(budget * (1 - discountAlpha) * 100) / 100;
+        const bidB = Math.round(budget * (1 - discountBeta) * 100) / 100;
+        const bidC = Math.round(budget * (1 - discountGamma) * 100) / 100;
+
+        document.getElementById('bidAlpha').innerText = `${bidA.toFixed(2)} PRISM (${(discountAlpha * 100).toFixed(1)}% Saved)`;
+        document.getElementById('bidBeta').innerText = `${bidB.toFixed(2)} PRISM (${(discountBeta * 100).toFixed(1)}% Saved)`;
+        document.getElementById('bidGamma').innerText = `${bidC.toFixed(2)} PRISM (${(discountGamma * 100).toFixed(1)}% Saved)`;
+
+        currentWinningBid = bidA;
+        currentRoyalty = Math.round(((bidA * 12500) / 1000000) * 100) / 100;
+        currentBurn = Math.round(((bidA * 2500) / 1000000) * 100) / 100;
+        currentTotal = Math.round((currentWinningBid + currentRoyalty + currentBurn) * 100) / 100;
+
+        const savedAmount = Math.round((budget - bidA) * 100) / 100;
+        document.getElementById('settlementSavingsBadge').innerText = `SAVED ${savedAmount.toFixed(2)} PRISM (${(discountAlpha * 100).toFixed(1)}%)`;
+        document.getElementById('settlementBase').innerText = `${currentWinningBid.toFixed(2)} PRISM`;
+        document.getElementById('settlementRoyalty').innerText = `${currentRoyalty.toFixed(2)} PRISM`;
+        document.getElementById('settlementBurn').innerText = `${currentBurn.toFixed(2)} PRISM`;
+        document.getElementById('settlementTotal').innerText = `${currentTotal.toFixed(2)} PRISM`;
+
+        title.innerText = 'Auction Complete · Winning Bid Identified';
+        badge.innerText = 'Solver Alpha Won';
+        badge.className = 'badge bg-success bg-opacity-10 text-success font-monospace';
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-broadcast me-1"></i> Re-Broadcast';
+        setTimeout(() => {
+          progCont.style.display = 'none';
+        }, 600);
+
+        termLog(`[Auction Finalized] Solver Alpha won bid: ${currentWinningBid.toFixed(2)} PRISM (Saved ${savedAmount.toFixed(2)})`, "success");
+        termLog(`[Enshrined Royalty] 12,500 PPM ($${currentRoyalty.toFixed(2)}) routed to builder treasury`, "warn");
+      }, 1200);
+    }
+
+    function executeWinningIntent() {
+      triggerHaptic();
+      if (walletState.balance < currentTotal) {
+        alert(`Insufficient balance! Needed: ${currentTotal.toFixed(2)} PRISM, Available: ${walletState.balance.toFixed(2)} PRISM.\n\nClick 'Claim Faucet Drop' to receive testnet tokens.`);
+        return;
+      }
+
+      const btn = document.getElementById('btnExecuteIntentTx');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Signing with Ed25519 & Submitting...';
+
+      setTimeout(() => {
+        walletState.balance -= currentTotal;
+        localStorage.setItem('prism_wallet', JSON.stringify(walletState));
+        renderWallet();
+
+        const fakeHash = "0x" + Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+        termLog(`[ExecuteIntent] Settled ${currentWinningBid.toFixed(2)} PRISM -> Solver Alpha (Tx: ${fakeHash.substring(0, 14)}...)`, "success");
+        termLog(`[Treasury Royalty] 1.25% fee (+${currentRoyalty.toFixed(2)} PRISM) paid to builder treasury`, "warn");
+        termLog(`[Consensus Burn] 0.25% fee (-${currentBurn.toFixed(2)} PRISM) permanently burned from supply`, "info");
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i> Sign with Ed25519 & Settle Intent On-Chain';
+
+        alert(`🎉 Intent Settled On-Chain!\n\nTx Hash: ${fakeHash}\nWinning Solver: Solver Alpha\nFinal Amount: ${currentWinningBid.toFixed(2)} PRISM\nEnshrined 1.25% Royalty: ${currentRoyalty.toFixed(2)} PRISM\nBurn: ${currentBurn.toFixed(2)} PRISM\n\n0 middleman. Executed peer-to-peer!`);
+      }, 1100);
+    }
+
+    function goToDocs() {
+      triggerHaptic();
+      if (window.location.pathname.includes('/mobile')) {
+        window.location.href = '../docs/';
+      } else {
+        window.location.href = 'docs/';
+      }
+    }
+
     // Tab Switching Function (Unified Mobile Dock + Desktop Nav)
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content-pane').forEach(el => el.classList.add('d-none'));

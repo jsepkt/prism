@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Prism Network · Developer Documentation &amp; Protocol Specification</title>
+  <meta name="description" content="Technical documentation, JSON-RPC API specification, ZK circuit architecture, and SDK guides for Prism Network.">
+  <meta name="theme-color" content="#030712">
+
+  <!-- Favicon / 3D Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,10 90,85 10,85' fill='url(%23g)'/%3E%3Cpolygon points='50,10 90,85 50,70' fill='%23fff' opacity='0.3'/%3E%3C/svg%3E">
+
+  <!-- Bootstrap 5.3 & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #030712;
+      --sidebar-bg: rgba(11, 15, 25, 0.95);
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --prism-indigo: #6366f1;
+      --prism-cyan: #06b6d4;
+      --prism-emerald: #10b981;
+      --prism-amber: #f59e0b;
+      --text-1: #f9fafb;
+      --text-2: #94a3b8;
+      --text-3: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-1);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    code, pre, .font-monospace {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Navbar */
+    .docs-navbar {
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      background: rgba(3, 7, 18, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* Sidebar Navigation */
+    .docs-sidebar {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      scrollbar-width: thin;
+    }
+
+    .docs-sidebar .nav-link {
+      color: var(--text-2);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .docs-sidebar .nav-link:hover,
+    .docs-sidebar .nav-link.active {
+      color: #ffffff;
+      background: rgba(99, 102, 241, 0.15);
+      font-weight: 600;
+    }
+
+    .sidebar-heading {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      padding-left: 0.75rem;
+    }
+
+    /* Content Area */
+    .docs-content {
+      padding: 2.5rem 2rem 5rem 2rem;
+      max-width: 940px;
+    }
+
+    /* Glass Cards */
+    .doc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Code Blocks */
+    .code-container {
+      background: #090d16;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1rem 0 1.5rem 0;
+    }
+
+    .code-header {
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-2);
+    }
+
+    .code-container pre {
+      margin: 0;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .btn-copy {
+      background: none;
+      border: none;
+      color: var(--text-3);
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .btn-copy:hover {
+      color: #ffffff;
+    }
+
+    /* Endpoint Method Badges */
+    .badge-get {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .badge-post {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    /* Callout Alert */
+    .doc-callout {
+      border-left: 4px solid var(--prism-indigo);
+      background: rgba(99, 102, 241, 0.08);
+      padding: 1rem 1.25rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.5rem 0;
+    }
+
+    .doc-callout-warning {
+      border-left-color: var(--prism-amber);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    /* Interactive API Sandbox */
+    .sandbox-result {
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.78rem;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    /* Brand Logo */
+    .brand-logo-3d {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.45));
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER NAVBAR -->
+  <header class="docs-navbar d-flex align-items-center justify-content-between px-3 px-md-4">
+    <div class="d-flex align-items-center gap-3">
+      <a href="../" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+        <div class="brand-logo-3d">
+          <svg viewBox="0 0 100 100" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pA" x1="50" y1="10" x2="15" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#818cf8"/>
+                <stop offset="1" stop-color="#4f46e5"/>
+              </linearGradient>
+              <linearGradient id="pB" x1="50" y1="10" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#06b6d4"/>
+                <stop offset="1" stop-color="#0284c7"/>
+              </linearGradient>
+            </defs>
+            <polygon points="50,14 15,84 50,68" fill="url(#pA)" opacity="0.95"/>
+            <polygon points="50,14 85,84 50,68" fill="url(#pB)" opacity="0.9"/>
+            <line x1="50" y1="14" x2="50" y2="68" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+        </div>
+        <span class="fw-bold tracking-wider fs-6 text-uppercase">PRISM <span class="badge bg-primary bg-opacity-25 text-info ms-1" style="font-size: 0.65rem;">DOCS v0.1</span></span>
+      </a>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <a href="../" class="btn btn-sm btn-outline-light rounded-pill px-3">
+        <i class="bi bi-wallet2 me-1"></i> Launch App
+      </a>
+      <a href="https://github.com/jsepkt/prism" target="_blank" rel="noopener" class="btn btn-sm btn-dark border-secondary rounded-pill px-3">
+        <i class="bi bi-github me-1"></i> GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER (SIDEBAR + CONTENT) -->
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- LEFT SIDEBAR -->
+      <nav class="col-md-3 col-lg-2 d-none d-md-block docs-sidebar">
+        <div class="sidebar-heading">Getting Started</div>
+        <a href="#overview" class="nav-link active"><i class="bi bi-compass"></i> Overview</a>
+        <a href="#architecture" class="nav-link"><i class="bi bi-diagram-3"></i> Architecture &amp; PoAC</a>
+        <a href="#install" class="nav-link"><i class="bi bi-terminal"></i> 1-Line Installer</a>
+
+        <div class="sidebar-heading">Economics &amp; Royalties</div>
+        <a href="#tokenomics" class="nav-link"><i class="bi bi-gem"></i> Enshrined Royalty (1.25%)</a>
+        <a href="#burn" class="nav-link"><i class="bi bi-fire"></i> Deflationary Burn (0.25%)</a>
+        <a href="#dividend" class="nav-link"><i class="bi bi-cash-coin"></i> Living Human Dividend</a>
+
+        <div class="sidebar-heading">Zero-Knowledge &amp; AI</div>
+        <a href="#circuits" class="nav-link"><i class="bi bi-shield-check"></i> Groth16 ZK Circuits</a>
+        <a href="#enclaves" class="nav-link"><i class="bi bi-fingerprint"></i> Hardware Enclaves</a>
+        <a href="#intents" class="nav-link"><i class="bi bi-lightning-charge"></i> Intent Clearinghouse</a>
+
+        <div class="sidebar-heading">JSON-RPC Reference</div>
+        <a href="#rpc-health" class="nav-link"><i class="bi bi-activity"></i> GET /health</a>
+        <a href="#rpc-state" class="nav-link"><i class="bi bi-layers"></i> GET /api/v1/state</a>
+        <a href="#rpc-blocks" class="nav-link"><i class="bi bi-box"></i> GET /api/v1/blocks/latest</a>
+        <a href="#rpc-account" class="nav-link"><i class="bi bi-person-badge"></i> GET /api/v1/accounts</a>
+        <a href="#rpc-bounties" class="nav-link"><i class="bi bi-cpu"></i> GET /api/v1/bounties</a>
+        <a href="#rpc-transactions" class="nav-link"><i class="bi bi-send"></i> POST /api/v1/transactions</a>
+        <a href="#rpc-faucet" class="nav-link"><i class="bi bi-droplet"></i> POST /api/v1/dev/faucet</a>
+
+        <div class="sidebar-heading">Developer SDKs</div>
+        <a href="#sdk-ts" class="nav-link"><i class="bi bi-filetype-tsx"></i> TypeScript SDK</a>
+        <a href="#sdk-python" class="nav-link"><i class="bi bi-filetype-py"></i> Python AI Lab SDK</a>
+        <a href="#sdk-mobile" class="nav-link"><i class="bi bi-phone"></i> React Native Expo App</a>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <main class="col-md-9 col-lg-10 ms-sm-auto docs-content">
+
+        <!-- SECTION: OVERVIEW -->
+        <section id="overview" class="mb-5">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-primary bg-opacity-20 text-info font-monospace">PROTOCOL OVERVIEW</span>
+          </div>
+          <h1 class="display-6 fw-bold text-white mb-3">Prism Network Technical Specification</h1>
+          <p class="lead text-secondary">
+            Prism is a purpose-built Layer-1 blockchain introducing <strong>Proof-of-Attested-Context (PoAC)</strong>. 
+            It empowers smartphone users to convert private everyday human context (health metrics, geographic mobility, financial solvency) 
+            into sovereign digital wealth using <strong>Zero-Knowledge Edge AI</strong> and confidential hardware enclaves.
+          </p>
+
+          <div class="doc-callout">
+            <h6 class="fw-bold text-white mb-1"><i class="bi bi-shield-lock me-1 text-info"></i> Zero Raw Data Exposure</h6>
+            <p class="mb-0 text-secondary small">
+              Unlike legacy surveillance ad-tech where private personal data is harvested into centralized databases, Prism executes 
+              computation 100% on the user's mobile device inside Apple Secure Enclave or Android StrongBox. Only Groth16 zero-knowledge mathematical proofs 
+              are ever broadcast to the ledger.
+            </p>
+          </div>
+        </section>
+
+        <!-- SECTION: ARCHITECTURE -->
+        <section id="architecture" class="mb-5">
+          <h3 class="fw-bold text-white mb-3"><i class="bi bi-diagram-3 me-2 text-info"></i> Consensus Architecture: PoAC</h3>
+          <p class="text-secondary">
+            <strong>Proof-of-Attested-Context (PoAC)</strong> replaces energy-intensive Proof-of-Work and capital-centralizing Proof-of-Stake. 
+            Blocks are proposed by attested validator nodes and validated against cryptographically verified zero-knowledge batch proofs.
+          </p>
+
+          <div class="row g-3 my-2">
+            <div class="col-md-4">
+              <div class="doc-card h-100">
+                <div class="fw-bold text-info mb-1"><i class="bi bi-cpu me-1"></i> Edge Proving</div>
+                <div class="small text-secondary">Smartphones generate Bellman/Circom Groth16 ZK proofs locally in &lt;450ms.</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="doc-card h-100">
+                <div class="fw-bold text-success mb-1"><i class="bi bi-shield-check me-1"></i> Cohort Aggregation</div>
+                <div class="small text-secondary">Queries require a threshold of <code>k</code> distinct proofs before bounty escrow is unlocked.</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="doc-card h-100">
+                <div class="fw-bold text-warning mb-1"><i class="bi bi-gem me-1"></i> Builder Royalties</div>
+                <div class="small text-secondary">Protocol enshrines 1.25% royalty on all settlements, funding long-term network core R&amp;D.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: 1-LINE INSTALLER -->
+        <section id="install" class="mb-5">
+          <h3 class="fw-bold text-white mb-3"><i class="bi bi-terminal me-2 text-info"></i> 1-Line Node Installation</h3>
+          <p class="text-secondary">
+            Run a full Prism validator node with consensus verification, mempool gossip, and local JSON-RPC API in one command:
+          </p>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Linux &amp; macOS (Bash)</span>
+              <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button>
+            </div>
+            <pre><code>curl -sSL https://raw.githubusercontent.com/jsepkt/prism/main/scripts/install.sh | bash</code></pre>
+          </div>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span>Windows (PowerShell)</span>
+              <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button>
+            </div>
+            <pre><code>irm https://raw.githubusercontent.com/jsepkt/prism/main/scripts/install.ps1 | iex</code></pre>
+          </div>
+        </section>
+
+        <!-- SECTION: TOKENOMICS -->
+        <section id="tokenomics" class="mb-5">
+          <h3 class="fw-bold text-white mb-3"><i class="bi bi-gem me-2 text-warning"></i> Enshrined Builder Royalty (1.25%)</h3>
+          <p class="text-secondary">
+            Prism eliminates the traditional token grant cliff and speculative VC dump dynamics by enshrining a strict protocol invariant:
+          </p>
+
+          <div class="doc-card font-monospace">
+            <div class="row text-center g-3">
+              <div class="col-md-4 border-end border-white-subtle">
+                <div class="h4 fw-bold text-warning mb-0">12,500 PPM</div>
+                <div class="small text-secondary">1.25% Builder Royalty</div>
+                <div class="text-muted" style="font-size: 0.72rem;">Permanently routed to Founder Treasury</div>
+              </div>
+              <div class="col-md-4 border-end border-white-subtle">
+                <div class="h4 fw-bold text-danger mb-0">2,500 PPM</div>
+                <div class="small text-secondary">0.25% Deflationary Burn</div>
+                <div class="text-muted" style="font-size: 0.72rem;">Permanently destroyed from supply</div>
+              </div>
+              <div class="col-md-4">
+                <div class="h4 fw-bold text-success mb-0">100%</div>
+                <div class="small text-secondary">Net Human Dividend</div>
+                <div class="text-muted" style="font-size: 0.72rem;">Direct to verified Edge Devices</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: JSON-RPC REFERENCE -->
+        <section id="rpc-health" class="mb-5">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-secondary font-monospace">API REFERENCE</span>
+          </div>
+          <h3 class="fw-bold text-white mb-3">JSON-RPC Endpoints</h3>
+
+          <!-- ENDPOINT: GET /health -->
+          <div class="doc-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-get px-2 py-1">GET</span>
+              <span class="font-monospace text-white fw-bold">/health</span>
+            </div>
+            <p class="text-secondary small mb-3">Returns node consensus health, latest block height, latest block hash, and active validator public key.</p>
+
+            <div class="d-flex gap-2 mb-2">
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="testRpcEndpoint('/health', 'res-health')">
+                <i class="bi bi-play-fill me-1"></i> Try Live
+              </button>
+            </div>
+            <div class="sandbox-result d-none" id="res-health"></div>
+
+            <div class="code-container mt-2">
+              <div class="code-header">
+                <span>Example Curl</span>
+                <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button>
+              </div>
+              <pre><code>curl -s http://127.0.0.1:8545/health</code></pre>
+            </div>
+          </div>
+
+          <!-- ENDPOINT: GET /api/v1/state -->
+          <div class="doc-card" id="rpc-state">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-get px-2 py-1">GET</span>
+              <span class="font-monospace text-white fw-bold">/api/v1/state</span>
+            </div>
+            <p class="text-secondary small mb-3">Returns global ledger state totals: accounts count, registered bounties, and active context schemas.</p>
+
+            <div class="d-flex gap-2 mb-2">
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="testRpcEndpoint('/api/v1/state', 'res-state')">
+                <i class="bi bi-play-fill me-1"></i> Try Live
+              </button>
+            </div>
+            <div class="sandbox-result d-none" id="res-state"></div>
+          </div>
+
+          <!-- ENDPOINT: GET /api/v1/blocks/latest -->
+          <div class="doc-card" id="rpc-blocks">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-get px-2 py-1">GET</span>
+              <span class="font-monospace text-white fw-bold">/api/v1/blocks/latest</span>
+            </div>
+            <p class="text-secondary small mb-3">Returns the latest PoAC block object with header, state root, and transaction hashes.</p>
+
+            <div class="d-flex gap-2 mb-2">
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="testRpcEndpoint('/api/v1/blocks/latest', 'res-blocks')">
+                <i class="bi bi-play-fill me-1"></i> Try Live
+              </button>
+            </div>
+            <div class="sandbox-result d-none" id="res-blocks"></div>
+          </div>
+
+          <!-- ENDPOINT: GET /api/v1/bounties -->
+          <div class="doc-card" id="rpc-bounties">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-get px-2 py-1">GET</span>
+              <span class="font-monospace text-white fw-bold">/api/v1/bounties</span>
+            </div>
+            <p class="text-secondary small mb-3">Lists all active AI query bounties, escrow deposits, threshold cohort sizes, and qualification states.</p>
+
+            <div class="d-flex gap-2 mb-2">
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="testRpcEndpoint('/api/v1/bounties', 'res-bounties')">
+                <i class="bi bi-play-fill me-1"></i> Try Live
+              </button>
+            </div>
+            <div class="sandbox-result d-none" id="res-bounties"></div>
+          </div>
+
+          <!-- ENDPOINT: POST /api/v1/transactions -->
+          <div class="doc-card" id="rpc-transactions">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-post px-2 py-1">POST</span>
+              <span class="font-monospace text-white fw-bold">/api/v1/transactions</span>
+            </div>
+            <p class="text-secondary small mb-2">Submits a signed Ed25519 transaction to the PoAC mempool.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Payload Schema</span></div>
+              <pre><code>{
+  "sender": "03dc8c5218b010c793132e48e025b3991207e997a3c3330cb7ec0d26859e4e6c",
+  "recipient": "0000000000000000000000000000000000000000000000000000000000000001",
+  "amount": 500,
+  "nonce": 0,
+  "signature": "3045022100e4...",
+  "payload_type": "transfer"
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- ENDPOINT: POST /api/v1/dev/faucet -->
+          <div class="doc-card" id="rpc-faucet">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-post px-2 py-1">POST</span>
+              <span class="font-monospace text-white fw-bold">/api/v1/dev/faucet</span>
+            </div>
+            <p class="text-secondary small mb-2">Requests testnet PRISM tokens for local development and wallet testing.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Curl Example</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code>curl -X POST http://127.0.0.1:8545/api/v1/dev/faucet \
+  -H "Content-Type: application/json" \
+  -d '{"pubkey": "YOUR_PUBKEY_HEX", "amount": 1000}'</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: SDK GUIDES -->
+        <section id="sdk-ts" class="mb-5">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-primary bg-opacity-20 text-info font-monospace">CLIENT LIBRARIES</span>
+          </div>
+          <h3 class="fw-bold text-white mb-3">Multi-Platform SDK Ecosystem</h3>
+
+          <!-- TYPESCRIPT SDK -->
+          <div class="doc-card mb-4">
+            <h5 class="fw-bold text-white mb-2"><i class="bi bi-filetype-tsx me-2 text-primary"></i> TypeScript SDK (`@prism-network/sdk`)</h5>
+            <p class="text-secondary small mb-2">Works in modern web browsers, Node.js, and Bun. Includes Ed25519 signing and cohort query client.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Installation &amp; Usage</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code>import { PrismClient, CryptoUtils } from '@prism-network/sdk';
+
+const client = new PrismClient({ rpcUrl: 'http://127.0.0.1:8545' });
+const health = await client.getHealth();
+console.log(`Connected to PoAC Block #${health.block_height}`);
+
+// Request Faucet Tokens
+const faucetRes = await client.requestFaucet('YOUR_PUBKEY_HEX', 1000);
+console.log(`New Balance: ${faucetRes.new_balance} PRISM`);</code></pre>
+            </div>
+          </div>
+
+          <!-- PYTHON SDK -->
+          <div class="doc-card mb-4" id="sdk-python">
+            <h5 class="fw-bold text-white mb-2"><i class="bi bi-filetype-py me-2 text-warning"></i> Python SDK &amp; CLI (`prism-sdk`)</h5>
+            <p class="text-secondary small mb-2">Tailored for AI researchers, PyTorch/TensorFlow pipelines, and data scientists creating privacy cohorts.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Installation &amp; Usage</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code>pip install prism-sdk
+
+# CLI Commands
+prism status
+prism keygen
+prism faucet &lt;YOUR_PUBKEY_HEX&gt;
+prism account &lt;YOUR_PUBKEY_HEX&gt;
+prism bounties</code></pre>
+            </div>
+          </div>
+
+          <!-- REACT NATIVE MOBILE APP -->
+          <div class="doc-card" id="sdk-mobile">
+            <h5 class="fw-bold text-white mb-2"><i class="bi bi-phone me-2 text-success"></i> React Native Expo Smartphone Template</h5>
+            <p class="text-secondary small mb-2">Complete native mobile starter kit in <code>apps/mobile-native</code> with Apple HealthKit, Google Health Connect, and FaceID hardware attestation.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Running the Native App</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code>cd apps/mobile-native
+npm install
+npx expo start</code></pre>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function copyCode(btn) {
+      const code = btn.closest('.code-container').querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check text-success"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = original; }, 2000);
+      });
+    }
+
+    async function testRpcEndpoint(path, resultId) {
+      const el = document.getElementById(resultId);
+      el.classList.remove('d-none');
+      el.innerHTML = '<span class="text-secondary font-monospace"><span class="spinner-border spinner-border-sm me-1"></span> Fetching...</span>';
+
+      try {
+        const res = await fetch(path).catch(() => null);
+        if (res && res.ok) {
+          const json = await res.json();
+          el.innerHTML = `<pre class="text-success m-0 font-monospace">${JSON.stringify(json, null, 2)}</pre>`;
+        } else {
+          // Fallback simulation if running on standalone GitHub Pages without local node
+          let mock = {};
+          if (path === '/health') {
+            mock = { status: "healthy", block_height: 89, latest_block_hash: "03dc8c5218b010c793132e48e025b3991207e997a3c3330cb7ec0d26859e4e6c", validator: "03dc8c5218b010c79313...", pending_mempool_txs: 0 };
+          } else if (path === '/api/v1/state') {
+            mock = { block_height: 89, total_accounts: 4, total_bounties: 2, total_schemas: 3 };
+          } else if (path === '/api/v1/blocks/latest') {
+            mock = { index: 89, hash: "049fa81bc329...", previous_hash: "03dc8c5218...", transactions_count: 2, state_root: "99fa771e..." };
+          } else if (path === '/api/v1/bounties') {
+            mock = [{ id: "bounty_health_01", sponsor: "HealthAICorp", escrow_amount: 50000, min_cohort_size: 10, reward_per_participant: 50 }];
+          }
+          el.innerHTML = `<div class="text-warning small mb-1">[Live Node Not Detected · Showing Simulated PoAC Response]</div><pre class="text-info m-0 font-monospace">${JSON.stringify(mock, null, 2)}</pre>`;
+        }
+      } catch (err) {
+        el.innerHTML = `<span class="text-danger font-monospace">Error: ${err.message}</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
