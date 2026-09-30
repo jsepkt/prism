@@ -1,6 +1,8 @@
+pub mod bft;
 pub mod engine;
 pub mod validator;
 
+pub use bft::{BftError, BftRoundTracker, BftVote, EquivocationProof, VoteStage, MIN_VALIDATOR_STAKE};
 pub use engine::{ConsensusError, PoacConsensusEngine};
 pub use validator::Validator;
 

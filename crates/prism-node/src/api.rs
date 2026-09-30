@@ -51,6 +51,7 @@ pub fn create_router(service: NodeService) -> Router {
         .route("/api/v1/schemas", get(get_schemas_handler))
         .route("/api/v1/transactions", post(submit_transaction_handler))
         .route("/api/v1/dev/faucet", post(faucet_handler))
+        .layer(axum::extract::DefaultBodyLimit::max(2 * 1024 * 1024))
         .layer(cors)
         .with_state(service)
 }
