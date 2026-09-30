@@ -3,6 +3,7 @@ pub mod block;
 pub mod bounty;
 pub mod error;
 pub mod state;
+pub mod storage;
 pub mod transaction;
 
 pub use account::Account;
@@ -10,6 +11,7 @@ pub use block::{Block, BlockHeader};
 pub use bounty::{ContextSchema, QueryBounty};
 pub use error::StateError;
 pub use state::BlockchainState;
+pub use storage::PersistentLedgerStorage;
 pub use transaction::{Transaction, TransactionPayload};
 
 #[cfg(test)]

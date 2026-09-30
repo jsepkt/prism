@@ -27,13 +27,40 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!("     Sovereign Context Ledger & Edge-AI Autonomous Economy  ");
     info!("============================================================");
 
-    // 1. Initialize Validator Keypair (Genesis Validator)
-    let validator_kp = Keypair::generate();
+    // 1. Initialize Data Directory & Persistent Keystore
+    let data_dir = std::env::var("PRISM_DATA_DIR").unwrap_or_else(|_| "data".to_string());
+    let data_path = std::path::Path::new(&data_dir);
+    std::fs::create_dir_all(data_path)?;
+
+    let key_path = data_path.join("validator.key");
+    let validator_kp = if let Ok(env_key) = std::env::var("PRISM_VALIDATOR_KEY") {
+        let clean = env_key.trim().trim_start_matches("0x");
+        let bytes = hex::decode(clean)?;
+        let mut seed = [0u8; 32];
+        seed.copy_from_slice(&bytes[..32]);
+        info!("Loaded validator key from PRISM_VALIDATOR_KEY environment");
+        Keypair::from_bytes(&seed)
+    } else if key_path.exists() {
+        let hex_str = std::fs::read_to_string(&key_path)?;
+        let clean = hex_str.trim().trim_start_matches("0x");
+        let bytes = hex::decode(clean)?;
+        let mut seed = [0u8; 32];
+        seed.copy_from_slice(&bytes[..32]);
+        info!("Loaded persistent validator key from {}", key_path.display());
+        Keypair::from_bytes(&seed)
+    } else {
+        let kp = Keypair::generate();
+        std::fs::write(&key_path, kp.private_key_hex())?;
+        info!("Generated new persistent validator key saved to {}", key_path.display());
+        kp
+    };
+
     let validator_pubkey = validator_kp.public_key();
     info!("Validator Public Key: {}", validator_pubkey);
 
-    // 2. Initialize Core Node Service
-    let service = NodeService::new(validator_kp);
+    // 2. Initialize Persistent Storage Engine & Core Node Service
+    let storage = prism_core::PersistentLedgerStorage::new(&data_dir)?;
+    let service = NodeService::new(validator_kp).with_storage(storage.clone());
 
     // Register Validator in PoAC consensus engine
     {
@@ -41,13 +68,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         consensus.add_validator(Validator::new(validator_pubkey, 1_000_000));
     }
 
-    // Initialize Genesis Block and Genesis Account
-    {
+    // Load existing persistent state or initialize Genesis Block
+    if let Some(existing_state) = storage.load_state()? {
+        info!("Loaded persistent ledger state at block height #{}", existing_state.block_height);
+        let mut state = service.state.write().await;
+        *state = existing_state;
+        drop(state);
+
+        let existing_blocks = storage.load_all_blocks()?;
+        info!("Loaded {} persistent blocks from disk storage", existing_blocks.len());
+        let mut blocks = service.blocks.write().await;
+        *blocks = existing_blocks;
+    } else {
+        info!("No existing ledger state found. Initializing genesis state...");
         let mut state = service.state.write().await;
         state.set_balance(validator_pubkey, 10_000_000); // 10M PRISM genesis allocation
         let genesis_block = Block::genesis(validator_pubkey, Signature([0u8; 64]));
         state.latest_block_hash = genesis_block.hash();
-        info!("Genesis block committed. Hash: {}", genesis_block.hash());
+        storage.save_state(&state)?;
+        storage.append_block(&genesis_block)?;
+        let mut blocks = service.blocks.write().await;
+        blocks.push(genesis_block.clone());
+        info!("Genesis block committed and saved to disk. Hash: {}", genesis_block.hash());
     }
 
     // 3. Initialize P2P Network Engine

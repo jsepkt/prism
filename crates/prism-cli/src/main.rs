@@ -72,15 +72,17 @@ fn print_help() {
     println!("USAGE:");
     println!("    prism-cli <SUBCOMMAND> [OPTIONS]\n");
     println!("SUBCOMMANDS:");
-    println!("    status                Query local/remote PoAC node health & consensus height");
-    println!("    keygen                Generate a sovereign Ed25519 cryptographic keypair");
-    println!("    account <PUBKEY>      Fetch on-chain account balance and nonce");
-    println!("    faucet <PUBKEY> [AMT] Request devnet PRISM tokens from validator faucet");
-    println!("    prove [VALUE] [MIN]   Benchmark edge hardware & synthesize real Groth16 zk-CP proof");
-    println!("    intent [BUDGET]       Run autonomous multi-solver clearinghouse bidding simulation");
-    println!("    help                  Display this help message\n");
+    println!("    status                   Query local/remote PoAC node health & consensus height");
+    println!("    metrics                  Fetch real-time Prometheus telemetry metrics");
+    println!("    keygen                   Generate a sovereign Ed25519 cryptographic keypair");
+    println!("    keystore <create|inspect> Manage persistent validator / account keystores");
+    println!("    account <PUBKEY>         Fetch on-chain account balance and nonce");
+    println!("    faucet <PUBKEY> [AMT]    Request devnet PRISM tokens from validator faucet");
+    println!("    prove [VALUE] [MIN]      Benchmark edge hardware & synthesize real Groth16 zk-CP proof");
+    println!("    intent [BUDGET]          Run autonomous multi-solver clearinghouse bidding simulation");
+    println!("    help                     Display this help message\n");
     println!("OPTIONS:");
-    println!("    --rpc <URL>           Specify custom RPC URL (default: http://127.0.0.1:8545)");
+    println!("    --rpc <URL>              Specify custom RPC URL (default: http://127.0.0.1:8545)");
 }
 
 fn main() {
@@ -124,12 +126,94 @@ fn main() {
             println!("    [!] Secure your private key. Never share it with untrusted parties.\n");
         }
 
+        "keystore" => {
+            if clean_args.len() < 2 {
+                eprintln!("Usage: prism-cli keystore <create|inspect> [PATH]");
+                std::process::exit(1);
+            }
+            let subaction = clean_args[1].as_str();
+            match subaction {
+                "create" => {
+                    let path_str = if clean_args.len() >= 3 {
+                        &clean_args[2]
+                    } else {
+                        "validator.key"
+                    };
+                    let kp = Keypair::generate();
+                    let hex_key = kp.private_key_hex();
+                    if let Err(e) = std::fs::write(path_str, &hex_key) {
+                        eprintln!("[-] Failed to write keystore to {}: {}", path_str, e);
+                        std::process::exit(1);
+                    }
+                    println!("\n[+] New Sovereign Keystore Created Successfully!");
+                    println!("    File:        {}", path_str);
+                    println!("    Public Key:  0x{}", kp.public_key().to_hex());
+                    println!("    Private Key: 0x{}", hex_key);
+                    println!("    [!] Secure your keystore file. Never expose private keys publicly.\n");
+                }
+                "inspect" => {
+                    if clean_args.len() < 3 {
+                        eprintln!("Usage: prism-cli keystore inspect <PATH>");
+                        std::process::exit(1);
+                    }
+                    let path_str = &clean_args[2];
+                    match std::fs::read_to_string(path_str) {
+                        Ok(content) => {
+                            let clean = content.trim().trim_start_matches("0x");
+                            match hex::decode(clean) {
+                                Ok(bytes) if bytes.len() == 32 => {
+                                    let mut seed = [0u8; 32];
+                                    seed.copy_from_slice(&bytes);
+                                    let kp = Keypair::from_bytes(&seed);
+                                    println!("\n[+] Keystore Verified & Inspected:");
+                                    println!("    File:        {}", path_str);
+                                    println!("    Public Key:  0x{}", kp.public_key().to_hex());
+                                    println!("    Status:      Valid Ed25519 Secret Key (32-byte seed)\n");
+                                }
+                                Ok(bytes) => {
+                                    eprintln!("[-] Invalid key length in {}: expected 32 bytes, got {}", path_str, bytes.len());
+                                    std::process::exit(1);
+                                }
+                                Err(e) => {
+                                    eprintln!("[-] Failed to parse hex in {}: {}", path_str, e);
+                                    std::process::exit(1);
+                                }
+                            }
+                        }
+                        Err(e) => {
+                            eprintln!("[-] Failed to read keystore file {}: {}", path_str, e);
+                            std::process::exit(1);
+                        }
+                    }
+                }
+                other => {
+                    eprintln!("Unknown keystore action: '{}'. Use 'create' or 'inspect'.", other);
+                    std::process::exit(1);
+                }
+            }
+        }
+
         "status" => {
             println!("[*] Querying Prism Node at {}...", rpc_url);
             match http_request("GET", &format!("{}/health", rpc_url), None) {
                 Ok(resp) => {
                     println!("\n[+] Node Status: OK");
                     println!("    Response: {}", resp.trim());
+                }
+                Err(e) => {
+                    eprintln!("[-] Error connecting to node: {}", e);
+                    std::process::exit(1);
+                }
+            }
+        }
+
+        "metrics" => {
+            println!("[*] Fetching Prometheus telemetry from {}/metrics...", rpc_url);
+            match http_request("GET", &format!("{}/metrics", rpc_url), None) {
+                Ok(resp) => {
+                    println!("\n--- Prometheus Metrics ---");
+                    println!("{}", resp.trim());
+                    println!("--------------------------");
                 }
                 Err(e) => {
                     eprintln!("[-] Error connecting to node: {}", e);

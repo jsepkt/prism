@@ -19,8 +19,27 @@ pub enum CryptoError {
 }
 
 /// 32-byte cryptographic hash using BLAKE3
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Serialize, Deserialize)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 pub struct Hash(pub [u8; 32]);
+
+impl Serialize for Hash {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&self.to_hex())
+    }
+}
+
+impl<'de> Deserialize<'de> for Hash {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Hash::from_hex(&s).map_err(serde::de::Error::custom)
+    }
+}
 
 impl Hash {
     pub const ZERO: Hash = Hash([0u8; 32]);
@@ -38,7 +57,8 @@ impl Hash {
     }
 
     pub fn from_hex(s: &str) -> Result<Self, CryptoError> {
-        let bytes = hex::decode(s).map_err(|e| CryptoError::SerializationError(e.to_string()))?;
+        let clean = s.trim_start_matches("0x");
+        let bytes = hex::decode(clean).map_err(|e| CryptoError::SerializationError(e.to_string()))?;
         if bytes.len() != 32 {
             return Err(CryptoError::SerializationError("Invalid hash length".to_string()));
         }
@@ -76,8 +96,27 @@ pub fn hash_concat(slices: &[&[u8]]) -> Hash {
 }
 
 /// Ed25519 Public Key representation
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct PublicKey(pub [u8; 32]);
+
+impl Serialize for PublicKey {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&self.to_hex())
+    }
+}
+
+impl<'de> Deserialize<'de> for PublicKey {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        PublicKey::from_hex(&s).map_err(serde::de::Error::custom)
+    }
+}
 
 impl PublicKey {
     pub fn as_bytes(&self) -> &[u8; 32] {
@@ -89,7 +128,8 @@ impl PublicKey {
     }
 
     pub fn from_hex(s: &str) -> Result<Self, CryptoError> {
-        let bytes = hex::decode(s).map_err(|e| CryptoError::SerializationError(e.to_string()))?;
+        let clean = s.trim_start_matches("0x");
+        let bytes = hex::decode(clean).map_err(|e| CryptoError::SerializationError(e.to_string()))?;
         if bytes.len() != 32 {
             return Err(CryptoError::InvalidPublicKey);
         }

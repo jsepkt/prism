@@ -43,6 +43,7 @@ pub fn create_router(service: NodeService) -> Router {
         .route("/docs", get(docs_handler))
         .route("/docs/", get(docs_handler))
         .route("/health", get(health_handler))
+        .route("/metrics", get(metrics_handler))
         .route("/api/v1/state", get(state_handler))
         .route("/api/v1/blocks/latest", get(latest_block_handler))
         .route("/api/v1/accounts/:pubkey", get(get_account_handler))
@@ -77,6 +78,59 @@ async fn health_handler(State(svc): State<NodeService>) -> impl IntoResponse {
         pending_mempool_txs: mempool.size(),
     };
     Json(res)
+}
+
+async fn metrics_handler(State(svc): State<NodeService>) -> impl IntoResponse {
+    let state = svc.state.read().await;
+    let mempool = svc.mempool.read().await;
+    let p2p = svc.p2p.read().await;
+    let peer_count = if let Some(p) = p2p.as_ref() {
+        p.peer_count().await
+    } else {
+        0
+    };
+
+    let builder_treasury_balance = state.get_account(&state.builder_treasury).balance;
+
+    let body = format!(
+        "# HELP prism_block_height Current finalized block height of the PoAC ledger\n\
+         # TYPE prism_block_height gauge\n\
+         prism_block_height {}\n\n\
+         # HELP prism_total_accounts Total registered accounts in ledger state\n\
+         # TYPE prism_total_accounts gauge\n\
+         prism_total_accounts {}\n\n\
+         # HELP prism_total_bounties Total registered AI query bounties\n\
+         # TYPE prism_total_bounties gauge\n\
+         prism_total_bounties {}\n\n\
+         # HELP prism_total_schemas Total context schemas registered on-chain\n\
+         # TYPE prism_total_schemas gauge\n\
+         prism_total_schemas {}\n\n\
+         # HELP prism_mempool_pending_txs Number of transactions currently in mempool\n\
+         # TYPE prism_mempool_pending_txs gauge\n\
+         prism_mempool_pending_txs {}\n\n\
+         # HELP prism_total_burned_tokens Total PRISM permanently burned (0.25% deflation)\n\
+         # TYPE prism_total_burned_tokens counter\n\
+         prism_total_burned_tokens {}\n\n\
+         # HELP prism_builder_treasury_balance Total PRISM collected by builder treasury (1.25% royalty)\n\
+         # TYPE prism_builder_treasury_balance gauge\n\
+         prism_builder_treasury_balance {}\n\n\
+         # HELP prism_connected_peers Number of active peers in P2P gossip mesh\n\
+         # TYPE prism_connected_peers gauge\n\
+         prism_connected_peers {}\n",
+        state.block_height,
+        state.accounts.len(),
+        state.bounties.len(),
+        state.schemas.len(),
+        mempool.size(),
+        state.total_burned,
+        builder_treasury_balance,
+        peer_count,
+    );
+
+    (
+        [(axum::http::header::CONTENT_TYPE, "text/plain; version=0.0.4; charset=utf-8")],
+        body,
+    )
 }
 
 async fn state_handler(State(svc): State<NodeService>) -> impl IntoResponse {

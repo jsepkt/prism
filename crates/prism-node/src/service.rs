@@ -1,6 +1,6 @@
 use crate::mempool::Mempool;
 use prism_consensus::PoacConsensusEngine;
-use prism_core::{Block, BlockchainState, Transaction};
+use prism_core::{Block, BlockchainState, PersistentLedgerStorage, Transaction};
 use prism_crypto::{Hash, Keypair};
 use prism_p2p::P2pNode;
 use std::sync::Arc;
@@ -15,6 +15,7 @@ pub struct NodeService {
     pub validator_keypair: Arc<Keypair>,
     pub blocks: Arc<RwLock<Vec<Block>>>,
     pub p2p: Arc<RwLock<Option<Arc<P2pNode>>>>,
+    pub storage: Option<Arc<PersistentLedgerStorage>>,
 }
 
 impl NodeService {
@@ -26,7 +27,13 @@ impl NodeService {
             validator_keypair: Arc::new(validator_keypair),
             blocks: Arc::new(RwLock::new(Vec::new())),
             p2p: Arc::new(RwLock::new(None)),
+            storage: None,
         }
+    }
+
+    pub fn with_storage(mut self, storage: PersistentLedgerStorage) -> Self {
+        self.storage = Some(Arc::new(storage));
+        self
     }
 
     pub async fn set_p2p(&self, p2p: Arc<P2pNode>) {
@@ -57,7 +64,13 @@ impl NodeService {
         let mut state = self.state.write().await;
         state.apply_block(&block).map_err(|e| format!("Failed to apply peer block: {}", e))?;
         let mut blocks = self.blocks.write().await;
-        blocks.push(block);
+        blocks.push(block.clone());
+
+        if let Some(storage) = &self.storage {
+            let _ = storage.save_state(&state);
+            let _ = storage.append_block(&block);
+        }
+
         Ok(())
     }
 
@@ -84,6 +97,12 @@ impl NodeService {
         let mut blocks_guard = self.blocks.write().await;
         blocks_guard.push(block.clone());
         drop(blocks_guard);
+
+        // Persist to disk
+        if let Some(storage) = &self.storage {
+            let _ = storage.save_state(&state_mut);
+            let _ = storage.append_block(&block);
+        }
 
         // Broadcast to P2P network
         let p2p_guard = self.p2p.read().await;

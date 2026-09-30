@@ -273,14 +273,18 @@
         <a href="#enclaves" class="nav-link"><i class="bi bi-fingerprint"></i> Hardware Enclaves</a>
         <a href="#intents" class="nav-link"><i class="bi bi-lightning-charge"></i> Intent Clearinghouse</a>
 
-        <div class="sidebar-heading">JSON-RPC Reference</div>
+        <div class="sidebar-heading">JSON-RPC &amp; Telemetry</div>
         <a href="#rpc-health" class="nav-link"><i class="bi bi-activity"></i> GET /health</a>
+        <a href="#rpc-metrics" class="nav-link"><i class="bi bi-graph-up"></i> GET /metrics (Prometheus)</a>
         <a href="#rpc-state" class="nav-link"><i class="bi bi-layers"></i> GET /api/v1/state</a>
         <a href="#rpc-blocks" class="nav-link"><i class="bi bi-box"></i> GET /api/v1/blocks/latest</a>
         <a href="#rpc-account" class="nav-link"><i class="bi bi-person-badge"></i> GET /api/v1/accounts</a>
         <a href="#rpc-bounties" class="nav-link"><i class="bi bi-cpu"></i> GET /api/v1/bounties</a>
         <a href="#rpc-transactions" class="nav-link"><i class="bi bi-send"></i> POST /api/v1/transactions</a>
         <a href="#rpc-faucet" class="nav-link"><i class="bi bi-droplet"></i> POST /api/v1/dev/faucet</a>
+
+        <div class="sidebar-heading">Node CLI &amp; Keystores</div>
+        <a href="#cli-ref" class="nav-link"><i class="bi bi-terminal-split"></i> Prism CLI Reference</a>
 
         <div class="sidebar-heading">Developer SDKs</div>
         <a href="#sdk-ts" class="nav-link"><i class="bi bi-filetype-tsx"></i> TypeScript SDK</a>
@@ -426,6 +430,30 @@
             </div>
           </div>
 
+          <!-- ENDPOINT: GET /metrics -->
+          <div class="doc-card" id="rpc-metrics">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge badge-get px-2 py-1">GET</span>
+              <span class="font-monospace text-white fw-bold">/metrics</span>
+            </div>
+            <p class="text-secondary small mb-3">Exposes Prometheus exposition format gauges and counters (block height, active accounts, burned tokens, connected P2P peers, and mempool depth) for production monitoring.</p>
+
+            <div class="d-flex gap-2 mb-2">
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="testRpcEndpoint('/metrics', 'res-metrics')">
+                <i class="bi bi-play-fill me-1"></i> Try Live
+              </button>
+            </div>
+            <div class="sandbox-result d-none" id="res-metrics"></div>
+
+            <div class="code-container mt-2">
+              <div class="code-header">
+                <span>Example Prometheus Scrape</span>
+                <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button>
+              </div>
+              <pre><code>curl -s http://127.0.0.1:8545/metrics</code></pre>
+            </div>
+          </div>
+
           <!-- ENDPOINT: GET /api/v1/state -->
           <div class="doc-card" id="rpc-state">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -510,6 +538,46 @@
           </div>
         </section>
 
+        <!-- SECTION: PRISM CLI & KEYSTORES -->
+        <section id="cli-ref" class="mb-5">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-secondary font-monospace">CLI &amp; KEYSTORES</span>
+          </div>
+          <h3 class="fw-bold text-white mb-3"><i class="bi bi-terminal-split me-2 text-info"></i> Sovereign CLI &amp; Keystore Tools</h3>
+          <p class="text-secondary">
+            The <code>prism-cli</code> binary provides native tools for operating PoAC nodes, managing persistent validator keystores, benchmarking edge zero-knowledge proving, and querying live Prometheus telemetry.
+          </p>
+
+          <div class="doc-card mb-4">
+            <h5 class="fw-bold text-white mb-2"><i class="bi bi-key me-2 text-warning"></i> Keystore Management</h5>
+            <p class="text-secondary small mb-2">Create and cryptographically inspect 32-byte Ed25519 validator or account keystores.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Shell</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code># Generate new sovereign validator key
+prism-cli keystore create data/validator.key
+
+# Inspect and verify existing keystore
+prism-cli keystore inspect data/validator.key
+
+# Query real-time Prometheus telemetry metrics
+prism-cli metrics --rpc http://127.0.0.1:8545</code></pre>
+            </div>
+          </div>
+
+          <div class="doc-card mb-4">
+            <h5 class="fw-bold text-white mb-2"><i class="bi bi-cpu me-2 text-info"></i> Zero-Knowledge Edge Benchmark</h5>
+            <p class="text-secondary small mb-2">Execute a real Groth16 zk-CP proof synthesis locally on device silicon without disclosing private biometric data.</p>
+            <div class="code-container">
+              <div class="code-header"><span>Shell</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Copy</button></div>
+              <pre><code># Benchmark ZK proof generation (e.g. 24.5 km run vs 15.0 km criteria)
+prism-cli prove 24.5 15.0
+
+# Simulate autonomous multi-solver clearinghouse bidding
+prism-cli intent 400</code></pre>
+            </div>
+          </div>
+        </section>
+
         <!-- SECTION: SDK GUIDES -->
         <section id="sdk-ts" class="mb-5">
           <div class="d-flex align-items-center gap-2 mb-2">
@@ -587,13 +655,23 @@ npx expo start</code></pre>
       try {
         const res = await fetch(path).catch(() => null);
         if (res && res.ok) {
-          const json = await res.json();
-          el.innerHTML = `<pre class="text-success m-0 font-monospace">${JSON.stringify(json, null, 2)}</pre>`;
+          const contentType = res.headers.get("content-type") || "";
+          if (contentType.includes("json")) {
+            const json = await res.json();
+            el.innerHTML = `<pre class="text-success m-0 font-monospace">${JSON.stringify(json, null, 2)}</pre>`;
+          } else {
+            const text = await res.text();
+            el.innerHTML = `<pre class="text-success m-0 font-monospace">${text}</pre>`;
+          }
         } else {
           // Fallback simulation if running on standalone GitHub Pages without local node
           let mock = {};
+          let isText = false;
           if (path === '/health') {
             mock = { status: "healthy", block_height: 89, latest_block_hash: "03dc8c5218b010c793132e48e025b3991207e997a3c3330cb7ec0d26859e4e6c", validator: "03dc8c5218b010c79313...", pending_mempool_txs: 0 };
+          } else if (path === '/metrics') {
+            isText = true;
+            mock = `# HELP prism_block_height Current finalized block height of the PoAC ledger\n# TYPE prism_block_height gauge\nprism_block_height 89\n\n# HELP prism_total_accounts Total registered accounts in ledger state\n# TYPE prism_total_accounts gauge\nprism_total_accounts 4\n\n# HELP prism_total_burned_tokens Total PRISM permanently burned (0.25% deflation)\n# TYPE prism_total_burned_tokens counter\nprism_total_burned_tokens 1250\n\n# HELP prism_connected_peers Number of active peers in P2P gossip mesh\n# TYPE prism_connected_peers gauge\nprism_connected_peers 8`;
           } else if (path === '/api/v1/state') {
             mock = { block_height: 89, total_accounts: 4, total_bounties: 2, total_schemas: 3 };
           } else if (path === '/api/v1/blocks/latest') {
@@ -601,7 +679,8 @@ npx expo start</code></pre>
           } else if (path === '/api/v1/bounties') {
             mock = [{ id: "bounty_health_01", sponsor: "HealthAICorp", escrow_amount: 50000, min_cohort_size: 10, reward_per_participant: 50 }];
           }
-          el.innerHTML = `<div class="text-warning small mb-1">[Live Node Not Detected · Showing Simulated PoAC Response]</div><pre class="text-info m-0 font-monospace">${JSON.stringify(mock, null, 2)}</pre>`;
+          const formatted = isText ? mock : JSON.stringify(mock, null, 2);
+          el.innerHTML = `<div class="text-warning small mb-1">[Live Node Not Detected · Showing Simulated Response]</div><pre class="text-info m-0 font-monospace">${formatted}</pre>`;
         }
       } catch (err) {
         el.innerHTML = `<span class="text-danger font-monospace">Error: ${err.message}</span>`;

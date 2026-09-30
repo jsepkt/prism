@@ -4,10 +4,11 @@ use crate::bounty::{ContextSchema, QueryBounty};
 use crate::error::StateError;
 use crate::transaction::{Transaction, TransactionPayload};
 use prism_crypto::{hash, Hash, PublicKey};
+use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 
 /// In-memory and persistent state of the Prism Network ledger
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct BlockchainState {
     pub block_height: u64,
     pub latest_block_hash: Hash,

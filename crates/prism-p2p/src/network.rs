@@ -56,6 +56,11 @@ impl P2pNode {
         self.registry.broadcast(P2pMessage::BroadcastTransaction { transaction: tx }).await;
     }
 
+    /// Return the count of active connected peers in the gossip mesh
+    pub async fn peer_count(&self) -> usize {
+        self.registry.peer_count().await
+    }
+
     /// Start listening for incoming peer connections
     pub async fn start_listener(&self) -> Result<(), P2pError> {
         let addr: SocketAddr = format!("0.0.0.0:{}", self.p2p_port).parse().unwrap();
