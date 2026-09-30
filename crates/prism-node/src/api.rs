@@ -38,10 +38,14 @@ pub fn create_router(service: NodeService) -> Router {
 
     Router::new()
         .route("/", get(dashboard_handler))
+        .route("/index.html", get(dashboard_handler))
         .route("/mobile", get(mobile_handler))
         .route("/mobile/", get(mobile_handler))
+        .route("/mobile/index.html", get(mobile_handler))
         .route("/docs", get(docs_handler))
         .route("/docs/", get(docs_handler))
+        .route("/docs/index.html", get(docs_handler))
+        .route("/documentation", get(docs_handler))
         .route("/health", get(health_handler))
         .route("/metrics", get(metrics_handler))
         .route("/api/v1/state", get(state_handler))
@@ -51,9 +55,45 @@ pub fn create_router(service: NodeService) -> Router {
         .route("/api/v1/schemas", get(get_schemas_handler))
         .route("/api/v1/transactions", post(submit_transaction_handler))
         .route("/api/v1/dev/faucet", post(faucet_handler))
+        .fallback(not_found_handler)
         .layer(axum::extract::DefaultBodyLimit::max(2 * 1024 * 1024))
         .layer(cors)
         .with_state(service)
+}
+
+async fn not_found_handler(uri: axum::http::Uri) -> impl IntoResponse {
+    let path = uri.path();
+    if path.starts_with("/docs") {
+        return Html(DOCS_HTML).into_response();
+    }
+    if path.starts_with("/mobile") {
+        return Html(MOBILE_HTML).into_response();
+    }
+    (
+        StatusCode::NOT_FOUND,
+        Html(format!(
+            r#"<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>404 - Prism Network</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<style>body{{background:#06080e;color:#fff;font-family:sans-serif;height:100vh;display:flex;align-items:center;justify-content:center;}}</style>
+</head>
+<body class="text-center">
+<div>
+  <h1 class="display-3 fw-bold text-primary">404</h1>
+  <p class="lead text-secondary">Endpoint <code>{}</code> not found on Prism Node.</p>
+  <div class="d-flex gap-2 justify-content-center mt-3">
+    <a href="/" class="btn btn-primary rounded-pill px-4">Dashboard</a>
+    <a href="/docs" class="btn btn-outline-info rounded-pill px-4">Documentation</a>
+    <a href="/mobile" class="btn btn-outline-success rounded-pill px-4">Mobile App</a>
+  </div>
+</div>
+</body>
+</html>"#,
+            path
+        )),
+    )
+        .into_response()
 }
 
 async fn dashboard_handler() -> impl IntoResponse {

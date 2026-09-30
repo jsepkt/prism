@@ -1218,11 +1218,15 @@
 
     function goToDocs() {
       triggerHaptic();
-      if (window.location.pathname.includes('/mobile')) {
-        window.location.href = '../docs/';
-      } else {
-        window.location.href = 'docs/';
+      if (window.location.protocol === 'file:') {
+        window.location.href = '../../docs/index.html';
+        return;
       }
+      if (window.location.pathname.includes('/apps/')) {
+        window.location.href = window.location.pathname.replace(/\/apps\/.*$/, '/docs/');
+        return;
+      }
+      window.location.href = '/docs';
     }
 
     // Tab Switching Function (Unified Mobile Dock + Desktop Nav)
@@ -1367,16 +1371,21 @@
     let blockHeight = 48;
     async function pollState() {
       try {
-        const res = await fetch('/health').catch(() => null);
+        let res = await fetch('/health').catch(() => null);
+        if (!res || !res.ok) {
+          res = await fetch('http://127.0.0.1:8545/health').catch(() => null);
+        }
         if (res && res.ok) {
           const h = await res.json();
           blockHeight = h.block_height;
           document.getElementById('statusBadge').innerText = `PoAC #${blockHeight}`;
+          document.getElementById('statusBadge').className = "small fw-bold text-success font-monospace";
           document.getElementById('kpiBlockHeight').innerText = `#${blockHeight}`;
         } else {
-          // Fallback simulation for GitHub Pages online showcase
+          // Fallback simulation for GitHub Pages / offline view
           blockHeight++;
-          document.getElementById('statusBadge').innerText = `DEMO #${blockHeight}`;
+          document.getElementById('statusBadge').innerText = `OFFLINE SIM #${blockHeight}`;
+          document.getElementById('statusBadge').className = "small fw-bold text-warning font-monospace";
           document.getElementById('kpiBlockHeight').innerText = `#${blockHeight}`;
           termLog(`Block #${blockHeight} finalized via PoAC consensus`);
 
